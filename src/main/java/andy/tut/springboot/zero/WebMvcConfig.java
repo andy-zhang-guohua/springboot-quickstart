@@ -10,12 +10,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import javax.servlet.ServletContext;
 import java.io.IOException;
@@ -51,16 +49,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 
     //////////////////// 以下区域是 Freemarker 相关的配置 ////////////////////
-    @Bean
-    public ViewResolver viewResolver() {
-        FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
-        resolver.setCache(true);
-        resolver.setPrefix("");
-        resolver.setSuffix(".ftl");
-        resolver.setContentType("text/html; charset=UTF-8");
-        return resolver;
-    }
-
     @Autowired
     @Bean
     public FreeMarkerConfig springFreeMarkerConfig(ServletContext servletContext) throws IOException, TemplateException {
