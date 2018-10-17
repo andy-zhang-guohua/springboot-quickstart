@@ -22,7 +22,8 @@ import java.util.Map;
 import java.util.Properties;
 
 @Configuration
-//@EnableWebMvc // Adding this annotation to an @Configuration class imports the Spring MVC configuration from WebMvcConfigurationSupport
+//@EnableWebMvc
+// Adding this annotation to an @Configuration class imports the Spring MVC configuration from WebMvcConfigurationSupport
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
