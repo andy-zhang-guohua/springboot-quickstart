@@ -3,6 +3,7 @@ package andy.zero.service;
 import andy.zero.entity.Grade;
 import andy.zero.entity.Student;
 import andy.zero.repo.StudentRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.query.Param;
@@ -37,15 +38,25 @@ public class StudentService {
         return repo.findByNameLike("%" + pattern + "%");
     }
 
-    public List<Student> findAllWithClassNameLike(@Param("pattern") String pattern) {
+    /**
+     * 找到班级名称符合某种条件的班级的所有学生
+     *
+     * @param pattern 如果为 null 或者 "" 表示不进行班级名称过滤
+     * @return
+     */
+    public List<Student> findAllWithGradeNameLike(@Param("pattern") String pattern) {
         Specification<Student> spec = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 final Root gradeRoot = criteriaQuery.from(Grade.class);
-                // 在 班级表上过滤班级名称
-                Predicate predicateNameFilter = criteriaBuilder.like(gradeRoot.get("name"), "%" + pattern + "%");
                 // 两个表联合起来的关联条件
                 Predicate predicateJoinFilter = criteriaBuilder.equal(root.get("gradeId"), gradeRoot.get("id"));
+                if (StringUtils.isBlank(pattern))
+                    return predicateJoinFilter;
+
+
+                // 在 班级表上过滤班级名称
+                Predicate predicateNameFilter = criteriaBuilder.like(gradeRoot.get("name"), "%" + pattern + "%");
                 //将两个查询条件联合起来之后返回一个Predicate对象
                 return criteriaBuilder.and(predicateNameFilter, predicateJoinFilter);
             }
