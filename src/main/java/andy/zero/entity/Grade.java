@@ -3,15 +3,14 @@ package andy.zero.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 /**
  * 班级表
  */
 @Entity
-@Table(name = "class")
+@Table(name = "grade")
 @Data
-public class Class {
+public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
@@ -21,11 +20,4 @@ public class Class {
      * 班级名称
      */
     private String name;
-
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createTime;
-
-    @Column(nullable = true)
-    private LocalDateTime lastUpdateTime;
 }

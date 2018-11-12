@@ -3,7 +3,7 @@ package andy.zero.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * 学生表
@@ -30,22 +30,16 @@ public class Student {
     /**
      * 班级id
      */
-    private long classId;
+    private long gradeId;
 
     /**
      * 生日
      */
-    private LocalDateTime birthday;
+    private LocalDate birthday;
 
     /**
      * 学号
      */
     @Column(unique = true)
     private String studentNo;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createTime;
-
-    @Column(nullable = true)
-    private LocalDateTime lastUpdateTime;
 }
