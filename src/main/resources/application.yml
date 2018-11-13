@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: jpa-specification #当前应用的名称
+    name: mybatis-demo #当前应用的名称
 
   ################### DataSource Configuration ##########################
   datasource :
@@ -12,11 +12,6 @@ spring:
     url: jdbc:mysql://localhost:3306/jpa?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: root
     password: Passw0rd
-
-  jpa :
-    properties:
-      hibernate.hbm2ddl.auto : update
-      show-sql: true
 
 
 logging:
