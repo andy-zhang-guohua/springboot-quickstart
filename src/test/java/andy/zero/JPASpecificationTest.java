@@ -2,7 +2,7 @@ package andy.zero;
 
 import andy.zero.entity.Grade;
 import andy.zero.entity.Student;
-import andy.zero.service.GradeService;
+import andy.zero.service.GradeServiceImpl;
 import andy.zero.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class JPASpecificationTest {
     StudentService studentService;
 
     @Autowired
-    GradeService gradeService;
+    GradeServiceImpl gradeService;
 
     @Test
     public void testQuery() {
