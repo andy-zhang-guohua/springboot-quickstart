@@ -9,8 +9,17 @@ import java.util.List;
 
 @Service
 public class GradeService {
+
+    private GradeRepository repo;
+
+    /**
+     * 该set方法用于方便观察调试 GradeRepository 的注入对象
+     * @param repo
+     */
     @Autowired
-    GradeRepository repo;
+    public void setGradeRepository(GradeRepository repo){
+        this.repo=repo;
+    }
 
     public long add(String name) {
         Grade entity = new Grade();

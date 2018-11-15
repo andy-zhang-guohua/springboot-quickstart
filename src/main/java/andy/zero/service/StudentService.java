@@ -2,6 +2,7 @@ package andy.zero.service;
 
 import andy.zero.entity.Grade;
 import andy.zero.entity.Student;
+import andy.zero.repo.GradeRepository;
 import andy.zero.repo.StudentRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import java.util.List;
 public class StudentService {
     @Autowired
     StudentRepository repo;
+
+    @Autowired
+    private GradeRepository repo1;
 
     public long add(String name, String studentNo, boolean gender, long classId, LocalDate birthday) {
         Student entity = new Student();

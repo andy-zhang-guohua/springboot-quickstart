@@ -13,3 +13,7 @@
     * JPA 多表联合查询
         * JOIN
         * 返回结果到Java Model的转换
+    * @EntityScan
+        * 可多处使用，basePackages可重叠，并集要能覆盖所有需要的entity
+    * @EnableJpaRepositories
+        * 可多处使用，basePackages不可重叠，并集要能覆盖所有需要的repository
