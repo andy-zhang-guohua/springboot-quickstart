@@ -19,9 +19,17 @@ import java.time.LocalDate;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class InitData {
     @Autowired
+    public void setStudentService(StudentService s) {
+        this.studentService = s;
+    }
+
     StudentService studentService;
 
     @Autowired
+    public void setGradeService(GradeService s) {
+        this.gradeService = s;
+    }
+
     GradeService gradeService;
 
     /**
