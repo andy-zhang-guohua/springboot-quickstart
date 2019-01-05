@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,7 +21,6 @@ import java.util.List;
 public class StudentService {
     @Autowired
     StudentRepository repo;
-
 
     @Transactional
     public long add(String name, String studentNo, boolean gender, long classId, LocalDate birthday) {
