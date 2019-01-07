@@ -23,6 +23,7 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Transactional
+    @Override
     public long add(String name) {
         Grade entity = new Grade();
         entity.setName(name);
@@ -35,8 +36,9 @@ public class GradeServiceImpl implements GradeService {
         return id;
     }
 
-
+    @Override
     public List<Grade> findByNameLike(String pattern) {
         return repo.findByNameLike(pattern);
     }
+
 }

@@ -18,6 +18,8 @@ spring:
       hibernate.hbm2ddl.auto : update
       show-sql: true
 
+  aop :
+    proxy-target-class : false
 
 logging:
   level:
