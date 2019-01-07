@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class JPASpecificationTest {
     @Autowired
     StudentService studentService;

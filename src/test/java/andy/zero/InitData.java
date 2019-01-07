@@ -16,7 +16,7 @@ import java.time.LocalDate;
  */
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class InitData {
     @Autowired
     public void setStudentService(StudentService s) {

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class GradeServiceImpl implements GradeService {
-
+    org.springframework.aop.framework.DefaultAopProxyFactory defaultAopProxyFactory;
     private GradeRepository repo;
 
     /**

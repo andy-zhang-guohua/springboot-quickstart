@@ -1,9 +1,5 @@
 package andy.zero;
 
-import andy.zero.entity.Grade;
-import andy.zero.entity.Student;
-import andy.zero.service.GradeServiceImpl;
-import andy.zero.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,12 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
-
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class RandomValuePropertySourceTest {
     @Autowired
     Environment environment;
