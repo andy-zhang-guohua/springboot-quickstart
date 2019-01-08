@@ -6,13 +6,13 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 /**
  * Created by ZhangGuohua on 2017/10/29.
  */
 @Slf4j
-@EnableWebSecurity
 @SpringBootApplication
 public class Application implements CommandLineRunner {
     @Autowired
@@ -28,8 +28,10 @@ public class Application implements CommandLineRunner {
 
         DefaultListableBeanFactory beanFactory=(DefaultListableBeanFactory)applicationContext.getBeanFactory();
         log.info("BeanPostProcessor count:{}",beanFactory.getBeanPostProcessorCount());
+        log.info("|{}|{}|","BeanPostProcessor类","功能介绍");
+        log.info("|{}|{}|",":--",":--");
         beanFactory.getBeanPostProcessors().forEach((bpp)->{
-            log.info("Class:{}",bpp.getClass());
+            log.info("|`{}`|`TBD`|",bpp.getClass().getName());
         });
     }
 }
