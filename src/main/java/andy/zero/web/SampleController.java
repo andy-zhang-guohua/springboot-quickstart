@@ -6,6 +6,8 @@ import andy.zero.service.StudentService;
 import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.aop.AopAutoConfiguration;
+import org.springframework.boot.web.servlet.filter.OrderedFormContentFilter;
+import org.springframework.boot.web.servlet.filter.OrderedHiddenHttpMethodFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.AnnotationTransactionAttributeSource;
 import org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SampleController {
 
     AnnotationAwareAspectJAutoProxyCreator a;
-    AopAutoConfiguration aaa;
+    OrderedFormContentFilter aaa;
     AnnotationTransactionAttributeSource annotationTransactionAttributeSource;
     BeanFactoryTransactionAttributeSourceAdvisor bf;
     ProxyTransactionManagementConfiguration p;
