@@ -6,7 +6,7 @@
     * JPA
     * MySQL
 
-* 学习/演示知识点 :
+* 主要学习/演示知识点 :
     * JPA 动态查询
         * 模糊查询 (like)
         * WHERE条件动态构造
@@ -17,3 +17,6 @@
         * 可多处使用，basePackages可重叠，并集要能覆盖所有需要的entity
     * @EnableJpaRepositories
         * 可多处使用，basePackages不可重叠，并集要能覆盖所有需要的repository
+        
+* 其他学习知识点
+    * JSR-303 注解 + Spring @Validated       
