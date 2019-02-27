@@ -1,5 +1,15 @@
-此分支在master分支的基础上增加了freemarker模版视图的例子，
-此分支的主要目的是为了便于分析Spring MVC 中的各个组件如何工作 :
+# 2019-02-27
+
+## `BeanNameUrlHandlerMapping`如何工作的例子 ?
+使用 `WelcomeController` 和 `ControllerBeanConfig` 演示 `BeanNameUrlHandlerMapping`和`SimpleControllerHandlerAdapter`的工作配合。
+访问地址 : (`/welcome*`)
+    * `http://localhost:8080/welcome`
+    * `http://localhost:8080/welcome.html`
+    * `http://localhost:8080/welcome.do`
+
+# 2019-02-01
+
+此分支在master分支的基础扩展建立，主要目的是为了便于分析Spring MVC 中的各个组件如何工作 :
 
 Spring boot web 应用中 Request 的处理流程 :
 ApplicationFilterChain.internalDoFilter

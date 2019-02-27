@@ -1,4 +1,4 @@
-package andy.tut.springboot.zero;
+package andy.tut.springboot.zero.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import freemarker.core.XHTMLOutputFormat;
