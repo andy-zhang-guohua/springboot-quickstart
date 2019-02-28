@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -30,6 +32,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
         configurer.enable();
     }
 
+
+    /**
+     * 初始化配置 ViewControllerRegistry registry
+     * @param registry
+     */
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry)
+    {
+        // 请求匹配地址 /absent* 时,响应 HTTP代码403给浏览器端
+        registry.addStatusController("/absent*", HttpStatus.FORBIDDEN);
+        // 请求匹配地址 /home* 时,浏览器同意跳转到 /
+        registry.addRedirectViewController("/home*","/");
+        // 请求匹配地址 /fixed* 时，统一使用视图 fixed_content 进行渲染
+        registry.addViewController("/fixed*").setViewName("fixed_content");
+    }
 
     @Autowired
     ObjectMapper objectMapper;

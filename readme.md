@@ -1,3 +1,6 @@
+# 2019-02-28
+`WebMvcConfig#addViewControllers` 演示`Spring MVC`快捷控制视图控制器。
+
 # 2019-02-27
 
 ## `BeanNameUrlHandlerMapping`如何工作的例子 ?
