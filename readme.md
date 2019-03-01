@@ -1,3 +1,20 @@
+# 2019-03-01
+静态资源文件映射配置 :
+```java
+    /**
+     * 静态资源文件映射配置
+     * @param registry
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 映射到文件系统中的静态文件(应用运行时，这些文件无业务逻辑，但可能被替换或者修改)
+        registry.addResourceHandler("/repo/**").addResourceLocations("file:/tmp/");
+
+        // 映射到jar包内的静态文件(真正的静态文件，应用运行时，这些文件无业务逻辑，也不能被替换或者修改)
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
+```
+
 # 2019-02-28
 `WebMvcConfig#addViewControllers` 演示`Spring MVC`快捷控制视图控制器。
 

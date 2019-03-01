@@ -10,10 +10,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
@@ -32,18 +29,30 @@ public class WebMvcConfig implements WebMvcConfigurer {
         configurer.enable();
     }
 
-
     /**
-     * 初始化配置 ViewControllerRegistry registry
+     * 静态资源文件映射配置
      * @param registry
      */
     @Override
-    public void addViewControllers(ViewControllerRegistry registry)
-    {
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 映射到文件系统中的静态文件(应用运行时，这些文件无业务逻辑，但可能被替换或者修改)
+        registry.addResourceHandler("/repo/**").addResourceLocations("file:/tmp/");
+
+        // 映射到jar包内的静态文件(真正的静态文件，应用运行时，这些文件无业务逻辑，也不能被替换或者修改)
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
+
+    /**
+     * 初始化配置 ViewControllerRegistry registry
+     *
+     * @param registry
+     */
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
         // 请求匹配地址 /absent* 时,响应 HTTP代码403给浏览器端
         registry.addStatusController("/absent*", HttpStatus.FORBIDDEN);
         // 请求匹配地址 /home* 时,浏览器同意跳转到 /
-        registry.addRedirectViewController("/home*","/");
+        registry.addRedirectViewController("/home*", "/");
         // 请求匹配地址 /fixed* 时，统一使用视图 fixed_content 进行渲染
         registry.addViewController("/fixed*").setViewName("fixed_content");
     }
