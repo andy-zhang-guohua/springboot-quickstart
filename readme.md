@@ -7,13 +7,20 @@
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 注意 :
+        // 1. addResourceHandler 参数可以有多个
+        // 2. addResourceLocations 参数可以是多个，可以混合使用 file: 和 classpath : 资源路径
+        // 3. addResourceLocations 参数中资源路径必须使用 / 结尾，如果没有此结尾则访问不到
+
         // 映射到文件系统中的静态文件(应用运行时，这些文件无业务逻辑，但可能被替换或者修改)
         registry.addResourceHandler("/repo/**").addResourceLocations("file:/tmp/");
 
         // 映射到jar包内的静态文件(真正的静态文件，应用运行时，这些文件无业务逻辑，也不能被替换或者修改)
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/").resourceChain(true);
     }
 ```
+
+对静态资源配置讲解比较透彻的一篇文章:[深入 Spring 系列之静态资源处理](https://blog.coding.net/blog/spring-static-resource-process)
 
 # 2019-02-28
 `WebMvcConfig#addViewControllers` 演示`Spring MVC`快捷控制视图控制器。
