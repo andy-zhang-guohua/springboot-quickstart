@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+// 注意，在 SpringBoot Web MVC 应用中,一旦使用了 @EnableWebMvc, 则 WebMvcAutoConfiguration 自动配置提供的默认机制会失效，
+// 会转而使用此处  @EnableWebMvc + WebMvcConfig 的 Spring MVC 配置
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
