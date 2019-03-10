@@ -26,6 +26,7 @@ import java.util.Properties;
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
 
+
     @Override
     public void configureDefaultServletHandling(final DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
