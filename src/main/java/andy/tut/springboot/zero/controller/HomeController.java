@@ -73,11 +73,11 @@ public class HomeController {
          return map;
     }
 
-    @RequestMapping(value="/{name}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value="/hello/{name}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public Map userHome(@PathVariable String name) {
         Map map=new TreeMap();
-        map.put("message","Hello are you " + name + "?");
+        map.put("message","Hello, are you " + name + "?");
         return map;
     }
 }

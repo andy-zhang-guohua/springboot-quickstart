@@ -21,9 +21,9 @@ import java.util.Map;
 import java.util.Properties;
 
 // 注意，在 SpringBoot Web MVC 应用中,一旦使用了 @EnableWebMvc, 则 WebMvcAutoConfiguration 自动配置提供的默认机制会失效，
-// 会转而使用此处  @EnableWebMvc + WebMvcConfig 的 Spring MVC 配置
+// 会转而使用此处  @EnableWebMvc + WebMvcConfigurer 的 Spring MVC 配置。如果你只是想在缺省 WebMvcAutoConfiguration 机制之上
+// 做部分定制，这里使用 WebMvcConfigurer  但不要使用  @EnableWebMvc 。
 @Configuration
-@EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
 
 
@@ -44,10 +44,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 3. addResourceLocations 参数中资源路径必须使用 / 结尾，如果没有此结尾则访问不到
 
         // 映射到文件系统中的静态文件(应用运行时，这些文件无业务逻辑，但可能被替换或者修改)
-        registry.addResourceHandler("/repo/**").addResourceLocations("file:/tmp/");
+        registry.addResourceHandler("/my/**").addResourceLocations("classpath:/MyStatic/","file:/web_starter_repo/");
 
         // 映射到jar包内的静态文件(真正的静态文件，应用运行时，这些文件无业务逻辑，也不能被替换或者修改)
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/").resourceChain(true);
+        registry.addResourceHandler("/my-static/**").addResourceLocations("classpath:/MyStatic/").resourceChain(true);
     }
 
     /**
@@ -65,17 +65,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/fixed*").setViewName("fixed_content");
     }
 
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @Bean
-    @Primary
-    MappingJackson2HttpMessageConverter converter() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(objectMapper);
-        return converter;
-    }
-
 
     //////////////////// 以下区域是 Freemarker 相关的配置 ////////////////////
     @Autowired
@@ -90,7 +79,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
 
         FreeMarkerConfigurationFactory factory = new FreeMarkerConfigurationFactory();
-        factory.setTemplateLoaderPaths("classpath:/web/templates/");
+        factory.setTemplateLoaderPaths("classpath:/templates/");
         factory.setDefaultEncoding("UTF-8");
         Map<String, Object> variables = new HashMap<String, Object>();
         factory.setFreemarkerVariables(variables);

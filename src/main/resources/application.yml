@@ -1,1 +1,7 @@
-city : Beijing
+spring :
+  resources :
+    static-locations: classpath:/MyStatic/,file:/web_starter_repo/
+  mvc :
+    static-path-pattern : /my/**
+
+city: Beijing
