@@ -1,16 +1,16 @@
 package andy.tut.springboot.zero.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import freemarker.core.XHTMLOutputFormat;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
@@ -20,9 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-// 注意，在 SpringBoot Web MVC 应用中,一旦使用了 @EnableWebMvc, 则 WebMvcAutoConfiguration 自动配置提供的默认机制会失效，
-// 会转而使用此处  @EnableWebMvc + WebMvcConfigurer 的 Spring MVC 配置。如果你只是想在缺省 WebMvcAutoConfiguration 机制之上
-// 做部分定制，这里使用 WebMvcConfigurer  但不要使用  @EnableWebMvc 。
+// 注意：
+// 1. 在 SpringBoot Web MVC 应用中,一旦使用了 @EnableWebMvc,
+// 则 WebMvcAutoConfiguration 自动配置提供的默认机制会失效，
+// 会转而使用此处  @EnableWebMvc + WebMvcConfigurer 的 Spring MVC 配置。
+// 2. 如果你只是想在缺省 WebMvcAutoConfiguration 机制之上做部分增量性定制，
+// 这里使用 WebMvcConfigurer 但不要使用  @EnableWebMvc 。
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
@@ -43,11 +46,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 2. addResourceLocations 参数可以是多个，可以混合使用 file: 和 classpath : 资源路径
         // 3. addResourceLocations 参数中资源路径必须使用 / 结尾，如果没有此结尾则访问不到
 
-        // 映射到文件系统中的静态文件(应用运行时，这些文件无业务逻辑，但可能被替换或者修改)
+        // 映射到多个静态资源路径到某个URL pattern
         registry.addResourceHandler("/my/**").addResourceLocations("classpath:/MyStatic/","file:/web_starter_repo/");
 
         // 映射到jar包内的静态文件(真正的静态文件，应用运行时，这些文件无业务逻辑，也不能被替换或者修改)
-        registry.addResourceHandler("/my-static/**").addResourceLocations("classpath:/MyStatic/").resourceChain(true);
+        //registry.addResourceHandler("/my-static/**").addResourceLocations("classpath:/MyStatic/").resourceChain(true);
     }
 
     /**
