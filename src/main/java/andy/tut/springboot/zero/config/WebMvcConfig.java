@@ -2,15 +2,32 @@ package andy.tut.springboot.zero.config;
 
 import freemarker.core.XHTMLOutputFormat;
 import freemarker.template.TemplateException;
+import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
+import org.springframework.validation.BindException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingPathVariableException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
+import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
+import org.springframework.web.servlet.support.WebContentGenerator;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
@@ -29,6 +46,15 @@ import java.util.Properties;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    ServletInvocableHandlerMethod s;
+
+    StringHttpMessageConverter m;
+
+    CacheControl cc;
+
+    ShallowEtagHeaderFilter seh;
+
+    WebContentGenerator wcc;
 
     @Override
     public void configureDefaultServletHandling(final DefaultServletHandlerConfigurer configurer) {
