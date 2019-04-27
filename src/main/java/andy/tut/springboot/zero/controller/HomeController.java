@@ -41,7 +41,7 @@ public class HomeController {
 
     @RequestMapping(value="/",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public Map home(@RequestParam int name) {
+    public Map home(@RequestParam String name) {
         Map map=new TreeMap();
         map.put("message","Hello " + name);
          return map;
