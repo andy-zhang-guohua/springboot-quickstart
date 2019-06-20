@@ -8,46 +8,54 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * 演示通过 EntityManager 操作原生 SQL，和结果集转换到领域模型对象
+ * 演示通过 EntityManager 操作 JPQL，和结果集转换到领域模型对象
  */
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class EntityManagerQueryTest {
     @Autowired
-    EntityManager em;
+    EntityManager entityManager;
 
 
-    private void loadEntity(String sql) {
-        System.out.println("jpql : " + sql);
+    private void query(String sql) {
+        log.info("JPQL : {}", sql);
 
-        List list = em.createQuery(sql).getResultList();
-        list.forEach(o -> {
-            if (o instanceof Object[]) {
-                Object[] columns = (Object[]) o;
-                Arrays.stream(columns).forEach(column -> {
-                    if (column != null)
-                        System.out.print(column.getClass().getSimpleName() + " ");
+        Query query = entityManager.createQuery(sql);
+
+        List rows = query.getResultList();
+        rows.forEach(row -> {
+            StringBuilder sbEntityNames = new StringBuilder();
+            if (row instanceof Object[]) {
+                Object[] entities = (Object[]) row;
+                Arrays.stream(entities).forEach(entity -> {
+                    if (entity != null)
+                        sbEntityNames.append(entity.getClass().getSimpleName() + " ");
                 });
-                System.out.print(" => ");
-                System.out.println(Arrays.toString(columns));
+                sbEntityNames.append(" => ");
+                log.info("{}{}", sbEntityNames.toString(), Arrays.toString(entities));
             } else {
-                System.out.print(o.getClass().getSimpleName() + " ");
-                System.out.print(" => ");
-                System.out.println(o);
+                String entityName = row.getClass().getSimpleName();
+                log.info("{} => {}", entityName, row);
             }
         });
     }
 
     @Test
-    public void testLoadEntity() {
-        loadEntity("Select s from Student s");
-        loadEntity("Select g from Grade g");
-        // 多实体联合查询,IN,子查询
-        loadEntity("Select g,s from Grade g,Student s where s.gradeId = g.id AND s.id in (Select s.id from Student s)");
+    public void testQuery() {
+        // 查询所有学生
+        query("SELECT s FROM Student s");
+
+        // 查询所有班级
+        query("SELECT g FROM Grade g");
+
+        // 查询所有学生及其班级信息，
+        // 多实体联合查询,IN,子查询，这里 IN 子查询要不要都行，这里使用的目的是为了演示其可用
+        query("SELECT g,s FROM Grade g,Student s WHERE s.gradeId = g.id AND s.id IN (SELECT s.id FROM Student s)");
     }
 }

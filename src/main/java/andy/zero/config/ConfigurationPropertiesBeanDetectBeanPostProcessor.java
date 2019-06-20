@@ -17,6 +17,7 @@ public class ConfigurationPropertiesBeanDetectBeanPostProcessor implements BeanP
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName)
             throws BeansException {
+        // 获取某个bean上使用的注解 ConfigurationProperties , 获取对应的配置属性的前缀
         ConfigurationProperties annotation = getAnnotation(bean, ConfigurationProperties.class);
         if (annotation == null)
             return bean;

@@ -48,6 +48,8 @@ public class StudentService {
 
     /**
      * 找到班级名称符合某种条件的班级的所有学生
+     * <p>
+     * 虽然使用了班级属性进行过滤，但是最终是为了过滤和返回学生实体信息
      *
      * @param pattern 如果为 null 或者 "" 表示不进行班级名称过滤
      * @return
@@ -55,16 +57,16 @@ public class StudentService {
     public List<Student> findAllWithGradeNameLike(@Param("pattern") String pattern) {
         Specification<Student> spec = new Specification() {
             @Override
-            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                final Root gradeRoot = criteriaQuery.from(Grade.class);
+            public Predicate toPredicate(Root rootStudent, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                final Root rootGrade = criteriaQuery.from(Grade.class);
                 // 两个表联合起来的关联条件
-                Predicate predicateJoinFilter = criteriaBuilder.equal(root.get("gradeId"), gradeRoot.get("id"));
+                Predicate predicateJoinFilter = criteriaBuilder.equal(rootStudent.get("gradeId"), rootGrade.get("id"));
                 if (StringUtils.isBlank(pattern))
                     return predicateJoinFilter;
 
 
                 // 在 班级表上过滤班级名称
-                Predicate predicateNameFilter = criteriaBuilder.like(gradeRoot.get("name"), "%" + pattern + "%");
+                Predicate predicateNameFilter = criteriaBuilder.like(rootGrade.get("name"), "%" + pattern + "%");
                 //将两个查询条件联合起来之后返回一个Predicate对象
                 return criteriaBuilder.and(predicateNameFilter, predicateJoinFilter);
             }

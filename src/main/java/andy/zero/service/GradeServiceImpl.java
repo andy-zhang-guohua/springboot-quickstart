@@ -10,16 +10,17 @@ import java.util.List;
 
 @Service
 public class GradeServiceImpl implements GradeService {
-    org.springframework.aop.framework.DefaultAopProxyFactory defaultAopProxyFactory;
+
     private GradeRepository repo;
 
     /**
      * 该set方法用于方便观察调试 GradeRepository 的注入对象
+     *
      * @param repo
      */
     @Autowired
-    public void setGradeRepository(GradeRepository repo){
-        this.repo=repo;
+    public void setGradeRepository(GradeRepository repo) {
+        this.repo = repo;
     }
 
     @Transactional
