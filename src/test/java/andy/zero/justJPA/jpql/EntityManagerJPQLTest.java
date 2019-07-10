@@ -1,4 +1,4 @@
-package andy.zero;
+package andy.zero.justJPA.jpql;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -17,9 +17,15 @@ import java.util.List;
  */
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public class EntityManagerQueryTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+public class EntityManagerJPQLTest {
+
+
     @Autowired
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
     EntityManager entityManager;
 
 

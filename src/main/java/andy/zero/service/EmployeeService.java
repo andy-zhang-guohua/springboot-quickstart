@@ -5,6 +5,7 @@ import andy.one.repo.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 
@@ -13,6 +14,13 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository repo;
 
+
+    @Autowired
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    EntityManager entityManager;
 
     public long add(String name) {
         Employee entity = new Employee();

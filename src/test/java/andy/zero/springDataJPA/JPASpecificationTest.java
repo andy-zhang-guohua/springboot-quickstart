@@ -1,4 +1,4 @@
-package andy.zero;
+package andy.zero.springDataJPA;
 
 import andy.zero.entity.Grade;
 import andy.zero.entity.Student;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class JPASpecificationTest {
     @Autowired
     StudentService studentService;

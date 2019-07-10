@@ -6,7 +6,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.context.ConfigurableWebApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * Created by ZhangGuohua on 2017/10/29.
@@ -14,15 +14,16 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 @Slf4j
 @SpringBootApplication
 public class Application implements CommandLineRunner {
+
     @Autowired
-    ConfigurableWebApplicationContext applicationContext;
+    ConfigurableApplicationContext applicationContext;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         log.info("bean names:{}", applicationContext.getBeanDefinitionNames());
 
         DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getBeanFactory();

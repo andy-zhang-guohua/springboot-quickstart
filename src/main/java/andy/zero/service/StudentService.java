@@ -15,7 +15,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class StudentService {
     StudentRepository repo;
 
     @Transactional
-    public long add(@NotNull String name, String studentNo, boolean gender, long classId, LocalDate birthday) {
+    public long add( String name, String studentNo, boolean gender, long classId, LocalDate birthday) {
         Student entity = new Student();
         entity.setName(name);
         entity.setGender(gender);
