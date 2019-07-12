@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * Created by ZhangGuohua on 2017/10/29.
+ * @author ZhangGuohua
  */
 @Slf4j
 @SpringBootApplication
@@ -33,5 +33,6 @@ public class Application implements CommandLineRunner {
         beanFactory.getBeanPostProcessors().forEach((bpp) -> {
             log.info("|`{}`|`TBD`|", bpp.getClass().getName());
         });
+
     }
 }
