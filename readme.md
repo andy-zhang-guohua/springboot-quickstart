@@ -1,4 +1,13 @@
-# 学习/演示基于JPA的一些知识点
+# 2019-07-12
+## 要点
+1. 如何扫描到`Repository`组件
+    > 1. `Spring Boot`应用中,开发人员可以主动使用注解`@EnableJpaRepositories`扫描`Repository`组件，也可以依赖于自动配置机制。
+    > 2. 如果开发人员主动使用注解`@EnableJpaRepositories`,需要确保扫描范围能覆盖所有自定义的`Repository`接口。
+    > 3. 如果开发人员主动使用注解`@EnableJpaRepositories`,`Spring Boot`缺省的自动配置机制`JpaRepositoriesAutoConfiguration`不应用。
+    > 4. 自动配置机制`JpaRepositoriesAutoConfiguration`扫描包从使用`@EnableAutoConfiguration`的配置类所在的包往下。
+# 2019-07-11
+
+## 学习/演示基于JPA的一些知识点
 
 * 项目特点 :
     * 单数据源
