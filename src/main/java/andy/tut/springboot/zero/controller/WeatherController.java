@@ -15,9 +15,9 @@ import java.util.TreeMap;
  */
 @Controller
 public class WeatherController {
-
     /**
      * 演示基于 freemarker 模板技术的 html 页面
+     *
      * @param model
      * @return
      */
@@ -33,6 +33,7 @@ public class WeatherController {
 
     /**
      * 演示返回 json body
+     *
      * @param model
      * @return
      */
@@ -51,6 +52,7 @@ public class WeatherController {
 
     /**
      * 演示返回 xml body
+     *
      * @param model
      * @return
      */
