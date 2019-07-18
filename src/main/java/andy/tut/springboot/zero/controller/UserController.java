@@ -1,36 +1,28 @@
 package andy.tut.springboot.zero.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import andy.tut.springboot.zero.model.UserForm;
 import org.springframework.ui.Model;
-import org.springframework.validation.Validator;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.util.Random;
+import javax.validation.Valid;
 
 /**
  * @author ZhangGuohua
  */
 @RestController
 public class UserController {
-    @Autowired
-    Validator validator;
-
     /**
-     * 演示基于 freemarker 模板技术的 html 页面
+     * 演示 Validator 作用和效果
      *
-     * @param model
      * @return
      */
-    @RequestMapping("/user/new")
-    public String newUser(Model model) {
-        model.addAttribute("today", LocalDate.now().toString());
-        int max = new Random().nextInt(100);
-        model.addAttribute("max", "" + max);
-        int min = max - new Random().nextInt(30);
-        model.addAttribute("min", "" + min);
-        return "weather";
+    @RequestMapping(value ="/user/new", produces = {"application/json; charset=UTF-8"})
+    public Object newUser(@Valid UserForm userForm, BindingResult bindingResult, Model model) {
+        model.addAttribute("userForm",userForm);
+        model.addAttribute("bindingResult",bindingResult);
+        return model;
     }
 
 

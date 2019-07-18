@@ -37,7 +37,7 @@ public class WeatherController {
      * @param model
      * @return
      */
-    @RequestMapping("/weather/json")
+    @RequestMapping(value ="/weather/json", produces = {"application/json; charset=UTF-8"})
     @ResponseBody
     public Map weatherJSON(Model model) {
         model.addAttribute("today", LocalDate.now().toString());
