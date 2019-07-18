@@ -1,3 +1,13 @@
+# 2019-07-18
+## 实验在`Spring MVC`中使用`Validator`验证控制器方法的参数
+* 实现代码参考控制器 `UserController`/`UserForm`
+* 只要引入了包 `spring-boot-starter-web` , 它隐含引入 `hibernate-validator`
+* `Spring MVC`使用`Validator`验证控制器方法参数格式的代码在`ModelAttributeMethodProcessor`
+* `Spring MVC`使用的`Validator`缺省由`ValidationAutoConfiguration`提供
+* `Spring MVC`使用的`Validator`通过`WebMvcAutoConfiguration`的`bean`定义方法`#mvcValidator`引入,
+  实际使用的还是`ValidationAutoConfiguration`所提供的
+* `WebMvcAutoConfiguration`定义`bean RequestMappingHandlerAdapter`调用`#getConfigurableWebBindingInitializer`
+* `#getConfigurableWebBindingInitializer`进而调用`#mvcValidator`
 # 2019-03-01
 静态资源文件映射配置 :
 ```java
