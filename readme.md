@@ -1,3 +1,7 @@
+# 2019-07-19
+* [Java Bean Validation 最佳实践](https://www.cnblogs.com/beiyan/p/5946345.html)
+* [Check preconditions in Controller or Service layer](https://stackoverflow.com/questions/11929781/check-preconditions-in-controller-or-service-layer)
+
 # 2019-07-18
 ## 实验在`Spring MVC`中使用`Validator`验证控制器方法的参数
 * 实现代码参考控制器 `UserController`/`UserForm`
