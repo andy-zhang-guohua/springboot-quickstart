@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
@@ -23,7 +24,7 @@ public class WeatherController {
      */
     @RequestMapping("/weather")
     public String weatherHtmlByFreemarker(Model model) {
-        model.addAttribute("today", LocalDate.now().toString());
+        model.addAttribute("today", LocalDateTime.now().toString());
         int max = new Random().nextInt(100);
         model.addAttribute("max", "" + max);
         int min = max - new Random().nextInt(30);
