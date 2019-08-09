@@ -32,6 +32,17 @@ public class WeatherController {
         return "weather";
     }
 
+    @RequestMapping("/weather/forward")
+    public String weatherHtmlByFreemarkerForward(Model model) {
+        model.addAttribute("today", LocalDateTime.now().toString());
+        int max = new Random().nextInt(100);
+        model.addAttribute("max", "" + max);
+        int min = max - new Random().nextInt(30);
+        model.addAttribute("min", "" + min);
+        return "forward:/weather";
+    }
+
+
     /**
      * 演示返回 json body
      *
