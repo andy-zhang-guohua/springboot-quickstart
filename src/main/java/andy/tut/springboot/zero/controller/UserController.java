@@ -20,6 +20,7 @@ import javax.validation.constraints.Size;
  * 只要引入了包 spring-boot-starter-web , 它隐含引入 hibernate-validator
  *
  * @author ZhangGuohua
+ * @date 2019/7/19
  */
 @Slf4j
 @RestController

@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 /**
  * 此Web Controller 配合 ControllerBeanConfig 演示 BeanNameUrlHandlerMapping + SimpleControllerHandlerAdapter 如何工作
  *
- * Created by ZhangGuohua on 2019/02/27.
+ * @author ZhangGuohua
+ * @date 2019/02/17
  */
 public class WelcomeController implements Controller {
 
