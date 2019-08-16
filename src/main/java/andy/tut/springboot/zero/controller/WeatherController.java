@@ -2,6 +2,9 @@ package andy.tut.springboot.zero.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -43,6 +46,23 @@ public class WeatherController {
         return "forward:/weather";
     }
 
+    /**
+     * 此方法用于当前控制器类中所有控制器方法的数据模型中添加一个属性 comments
+     * @return
+     */
+    @ModelAttribute(name="comments")
+    public String customModelAttributeComments() {
+        return "my customer model attribute comments , generated at " + LocalDateTime.now();
+    }
+
+    /**
+     * 此方法用于当前控制器类中所有控制器方法的数据模型中添加一个属性 remarks
+     * @return
+     */
+    @ModelAttribute(name="remarks")
+    public String customModelAttributeRemarks() {
+        return "my customer model attribute remarks , generated at " + LocalDateTime.now();
+    }
 
     /**
      * 演示返回 json body
@@ -50,7 +70,7 @@ public class WeatherController {
      * @param model
      * @return
      */
-    @RequestMapping(value ="/weather/json", produces = {"application/json; charset=UTF-8"})
+    @RequestMapping(value = "/weather/json", produces = {"application/json; charset=UTF-8"})
     @ResponseBody
     public Map weatherJSON(Model model) {
         model.addAttribute("today", LocalDate.now().toString());
@@ -61,6 +81,11 @@ public class WeatherController {
         Map result = new TreeMap();
         result.putAll(model.asMap());
         return result;
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+
     }
 
     /**
