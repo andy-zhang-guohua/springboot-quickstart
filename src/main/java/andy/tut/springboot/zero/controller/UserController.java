@@ -34,7 +34,7 @@ public class UserController {
 
     /**
      * 演示 Validator 作用和效果
-     * 验证通过测试URL : http://localhost:8080/user/new?username=andy&password=111&phone=18612936139&age=30
+     * 验证通过测试URL : http://localhost:8080/user/new?username=andy&password=111&phone=18612936139&age=30&comments=test
      * 验证失败测试URL : http://localhost:8080/user/new?username=andy&password=111&phone=18612936139&age=3
      * <p>
      * FAQ :

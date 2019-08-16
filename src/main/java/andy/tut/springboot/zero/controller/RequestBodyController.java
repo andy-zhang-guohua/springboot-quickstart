@@ -1,6 +1,5 @@
 package andy.tut.springboot.zero.controller;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,22 +14,12 @@ import java.time.LocalDateTime;
  * <p>
  * 该控制器用于测试：
  * 1. @RequestBody 和 RequestBodyAdvice
- * 2. @ResponseBody 和 ResponseBodyAdvice
  */
 @Slf4j
 @Controller
 public class RequestBodyController {
 
-    @Data
-    private static class MyResponseWrapper {
-        LocalDateTime requestTime;
-        Object requestData;
 
-        MyResponseWrapper(Object requestData, LocalDateTime requestTime) {
-            this.requestData = requestData;
-            this.requestTime = requestTime;
-        }
-    }
 
     /**
      * 此方法使用了 @RequestBody 注解参数，
@@ -44,7 +33,8 @@ public class RequestBodyController {
      *      "content":"Version 1.0 released today!",
      *      "tags":["announce","elasticsearch","release"]
      *  }
-     * 4. 在该方法 return 语句设置断点
+     * 4.参数 data 类型 Object
+     * 5. 在该方法 return 语句设置断点
      * 观察结果 :
      * 1. MappingJackson2HttpMessageConverter 会被使用
      * 2. 该方法 return 语句上的断点位于:
@@ -52,22 +42,28 @@ public class RequestBodyController {
      *      ==> RequestMappingHandlerAdapter#handleInternal
      *      ==> RequestMappingHandlerAdapter#invokeHandlerMethod
      *      ==> ServletInvocableHandlerMethod#invokeAndHandle
-     *      ==> InvocableHandlerMethod#getMethodArgumentValues
-     *      ==> RequestResponseBodyMethodProcessor#resolveArgument
+     *      ==> InvocableHandlerMethod#invokeForRequest
+     *      ==> InvocableHandlerMethod#doInvoke
+     *3. 以上组合是典型的 POST JSON 正常情况的例子
      *
      * 注意 :
      * 请变化以下三个参数观察 :
-     * 1. 请求不使用 Content-Type: application/json 而是 Content-Type: text/plain,
-     * 2. 请求体不为 json 内容，
-     * 3. 参数 data 类型使用 String, 而不是 Object
-     *
+     * 1. 请求 Content-Type: application/json
+     * 2. 请求体，
+     * 3. 参数 data 类型
+     * 测试组合 :
+     * 1. application/json, 请求体 : 非json, data 类型 : Object => 错误 400
+     * 2. text/plain, 请求体 : json, data 类型 : Object => 错误 415
+     * 3. text/plain, 请求体 : 非 json, data 类型 : Object => 错误 415
+     * 4. text/plain, 请求体 : json, data 类型 : String => OK (可自定义格式的使用组合)
+     * 5. text/plain, 请求体 : 非json, data 类型 : String => OK (可自定义格式的使用组合)
      * @param data
      * @return
      */
     @RequestMapping(value = "/request-body")
     @ResponseBody
     public Object demoRequestBody(@RequestBody Object data) {
-        return new MyResponseWrapper(data, LocalDateTime.now());
+        return new ApiResult(data, LocalDateTime.now());
     }
 
 }
