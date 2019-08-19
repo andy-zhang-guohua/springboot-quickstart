@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HandlerMethodReturnValueHandlerTestController {
 
     /**
-     * 实验跳转到根路径，观察此时view name ==> View 的解析过程，以及所使用的 View 对象是什么：
-     * 应该是 RedirectView
+     * 实验跳转到根路径，观察此时view name ==> View 的解析过程，以及所使用的 View 对象是什么：是 RedirectView
      *
      * 此方法对应使用的 HandlerMethodReturnValueHandler 会是 ViewNameMethodReturnValueHandler,
      * 相应状态字会是 302, 头部 Location 会是类似 http://localhost:8080/ 这样的值
