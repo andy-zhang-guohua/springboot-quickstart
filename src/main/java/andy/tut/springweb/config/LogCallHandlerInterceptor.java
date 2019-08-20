@@ -1,4 +1,4 @@
-package andy.tut.springboot.zero.config;
+package andy.tut.springweb.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;

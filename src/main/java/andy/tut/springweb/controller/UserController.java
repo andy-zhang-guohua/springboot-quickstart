@@ -1,7 +1,7 @@
-package andy.tut.springboot.zero.controller;
+package andy.tut.springweb.controller;
 
-import andy.tut.springboot.zero.model.UserForm;
-import andy.tut.springboot.zero.service.UserService;
+import andy.tut.springweb.model.UserForm;
+import andy.tut.springweb.service.UserService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

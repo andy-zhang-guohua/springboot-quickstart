@@ -1,6 +1,6 @@
-package andy.tut.springboot.zero.service;
+package andy.tut.springweb.service;
 
-import andy.tut.springboot.zero.model.UserForm;
+import andy.tut.springweb.model.UserForm;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

@@ -1,6 +1,6 @@
-package andy.tut.springboot.zero.config;
+package andy.tut.springweb.config;
 
-import andy.tut.springboot.zero.controller.WelcomeController;
+import andy.tut.springweb.controller.WelcomeController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
