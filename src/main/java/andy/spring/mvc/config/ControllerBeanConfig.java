@@ -1,6 +1,6 @@
-package andy.tut.springweb.config;
+package andy.spring.mvc.config;
 
-import andy.tut.springweb.controller.WelcomeController;
+import andy.spring.mvc.controller.WelcomeController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

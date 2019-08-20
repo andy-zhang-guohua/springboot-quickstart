@@ -1,7 +1,7 @@
-package andy.tut.springweb.controller;
+package andy.spring.mvc.controller;
 
-import andy.tut.springweb.exceptions.AndyTestException;
-import andy.tut.springweb.view.ExceptionHandlerView;
+import andy.spring.mvc.exceptions.AndyTestException;
+import andy.spring.mvc.view.ExceptionHandlerView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.web.bind.WebDataBinder;

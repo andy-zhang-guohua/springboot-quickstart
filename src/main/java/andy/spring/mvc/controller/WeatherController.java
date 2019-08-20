@@ -1,4 +1,4 @@
-package andy.tut.springweb.controller;
+package andy.spring.mvc.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

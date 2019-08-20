@@ -1,6 +1,6 @@
-package andy.tut.springweb.controller;
+package andy.spring.mvc.controller;
 
-import andy.tut.springweb.view.TestView;
+import andy.spring.mvc.view.TestView;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

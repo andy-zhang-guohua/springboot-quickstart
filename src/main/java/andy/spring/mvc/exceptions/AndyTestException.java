@@ -1,4 +1,4 @@
-package andy.tut.springweb.exceptions;
+package andy.spring.mvc.exceptions;
 
 /**
  * @author ZhangGuohua

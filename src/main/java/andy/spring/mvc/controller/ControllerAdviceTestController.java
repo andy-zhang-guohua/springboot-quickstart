@@ -1,6 +1,6 @@
-package andy.tut.springweb.controller;
+package andy.spring.mvc.controller;
 
-import andy.tut.springweb.exceptions.AndyTestException;
+import andy.spring.mvc.exceptions.AndyTestException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

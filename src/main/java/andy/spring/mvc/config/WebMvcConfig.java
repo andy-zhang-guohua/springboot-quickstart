@@ -1,4 +1,4 @@
-package andy.tut.springweb.config;
+package andy.spring.mvc.config;
 
 import freemarker.core.XHTMLOutputFormat;
 import freemarker.template.TemplateException;

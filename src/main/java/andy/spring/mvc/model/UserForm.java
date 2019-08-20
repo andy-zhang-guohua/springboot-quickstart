@@ -1,4 +1,4 @@
-package andy.tut.springweb.model;
+package andy.spring.mvc.model;
 
 
 import lombok.Data;

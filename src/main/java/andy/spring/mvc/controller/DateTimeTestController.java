@@ -1,4 +1,4 @@
-package andy.tut.springweb.controller;
+package andy.spring.mvc.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;

@@ -1,4 +1,4 @@
-package andy.tut.springweb.controller;
+package andy.spring.mvc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

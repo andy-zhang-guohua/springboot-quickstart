@@ -1,5 +1,6 @@
-package andy.tut.springweb.view;
+package andy.spring.mvc.view;
 
+import andy.spring.mvc.exceptions.AndyTestException;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,11 @@ import java.util.Map;
  * @author ZhangGuohua
  * @date 2019-08-20
  */
-public class TestView  implements View {
+public class ExceptionHandlerView implements View {
+    AndyTestException exception;
+    public ExceptionHandlerView(AndyTestException e){
+        exception=e;
+    }
     @Override
     public void render(Map<String, ?> model, HttpServletRequest request,
                        HttpServletResponse response) throws Exception {
@@ -23,9 +28,9 @@ public class TestView  implements View {
         if (response.getContentType() == null) {
             response.setContentType(getContentType());
         }
-        builder.append("<html><body><h1>测试直接返回视图对象</h1>").append(
-                "<p>这是一段测试文字</p>")
-                .append("<div id='created'>").append(now.toString()).append("</div>");
+        builder.append("<html><body><h1>这是一个异常信息展示页面</h1>").append(
+                "<p>异常信息如下:</p>")
+                .append("<div id='exception'>").append(exception.toString()).append("</div>");
         builder.append("</body></html>");
         response.getWriter().append(builder.toString());
     }
