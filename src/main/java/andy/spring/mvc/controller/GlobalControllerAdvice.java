@@ -28,7 +28,7 @@ import java.time.format.DateTimeFormatter;
  * @date 2019-08-20
  */
 @Slf4j
-@ControllerAdvice(basePackages = "andy.tut.springweb")
+@ControllerAdvice
 public class GlobalControllerAdvice {
     /**
      * 此方法定义一个异常处理器，仅仅处理异常 AndyTestException
