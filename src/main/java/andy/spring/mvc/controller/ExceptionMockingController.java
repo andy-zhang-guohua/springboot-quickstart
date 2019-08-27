@@ -1,6 +1,7 @@
 package andy.spring.mvc.controller;
 
 import andy.spring.mvc.exceptions.AndyTestException;
+import andy.spring.mvc.exceptions.DemoResponseStatusExceptionResolverException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2017/10/29
  */
 @Controller
-public class ControllerAdviceTestController {
+public class ExceptionMockingController {
 
 
     /**
@@ -25,5 +26,14 @@ public class ControllerAdviceTestController {
         throw new AndyTestException();
     }
 
-
+    /**
+     * 触发一个异常 DemoResponseStatusExceptionResolverException,用于观察
+     * ResponseStatusExceptionResolver 的应用
+     * @return
+     */
+    @RequestMapping(value = "/mock-exception-with-response-status")
+    @ResponseBody
+    public String mockDemoResponseStatusExceptionResolverException() {
+        throw new DemoResponseStatusExceptionResolverException();
+    }
 }
