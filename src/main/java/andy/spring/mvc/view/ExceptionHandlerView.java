@@ -14,9 +14,11 @@ import java.util.Map;
  */
 public class ExceptionHandlerView implements View {
     AndyTestException exception;
-    public ExceptionHandlerView(AndyTestException e){
-        exception=e;
+
+    public ExceptionHandlerView(AndyTestException e) {
+        exception = e;
     }
+
     @Override
     public void render(Map<String, ?> model, HttpServletRequest request,
                        HttpServletResponse response) throws Exception {

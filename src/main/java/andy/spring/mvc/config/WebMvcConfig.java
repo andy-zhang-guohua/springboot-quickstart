@@ -1,5 +1,6 @@
 package andy.spring.mvc.config;
 
+import andy.spring.mvc.exceptions.DemoSimpleMappingExceptionResolverException;
 import freemarker.core.XHTMLOutputFormat;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +8,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -22,7 +26,7 @@ import java.util.Properties;
 // 则 WebMvcAutoConfiguration 自动配置提供的默认机制会失效，
 // 会转而使用此处  @EnableWebMvc + WebMvcConfigurer 的 Spring MVC 配置。
 // 2. 如果你只是想在缺省 WebMvcAutoConfiguration 机制之上做部分增量性定制，
-// 这里使用 WebMvcConfigurer 但不要使用  @EnableWebMvc 。
+// 这里实现 WebMvcConfigurer 但不要使用注解  @EnableWebMvc 。
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
@@ -35,6 +39,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LogCallHandlerInterceptor());
     }
 
+    @Override
+    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+        // 用于演示 SimpleMappingExceptionResolver  的应用
+        // Spring MVC 缺省并不启用 SimpleMappingExceptionResolver, 所以这里需要手工添加
+        // SimpleMappingExceptionResolver 以观察其应用
+        SimpleMappingExceptionResolver simpleMappingExceptionResolver=new SimpleMappingExceptionResolver();
+        simpleMappingExceptionResolver.setDefaultErrorView("error");
+        Properties mappings=new Properties();
+        mappings.setProperty(DemoSimpleMappingExceptionResolverException.class.getName(),"myErrorView");
+        simpleMappingExceptionResolver.setExceptionMappings(mappings);
+        resolvers.add(simpleMappingExceptionResolver);
+    }
 
     /**
      * 静态资源文件映射配置
