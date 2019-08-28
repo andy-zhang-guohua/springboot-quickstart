@@ -1,7 +1,7 @@
 package andy.spring.mvc.controller;
 
 import andy.spring.mvc.exceptions.AndyTestException;
-import andy.spring.mvc.view.ExceptionHandlerView;
+import andy.spring.mvc.view.AndyTestExceptionHandlerView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.web.bind.WebDataBinder;
@@ -39,7 +39,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(AndyTestException.class)
     public View handleAndyTestException(AndyTestException e) {
         e.printStackTrace();
-        return new ExceptionHandlerView(e);
+        return new AndyTestExceptionHandlerView(e);
     }
 
     /**

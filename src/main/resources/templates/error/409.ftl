@@ -6,5 +6,6 @@
 <div id='status'>状态字 : ${status!}</div>
 <div id='message'>消息 : ${message!}</div>
 <div id='trace'>trace : ${trace!}</div>
+<div id='comments'>注意，如果同时存在静态 /static/error/409.html,但该 error/409.ftl 会胜出</div>
 </body>
 </html>

@@ -45,7 +45,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // Spring MVC 缺省并不启用 SimpleMappingExceptionResolver, 所以这里需要手工添加
         // SimpleMappingExceptionResolver 以观察其应用
         SimpleMappingExceptionResolver simpleMappingExceptionResolver=new SimpleMappingExceptionResolver();
-        simpleMappingExceptionResolver.setDefaultErrorView("error");
         Properties mappings=new Properties();
         mappings.setProperty(DemoSimpleMappingExceptionResolverException.class.getName(),"myErrorView");
         simpleMappingExceptionResolver.setExceptionMappings(mappings);
