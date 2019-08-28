@@ -19,6 +19,7 @@
 <h1>自定义错误展示页面(Freemarker视图)</h1>
 <div id="content">
     <p>遇到异常:${exception!}</p>
+    <p>看到此页面时，也请注意当前响应的状态字</p>
 </div>
 </body>
 <script type="text/javascript">

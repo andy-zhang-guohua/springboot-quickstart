@@ -4,6 +4,7 @@ import andy.spring.mvc.exceptions.AndyTestException;
 import andy.spring.mvc.view.AndyTestExceptionHandlerView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.datetime.DateFormatter;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.View;
 
+import javax.servlet.ServletRequest;
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,7 +39,7 @@ public class GlobalControllerAdvice {
      * @return
      */
     @ExceptionHandler(AndyTestException.class)
-    public View handleAndyTestException(AndyTestException e) {
+    public View handleAndyTestException(AndyTestException e, Model model, ServletRequest request) {
         e.printStackTrace();
         return new AndyTestExceptionHandlerView(e);
     }

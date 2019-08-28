@@ -16,6 +16,7 @@ public class ExceptionMockingController {
 
 
     /**
+     * http://localhost:8080/mock-andy-test-exception
      * 1. 演示目的 : 这个控制器方法用于触发一个异常 AndyTestException,
      * 从而触发 GlobalControllerAdvice 中的 @ExceptionHandler 注解的异常处理控制器方法
      * 2. 此异常被任何 @ExceptionHandler 处理,所以不会出现 response.setError 动作
@@ -29,6 +30,7 @@ public class ExceptionMockingController {
     }
 
     /**
+     * http://localhost:8080/mock-runtime-exception
      * 1. 用于触发 WhiteLabelError 页面,
      * 2. 此异常未被任何 @ExceptionHandler 或者 SimpleMappingExceptionResolver 处理,
      * 所以会出现 response.setError 动作
@@ -42,6 +44,7 @@ public class ExceptionMockingController {
     }
 
     /**
+     * http://localhost:8080/mock-exception-with-response-status
      * 1. 触发一个异常 DemoResponseStatusExceptionResolverException,用于观察
      * ResponseStatusExceptionResolver 的应用
      * 2. 此异常未被任何 @ExceptionHandler 或者 SimpleMappingExceptionResolver 处理,
