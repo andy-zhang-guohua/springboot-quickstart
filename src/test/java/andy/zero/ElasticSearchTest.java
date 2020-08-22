@@ -7,13 +7,14 @@ import org.apache.commons.lang3.RandomUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -29,7 +30,7 @@ import java.util.List;
 public class ElasticSearchTest {
 
     @Autowired
-    ElasticsearchTemplate elasticsearchTemplate;
+    ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     @Autowired
     ItemRepository itemRepository;
@@ -39,15 +40,17 @@ public class ElasticSearchTest {
      */
     @Before
     public void createIndex() {
-        elasticsearchTemplate.createIndex(Item.class);
+        elasticsearchRestTemplate.createIndex(Item.class);
     }
 
+    @Ignore
     @Test
     public void testAddListAndQuery() {
         List<Item> list = new LinkedList<>();
         list.add(new Item(1L, "小米手机7", "手机", "小米", 3499.00, "http://image.baidu.com/13123.jpg"));
         list.add(new Item(2L, "坚果手机R1", "手机", "锤子", 3699.00, "http://image.baidu.com/13123.jpg"));
         list.add(new Item(3L, "华为META10", "mobile", "华为", 4499.00, "http://image.baidu.com/13123.jpg"));
+        list.add(new Item(4L, "大米手机6", "mobile", "大米", 3899.00, "http://image.baidu.com/13153.jpg"));
         itemRepository.saveAll(list);
 
         {
@@ -69,6 +72,14 @@ public class ElasticSearchTest {
         {
             log.info("所有商品:价格在3000-4000");
             Iterable<Item> result = itemRepository.findByPriceBetween(3000, 4000);
+            for (Item item : result) {
+                log.info("{}", item);
+            }
+        }
+
+        {
+            log.info("所有商品:*米 并且 价格在3000-4000");
+            Iterable<Item> result = itemRepository.findByTitleLikeAndPriceBetween("米", 3000, 4000);
             for (Item item : result) {
                 log.info("{}", item);
             }
@@ -103,7 +114,7 @@ public class ElasticSearchTest {
         //matchQuery:底层就是使用的termQuery
         queryBuilder.withQuery(QueryBuilders.matchQuery("title", "坚果"));
         //查询，search 默认就是分页查找
-        Page<Item> page = this.itemRepository.search(queryBuilder.build());
+        Page<Item> page = itemRepository.search(queryBuilder.build());
         //获取数据
         long totalElements = page.getTotalElements();
         System.out.println("获取的总条数:" + totalElements);
