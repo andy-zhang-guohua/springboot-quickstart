@@ -1,6 +1,6 @@
 # 2020-08-23
  * [完整教程：Springboot 2.2整合elasticsearch 7.x (spring-boot-starter-data-elasticsearch)](https://blog.csdn.net/chengyuqiang/article/details/102938266)
- * 升级ElasticSearch 版本 : 7.4.1
+ * 升级ElasticSearch 版本 : 7.6.2
  * 注意配置文件 application.yml 中的变化
  * 开始使用 ElasticsearchRestTemplate，不再使用 ElasticsearchTemplate 
 
