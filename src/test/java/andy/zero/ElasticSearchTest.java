@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * 运行此测试需要在本地先启动 Elasticsearch, 默认端口，不需要用户名密码
  */
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
