@@ -32,5 +32,11 @@
         - 随着流程中任务的执行，流程会推进，所以每次获取的流程图片会不一样
 
 - 动作 : 升级到 Flowable 6.6.0, 自动创建79个表
-- 试用场景3 ： 更多业务语义查询
-    - 查看员工所有请假记录和状态   ?? 怎么做呢 ??
+- 试用场景3 ： [另外一个流程,含有自动化 ServiceTask](https://www.baeldung.com/flowable)
+    - 文章提交和批准/驳回
+    - 通过流程定义可以定义 `ServiceTask` 和对应的实现类
+    - 相应的 `ServiceTask` 实现类必须要实现 `JavaDelegate`
+    - 相应的 `ServiceTask` `JavaDelegate` 实现逻辑 `execute(DelegateExecution execution)` 会在流程指定时机被自动调用
+    - 如果 `JavaDelegate` 实现类里面要使用 `@Autowired` 注入其他 `bean`，则必须
+        - 1. 在流程定义中使用 `flowable:delegateExpression="${sendMailService}"` 方式引用 `bean`;
+        - 2. `JavaDelegate` 实现类一定要使用 `@Component/@Service` 之类的注解。
