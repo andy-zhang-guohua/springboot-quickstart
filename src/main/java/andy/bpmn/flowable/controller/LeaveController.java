@@ -9,6 +9,7 @@ import org.flowable.engine.task.Event;
 import org.flowable.image.ProcessDiagramGenerator;
 import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,11 +28,14 @@ import java.util.List;
 public class LeaveController {
     @Autowired
     private RuntimeService runtimeService;
+
     @Autowired
     private TaskService taskService;
+
     @Autowired
     private RepositoryService repositoryService;
 
+    @Qualifier("processEngine")
     @Autowired
     private ProcessEngine processEngine;
 
@@ -41,11 +45,17 @@ public class LeaveController {
     @RequestMapping(value = "start", produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
     public String startLeaveProcess(String staffId) {
+        // 创建新的请假流程
         HashMap<String, Object> map = new HashMap<>();
         map.put("leaveTask", staffId);
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("Leave", map);
+        String processDefinitionKey = "Leave";
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processDefinitionKey, map);
+
+
+        // 输出新建的请假流程，和当前员工所有的请假历史记录
         StringBuilder sb = new StringBuilder();
         sb.append("创建请假流程 processId : " + processInstance.getId() + "<br/>");
+
         List<Task> tasks = taskService.createTaskQuery().taskAssignee(staffId).orderByTaskCreateTime().desc().list();
         for (Task task : tasks) {
             sb.append("任务创建时间 : " + task.getCreateTime() + " , ");
@@ -138,11 +148,11 @@ public class LeaveController {
                 engineConfiguration.getAnnotationFontName(), engineConfiguration.getClassLoader(), 1.0, false);
         OutputStream out = null;
         byte[] buf = new byte[1024];
-        int legth = 0;
+        int length = 0;
         try {
             out = httpServletResponse.getOutputStream();
-            while ((legth = in.read(buf)) != -1) {
-                out.write(buf, 0, legth);
+            while ((length = in.read(buf)) != -1) {
+                out.write(buf, 0, length);
             }
         } finally {
             if (in != null) {
@@ -152,5 +162,36 @@ public class LeaveController {
                 out.close();
             }
         }
+    }
+
+    /**
+     * @description 获取用户请假列表
+     */
+    @RequestMapping(value = "leave-history", produces = MediaType.TEXT_HTML_VALUE)
+    @ResponseBody
+    public String leaveHistory(String staffId) {
+        List<Task> tasks = taskService.createTaskQuery().taskAssignee(staffId).orderByTaskCreateTime().desc().list();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("<h2>" + staffId + "的请假记录</h2>");
+        sb.append("<table  border=\"1\">");
+        sb.append("<thead>");
+        sb.append("<tr>");
+        sb.append("<th>ID</th>");
+        sb.append("<th>CreateTime</th>");
+        sb.append("<th>processId</th>");
+        sb.append("</tr>");
+        sb.append("</thead>");
+        sb.append("</tbody>");
+        for (Task task : tasks) {
+            sb.append("<tr>");
+            sb.append("<td>" + task.getId() + "</td>");
+            sb.append("<td>" + task.getCreateTime() + "</td>");
+            sb.append("<td>" + task.getProcessInstanceId() + "</td>");
+            sb.append("</tr>");
+        }
+        sb.append("</tbody>");
+        sb.append("</table>");
+        return sb.toString();
     }
 }

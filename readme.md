@@ -30,3 +30,6 @@
         - 访问地址 : `http://localhost:8080/leave/get-process-diagram?processId=12e5d1da-4e30-11eb-a90d-7cb59b73e0ba`
         - 页面参数 : processId, 可以通过休假申请结果获取
         - 随着流程中任务的执行，流程会推进，所以每次获取的流程图片会不一样
+
+- 试用场景3 ： 更多业务语义查询
+    - 查看员工所有请假记录和状态        
