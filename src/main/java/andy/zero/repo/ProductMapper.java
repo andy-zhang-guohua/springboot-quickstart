@@ -6,14 +6,14 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 import java.util.Map;
 
-public interface  ProductMapper {
+public interface ProductMapper {
     /**
      * 按照map方式插入数据，map是键值对，插入的时候#{}里面的值将从map中取
      *
      * @param map 需要插入的数据
      * @return 插入成功返回1，失败返回0
      */
-    @Insert("insert into product(product_name, product_stock) values(#{product_name, jdbcType=VARCHAR}, #{product_stock, jdbcType=INTEGER})")
+    @Insert("insert into product(id, name, stock) values(#{id, jdbcType=VARCHAR},#{name, jdbcType=VARCHAR}, #{stock, jdbcType=INTEGER})")
     int insertByMap(Map<String, Object> map);
 
     /**
@@ -22,7 +22,7 @@ public interface  ProductMapper {
      * @param product 商品对象
      * @return 插入成功返回1，失败返回0
      */
-    @Insert("insert into product(product_name, product_stock) values(#{productName, jdbcType=VARCHAR}, #{productStock, jdbcType=INTEGER})")
+    @Insert("insert into product(id, name, stock) values(#{id, jdbcType=VARCHAR},#{name, jdbcType=VARCHAR}, #{stock, jdbcType=INTEGER})")
     int insertByObject(Product product);
 
     /**
@@ -32,37 +32,37 @@ public interface  ProductMapper {
      * @param productId 商品ID
      * @return Product对象
      */
-    @Select("select * from product where product_id = #{productId}")
+    @Select("select * from product where id = #{id}")
     @Results({
-            @Result(column = "product_id", property = "productId"),
-            @Result(column = "product_name", property = "productName"),
-            @Result(column = "product_stock", property = "productStock")
+            @Result(column = "id", property = "id"),
+            @Result(column = "name", property = "name"),
+            @Result(column = "stock", property = "stock")
     })
-    Product findByProductId(Integer productId);
+    Product findById(String productId);
 
     /**
      * 当商品名字重复是时候，我们根据商品名字查询，将查询到多条数据，这时候应该使用List来接收数据
      *
-     * @param productName 商品名字
+     * @param name 商品名字
      * @return 商品的集合
      */
-    @Select("select * from product where product_name = #{productName}")
+    @Select("select * from product where name = #{name}")
     @Results({
-            @Result(column = "product_id", property = "productId"),
-            @Result(column = "product_name", property = "productName"),
-            @Result(column = "product_stock", property = "productStock")
+            @Result(column = "id", property = "id"),
+            @Result(column = "name", property = "name"),
+            @Result(column = "stock", property = "stock")
     })
-    List<Product> findByProductName(String productName);
+    List<Product> findByName(@Param("name") String name);
 
     /**
      * 根据一个字段ID来修改商品名称，当传入多个参数的时候，需要使用@Param注解来是SQL语句中名字和参数名字一致，这样就不会出错
      *
-     * @param productId   商品ID
-     * @param productName 商品名称
+     * @param productId 商品ID
+     * @param name      商品名称
      * @return 更新成功返回1，失败返回0
      */
-    @Update("update product set product_name = #{productName} where product_id = #{productId}")
-    int updateByProductId(@Param("productId") Integer productId, @Param("productName") String productName);
+    @Update("update product set name = #{name} where id = #{id}")
+    int updateById(@Param("id") String productId, @Param("name") String name);
 
     /**
      * 根据一个对象来更新数据
@@ -70,15 +70,15 @@ public interface  ProductMapper {
      * @param product 商品对象
      * @return 更新成功返回1，失败返回0
      */
-    @Update("update product set product_name = #{productName} where product_id = #{productId}")
+    @Update("update product set name = #{name} where id = #{id}")
     int updateByObject(Product product);
 
     /**
      * 根据ID来删除记录，也可以根据对象来删除，道理和上面的更新一致
      *
-     * @param productId 商品ID
+     * @param id 商品ID
      * @return 删除成功返回1，失败返回0
      */
-    @Delete("delete from product where product_id = #{productId}")
-    int deleteByProductId(Integer productId);
+    @Delete("delete from product where id = #{id}")
+    int deleteById(String id);
 }

@@ -2,12 +2,23 @@ package andy.zero.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Product {
+public class Product implements Serializable {
 
-    private Integer productId;
+    /**
+     * 产品ID
+     */
+    private String id;
 
-    private String productName;
+    /**
+     * 产品名称
+     */
+    private String name;
 
-    private Integer productStock;
+    /**
+     * 库存数量
+     */
+    private int stock;
 }
