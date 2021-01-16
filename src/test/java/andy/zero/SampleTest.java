@@ -5,6 +5,7 @@ import andy.zero.enums.Gender;
 import andy.zero.repo.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -77,6 +78,16 @@ public class SampleTest {
             );
 
             Assert.assertEquals(4, userList.size());
+        }
+
+        {
+            // 分页查找
+            Page<User> page = new Page<>(1, 3);
+            Page<User> result = mapper.selectPage(page, Wrappers.<User>lambdaQuery().ge(User::getAge, 1).orderByAsc(User::getAge));
+            assertThat(result.getTotal()).isGreaterThan(3);
+            assertThat(result.getRecords().size()).isEqualTo(3);
+
+            log.info("{}",page);
         }
 
         // 更新测试
