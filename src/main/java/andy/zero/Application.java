@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * Created by ZhangGuohua on 2021/01/16.
  */
-@MapperScan(basePackages = {"andy.zero.repo"})
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {

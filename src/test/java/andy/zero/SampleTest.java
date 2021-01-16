@@ -42,10 +42,9 @@ public class SampleTest {
         // 增加
         User user = new User();
 
-        user.setId(RandomUtils.nextLong());
         user.setName(RandomStringUtils.randomAlphanumeric(20));
         user.setGender(Gender.MALE);
-        user.setAge(RandomUtils.nextInt(1, 60));
+        user.setAge(RandomUtils.nextInt(1, 19));
         user.setEmail(RandomStringUtils.randomAlphanumeric(10) + "@" + RandomStringUtils.randomAlphabetic(3) + ".com");
         Assert.assertEquals(1, mapper.insert(user));
 
@@ -83,40 +82,40 @@ public class SampleTest {
         // 更新测试
         {
             // 更新用户1
-            assertThat(mapper.updateById(new User().setId(1L).setEmail("ab@c.c"))).isGreaterThan(0);
-            assertThat(mapper.selectById(1).getEmail()).isEqualTo("ab@c.c");
+            assertThat(mapper.updateById(new User().setId("1").setEmail("ab@c.c"))).isGreaterThan(0);
+            assertThat(mapper.selectById("" + 1).getEmail()).isEqualTo("ab@c.c");
 
             // 更新用户2
             assertThat(mapper.update(new User().setName("mp"),
-                    Wrappers.<User>lambdaUpdate().set(User::getAge, 3).eq(User::getId, 2))
+                    Wrappers.<User>lambdaUpdate().set(User::getAge, 3).eq(User::getId, "" + 2))
             ).isGreaterThan(0);
 
-            User userWithId2 = mapper.selectById(2);
+            User userWithId2 = mapper.selectById("" + 2);
             assertThat(userWithId2.getAge()).isEqualTo(3);
             assertThat(userWithId2.getName()).isEqualTo("mp");
 
             // 更新用户2
             mapper.update(null,
-                    Wrappers.<User>lambdaUpdate().set(User::getEmail, null).eq(User::getId, 2)
+                    Wrappers.<User>lambdaUpdate().set(User::getEmail, null).eq(User::getId, "" + 2)
             );
 
-            userWithId2 = mapper.selectById(2);
+            userWithId2 = mapper.selectById("" + 2);
             assertThat(userWithId2.getEmail()).isNull();
             assertThat(userWithId2.getName()).isEqualTo("mp");
 
             mapper.update(new User().setEmail("miemie@baomidou.com"),
                     new QueryWrapper<User>()
-                            .lambda().eq(User::getId, 2)
+                            .lambda().eq(User::getId, "" + 2)
             );
-            userWithId2 = mapper.selectById(2);
+            userWithId2 = mapper.selectById("" + 2);
             assertThat(userWithId2.getEmail()).isEqualTo("miemie@baomidou.com");
 
             mapper.update(new User().setEmail("miemie2@baomidou.com"),
                     Wrappers.<User>lambdaUpdate()
                             .set(User::getAge, null)
-                            .eq(User::getId, 2)
+                            .eq(User::getId, "" + 2)
             );
-            userWithId2 = mapper.selectById(2);
+            userWithId2 = mapper.selectById("" + 2);
             assertThat(userWithId2.getEmail()).isEqualTo("miemie2@baomidou.com");
             assertThat(userWithId2.getAge()).isNull();
         }
