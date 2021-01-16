@@ -3,6 +3,8 @@ package andy.zero;
 import andy.zero.entity.User;
 import andy.zero.enums.Gender;
 import andy.zero.repo.UserMapper;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -88,6 +90,15 @@ public class SampleTest {
             assertThat(result.getRecords().size()).isEqualTo(3);
 
             log.info("{}",page);
+
+            log.error("----------------------------------json 正反序列化-------------------------------------------------------");
+            String json = JSON.toJSONString(page);
+            log.info("json ----------> {}", json);
+            Page<User> page1 = JSON.parseObject(json, new TypeReference<Page<User>>() {
+            });
+            List<User> records1 = page1.getRecords();
+            assertThat(records1).isNotEmpty();
+            assertThat(records1.get(0).getClass()).isEqualTo(User.class);
         }
 
         // 更新测试
