@@ -1,6 +1,7 @@
 package andy.zero;
 
 import andy.zero.entity.User;
+import andy.zero.enums.Gender;
 import andy.zero.repo.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -43,6 +44,7 @@ public class SampleTest {
 
         user.setId(RandomUtils.nextLong());
         user.setName(RandomStringUtils.randomAlphanumeric(20));
+        user.setGender(Gender.MALE);
         user.setAge(RandomUtils.nextInt(1, 60));
         user.setEmail(RandomStringUtils.randomAlphanumeric(10) + "@" + RandomStringUtils.randomAlphabetic(3) + ".com");
         Assert.assertEquals(1, mapper.insert(user));

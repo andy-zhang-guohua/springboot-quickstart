@@ -1,13 +1,15 @@
 package andy.zero.entity;
 
+import andy.zero.enums.Gender;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
 public class User {
-    private Long id;
-    private String name;
-    private Integer age;
-    private String email;
+    Long id;
+    Gender gender;
+    String name;
+    Integer age;
+    String email;
 }
