@@ -1,7 +1,25 @@
+# 2021-04-05
+- 事件监听器
+    - [参考资料](https://flowable.com/open-source/docs/bpmn/ch03-Configuration/#event-handlers)
+    - 实现方式  
+        - 实现接口 `org.flowable.engine.delegate.event.FlowableEventListener`
+        - 或者继承基础类 `org.flowable.engine.delegate.event.BaseEntityEventListener`
+    - 一个事件监听器可以监听哪些事件
+        - 可以针对所有事件进行监听
+        - 也可以针对指定的某些事件进行监听     
+    - 事件监听器的配置方法
+        - 引擎运行前配置到`ProcessEngineConfiguration`组件上
+        - 引擎运行时添加事件监听器`RuntimeService.addEventListener`
+            - 引擎一旦重启，这种方式添加的事件监听器会消失
+        - 添加到流程定义上
+            - 仅在该流程定义对应的流程实例中起作用
+              
+
 # 2021-01-04
 
 - 试用 flowable 结合 Spring Boot 的应用
     - [参考文档](https://www.cnblogs.com/chengxy-nds/p/13576330.html)
+        - 请假流程参考文档
     - [Flowable项目源代码官方网址](https://github.com/flowable/flowable-engine)
     
 - 试用场景1
