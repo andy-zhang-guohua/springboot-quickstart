@@ -57,6 +57,11 @@ return query(${path_pattern})
         - Dataway 提供 API 管理界面
      - 指定 API 路径 + 查询参数 到后端，后端执行相应的查询脚本返回数据给前端,JSON 格式        
    - 中文乱码处理
+   - Dataway 不用于数据库表创建，而是用于聚合查询        
+      - 可以结合其他得数据库表创建和修改工具工作
+   - Dataway 的优势
+      - 前端定义数据查询 API，可以带有一定的逻辑
+      - 不再依赖后端开发基本的数据CRUD API   
 
 ```yaml
 server.servlet.encoding.charset=UTF-8
