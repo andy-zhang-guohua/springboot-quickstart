@@ -67,8 +67,8 @@ public class POITLTest {
 
         DocData docData = new DocData();
         docData.setTitle("代理销售合同");
-        docData.setNameA("北京金山软件股份有限公司");
-        docData.setNameB("北京金山软件测试有限公司");
+        docData.setNameA("张家口鸡鸣山软件股份有限公司");
+        docData.setNameB("张家口鸡鸣山软件测试有限公司");
         docData.setItems(tableRenderData);
         docData.setSignDateA(DateUtil.formatAsDatetime(new Date()));
         docData.setSignDateB(DateUtil.formatAsDatetime(new Date()));
