@@ -1,4 +1,4 @@
-package andy.zero;
+package andy.zero.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

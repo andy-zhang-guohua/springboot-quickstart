@@ -1,4 +1,4 @@
-package andy.zero;
+package andy.zero.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
