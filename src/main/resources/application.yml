@@ -41,6 +41,12 @@ HASOR_DATAQL_DATAWAY_API_URL: /api/
 HASOR_DATAQL_DATAWAY_UI_URL: /interface-ui/
 
 
+hasor:
+  dataway:
+    authorization:
+      username: admin
+      password: dataway
+
 logging:
   level:
     org.springframework.security: DEBUG

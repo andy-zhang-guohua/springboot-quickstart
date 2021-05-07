@@ -62,11 +62,57 @@ return query(${path_pattern})
    - Dataway 的优势
       - 前端定义数据查询 API，可以带有一定的逻辑
       - 不再依赖后端开发基本的数据CRUD API   
+    - 如何让Hasor共享使用 Spring Boot 的配置
+        - 启用 : `@EnableHasor(useProperties = true)`
+        - 使用 : `appContext.getEnvironment().getSettings().getString("hasor.dataway.authorization.username")`
 
 ```yaml
 server.servlet.encoding.charset=UTF-8
 server.servlet.encoding.force=true
 ```     
+
+## 原理分析
+
+### 管理界面的登录逻辑
+
+- 管理界面的登录逻辑主要被 `AdminUiAuthorization.doInvoke` 控制
+```java
+    // 实现在类 AdminUiAuthorization
+    @Override
+    public Object doInvoke(Invoker invoker, InvokerChain chain) throws Throwable {
+        if (!invoker.getRequestPath().startsWith(this.adminBaseUri) || !this.enableAdminAuthorization) {
+            // 不需要认证，或者当前访问路径不被 this.adminBaseUri 覆盖的情况
+            return chain.doNext(invoker);
+        }
+
+        // check ok.
+        if (checkDwAuthData(invoker)) {
+            // 检查 cookie 中的登录数据，如果已经登录，继续其他的 Filter
+            // cookie 中的登录数据 : DW_AUTH_DATA
+            return chain.doNext(invoker);
+        }
+
+        // process login action
+        // 经过前面的检查，发现当前访问尚未登录
+        if (invoker.getRequestPath().equalsIgnoreCase(this.loginActionUri)) {
+            // 当前访问的是登录处理逻辑，则执行登录逻辑，然后跳转
+            if (doLogin(invoker)) {
+                String contextPath = DatawayUtils.getDwContextPath(invoker, null);
+                String redirect = fixUrl(contextPath + "/" + this.adminBaseUri);
+                invoker.getHttpResponse().sendRedirect(redirect);
+                return null;
+            }
+        }
+
+        // 如果当前访问的页面未登录，并且不是登录处理页面，一律返回登录页面
+        // response login page.
+        return responseLoginPage(invoker);
+    }
+
+```
+
+- `AdminUiAuthorization`被`DatawayModule`模块在模块加载`loadModule`时配置
+- [`DatawayModule`被加载的时机](https://www.hasor.net/doc/pages/viewpage.action?pageId=1573158)
 
 ## 参考资料
   - [绝了！这款工具让SpringBoot不再需要Controller、Service、DAO、Mapper！](https://mp.weixin.qq.com/s/R6iFojDlch_Vq8ZIRTHzFQ)  
@@ -79,7 +125,7 @@ server.servlet.encoding.force=true
         - 批量执行 : `@@sql[]()`
         - 分页查询
         - 结果列名拼写转换    
-  
+  - [生命周期](https://www.hasor.net/doc/pages/viewpage.action?pageId=1573158)  
 
 
 
