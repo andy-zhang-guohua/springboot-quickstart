@@ -1,5 +1,6 @@
 package andy.zero;
 
+import lombok.extern.slf4j.Slf4j;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.kie.api.KieServices;
@@ -21,6 +22,7 @@ import java.util.Collection;
 /**
  * https://zhuanlan.zhihu.com/p/129863264
  */
+@Slf4j
 @Component
 public class Demo implements CommandLineRunner {
     @Override
@@ -29,14 +31,13 @@ public class Demo implements CommandLineRunner {
     }
 
     public static void test1() throws Exception {
+        KieSession kieSession = check(getRawRuleText());
 
-        KieSession kieSession = check(getRule());
-
-        IrssetDroolsVo drools = new IrssetDroolsVo();
-        drools.setSurpDayCnt(2);
+        TestVO drools = new TestVO();
+        drools.setDays(2);
         kieSession.insert(drools);
         int i = kieSession.fireAllRules();
-        System.out.println("命中： " + i + "返回结果：" + drools.getMsg());
+        System.out.println("命中： " + i + "返回结果：" + drools.getMessage());
 
     }
 
@@ -90,18 +91,18 @@ public class Demo implements CommandLineRunner {
         return kieSession.getKieSession("test");
     }
 
-    public static String getRule() {
-        StringBuffer ruleSb = new StringBuffer();
-        ruleSb.append(" package rule_10001;\n");
-        ruleSb.append("import andy.zero.IrssetDroolsVo\n");
-        ruleSb.append("rule rule_10001 \n");
-        ruleSb.append("when \n");
-        ruleSb.append("$riskDroolsVo : IrssetDroolsVo(surpDayCnt>=2 && surpDayCnt<=10); \n");
-        ruleSb.append("then \n");
-        ruleSb.append("$riskDroolsVo.setMsg(\"命中了\"); \n");
-        ruleSb.append("end");
+    public static String getRawRuleText() {
+        StringBuffer scripts = new StringBuffer();
+        scripts.append("package rule_10001;\n");
+        scripts.append("import andy.zero.TestVO\n");
+        scripts.append("rule rule_10001 \n");
+        scripts.append("when \n");
+        scripts.append("testVO : TestVO(days>=2 && days<=10); \n");
+        scripts.append("then \n");
+        scripts.append("testVO.setMessage(\"命中了\"); \n");
+        scripts.append("end");
 
-        System.out.println(ruleSb.toString());
-        return ruleSb.toString();
+        System.out.println(scripts.toString());
+        return scripts.toString();
     }
 }
