@@ -34,7 +34,7 @@ public class SpringBatchConfig {
     public StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job consoleJob(Step step, JobExecutionListener listener) {
+    public Job job(Step step, JobExecutionListener listener) {
         String funcName = Thread.currentThread().getStackTrace()[1].getMethodName();
         return jobBuilderFactory.get(funcName)
                 .listener(listener)
@@ -44,7 +44,7 @@ public class SpringBatchConfig {
 
 
     @Bean
-    public Step consoleStep(ItemReader reader, ItemProcessor processor, ItemWriter writer, CommonStepListener stepListener) {
+    public Step step(ItemReader reader, ItemProcessor processor, ItemWriter writer, CommonStepListener stepListener) {
         String funcName = Thread.currentThread().getStackTrace()[1].getMethodName();
         return stepBuilderFactory.get(funcName)
                 .listener(stepListener)
