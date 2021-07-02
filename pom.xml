@@ -44,6 +44,12 @@
             <version>4.2.5</version>
             <!-- 查看最新版本：https://mvnrepository.com/artifact/net.hasor/hasor-dataql -->
         </dependency>
+        <dependency>
+            <groupId>net.hasor</groupId>
+            <artifactId>hasor-dataql-fx</artifactId>
+            <version>4.2.5</version>
+            <!-- 查看最新版本：https://mvnrepository.com/artifact/net.hasor/hasor-dataql-fx -->
+        </dependency>
 
         <!-- 引入依赖 : 连接池组件 druid -->
         <dependency>
