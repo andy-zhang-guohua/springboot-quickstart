@@ -15,8 +15,9 @@ import java.util.Properties;
 /**
  * 参考资料 : https://cloud.tencent.com/developer/article/1676200
  * 1. 变量 (根变量， 普通变量) #
+ * 1.1 根变量 的属性对象或者成员方法访问不需要 #/@
  * 2. bean @
- * 3. 函数 
+ * 3. 函数 #
  */
 @Slf4j
 public class spELTest {
