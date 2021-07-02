@@ -61,6 +61,10 @@ public class TestService {
         log.info("user info : {}", dataModel.unwrap());
     }
 
+    /**
+     * https://www.hasor.net/doc/pages/viewpage.action?pageId=1573253 SQL执行器
+     * @throws IOException
+     */
     public void testExecuteSQL() throws IOException {
         String sql = "// 声明一个 SQL\n" +
                 "var dataSetFun = @@sql() <%\n" +
