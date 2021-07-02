@@ -34,27 +34,33 @@ public class TestService {
             apiBinder.addShareVarInstance("userByID", new UserByIdUdf());
 
         });
+
+        String script = "return userByID({'id': 4}) => {" +
+                "    'name'," +
+                "    'sex' : (sex == 'F') ? '男' : '女' ," +
+                "    'age' : age + '岁'" +
+                "}";
+
         DataQL dataQL = appContext.getInstance(DataQL.class);
-        QueryResult queryResult = dataQL.createQuery(
-                "return userByID({'id': 4}) => {" +
-                        "    'name'," +
-                        "    'sex' : (sex == 'F') ? '男' : '女' ," +
-                        "    'age' : age + '岁'" +
-                        "}"
-        ).execute();
+        QueryResult queryResult = dataQL.createQuery(script).execute();
         DataModel dataModel = queryResult.getData();
 
         log.info("userByID : {}", dataModel.unwrap());
     }
 
     public void testDataQL() throws IOException {
+        /**
+         * 其实是在准备脚本执行的参数
+         */
         HashMap<String, Object> tempData = new HashMap<String, Object>() {{
             put("uid", "uid is 123");
             put("sid", "sid is 456");
         }};
 
+        String script = "return [${uid},${sid}]";
+
         DataQL dataQL = DataQueryContext.getDataQL();
-        Query dataQuery = dataQL.createQuery("return [${uid},${sid}]");
+        Query dataQuery = dataQL.createQuery(script);
         QueryResult queryResult = dataQuery.execute(tempData);
         DataModel dataModel = queryResult.getData();
 
@@ -62,11 +68,13 @@ public class TestService {
     }
 
     /**
-     * https://www.hasor.net/doc/pages/viewpage.action?pageId=1573253 SQL执行器
+     * https://www.hasor.net/doc/pages/viewpage.action?pageId=1573253 04. SQL执行器
+     * https://www.hasor.net/doc/pages/viewpage.action?pageId=1573258 b. 执行 SQL (无参SQL，有参SQL)
+     *
      * @throws IOException
      */
     public void testExecuteSQL() throws IOException {
-        String sql = "// 声明一个 SQL\n" +
+        String script = "// 声明一个 SQL 函数，无参数\n" +
                 "var dataSetFun = @@sql() <%\n" +
                 "    select * from interface_info limit 10;\n" +
                 "%>\n" +
@@ -79,8 +87,8 @@ public class TestService {
             apiBinder.installModule(new JdbcModule(Level.Full, this.dataSource));
         });
         DataQL dataQL = appContext.getInstance(DataQL.class);
-        Query dataQuery = dataQL.createQuery(sql);
-        QueryResult queryResult = dataQuery.execute();
+        Query dataQuery = dataQL.createQuery(script);
+        QueryResult queryResult = dataQuery.execute(); // 不使用参数执行
         DataModel dataModel = queryResult.getData();
 
         log.info("user info : {}", dataModel.unwrap());
