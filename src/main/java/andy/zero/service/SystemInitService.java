@@ -13,5 +13,6 @@ public class SystemInitService implements CommandLineRunner {
     public void run(String... args) throws Exception {
         testService.testDataQL();
         testService.testUDF();
+        testService.testExecuteSQL();
     }
 }
