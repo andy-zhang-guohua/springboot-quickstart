@@ -11,6 +11,6 @@ public class SystemInitService implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        testService.test();
+        testService.testUDF();
     }
 }
