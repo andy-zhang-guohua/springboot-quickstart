@@ -40,9 +40,9 @@
         <!-- 引入依赖 : hasordataway -->
         <dependency>
             <groupId>net.hasor</groupId>
-            <artifactId>hasor-dataway</artifactId>
+            <artifactId>hasor-dataql</artifactId>
             <version>4.2.5</version>
-            <!-- 查看最新版本：https://mvnrepository.com/artifact/net.hasor/hasor-dataway -->
+            <!-- 查看最新版本：https://mvnrepository.com/artifact/net.hasor/hasor-dataql -->
         </dependency>
 
         <!-- 引入依赖 : 连接池组件 druid -->
