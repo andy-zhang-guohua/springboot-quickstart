@@ -9,11 +9,15 @@
    - Druid 
    - MySQL
 
+## 初始化SQL
+
+Dataway 需要两个数据表才能工作, 建表SQL可以在 dataway的依赖 jar 包中 “META-INF/hasor-framework/mysql” 目录下面找到，建表语句是用 mysql 语法写的。
+
 ## 功能界面地址
    - [Druid 管理地址 : http://localhost:8080/druid/sql.html](http://localhost:8080/druid/sql.html)
     - admin/druid (可以通过配置文件配置)
    - [Dataway 访问地址 : http://127.0.0.1:8080/interface-ui/](http://127.0.0.1:8080/interface-ui/)
-    - admin/admin
+    - admin/dataway (可以在配置文件 spring application.yml 中配置)
 
 ## Dataway 使用
 
@@ -50,6 +54,31 @@ return query(${path_pattern})
   "path_pattern": "/api/echo"
 }
 ```
+
+# 例子 
+- 例子1 SQL
+    - 这是一个基于 GET 例子 : `api/demos`
+
+```sql
+# 这是注释
+select * from interface_info
+```
+    
+- 例子2 DataQL
+
+    - 这是一个基于 GET 例子 : `api/demos-dataql`
+    - 访问路径 : `http://127.0.0.1:8080/api/demos-dataql`    
+    
+```js
+// 声明一个 SQL
+var dataSetFun = @@sql() <%
+    select * from interface_info limit 10;
+%>
+
+// 执行这个 SQL，并返回结果
+return dataSetFun();
+```
+
 
 ## 学习总结
    - Dataway API 机制是如何工作的 
