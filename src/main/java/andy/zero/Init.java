@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Init implements CommandLineRunner {
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         String dest = "DEMO";
         JMSListener.startJmsQueueListener(dest, message -> {
             log.info("message : {}", message);
