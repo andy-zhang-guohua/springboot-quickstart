@@ -6,27 +6,10 @@ import org.springframework.jms.connection.CachingConnectionFactory;
 
 /**
  * 连接工厂 配置
- *
- * @author Pen
- * 2020年11月08日
  */
 public class ConnectionFactory {
-
-    /*
-
-    tcp://10.88.3.12:61608,tcp://10.88.3.11:61608,tcp://10.88.3.10:61608
-     private static final String URL = "failover:(tcp://10.88.3.12:61608,tcp://10.88.3.11:61608,tcp://10.88.3.10:61608)?randomize=false";
-    private static final String USERNAME = "";
-    private static final String PASSWORD = "";
-    private static final int SESSIONCACHESIZE = 20;
-
-     */
-
-    private static final String APP_ID = "com.awspass.user.apps.common";
     private static final String URL = "failover:(tcp://10.88.3.12:61608,tcp://10.88.3.11:61608,tcp://10.88.3.10:61608)?randomize=false";
-    private static final String USERNAME = "USERNAME";
-    private static final String PASSWORD = "PASSWORD";
-    private static final String SESSIONCACHESIZE = "20";
+
     private javax.jms.ConnectionFactory factory;
 
     public static synchronized javax.jms.ConnectionFactory getInstance() {
@@ -44,11 +27,11 @@ public class ConnectionFactory {
     private javax.jms.ConnectionFactory buildConnectionFactory(AMQConfigBean bean) {
         javax.jms.ConnectionFactory targetFactory = new ActiveMQConnectionFactory(bean.getUserName(), bean.getPassword(), bean.getBrokerURL());
 
-        CachingConnectionFactory connectoryFacotry = new CachingConnectionFactory();
-        connectoryFacotry.setTargetConnectionFactory(targetFactory);
-        connectoryFacotry.setSessionCacheSize(bean.getSessionCacheSize());
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+        connectionFactory.setTargetConnectionFactory(targetFactory);
+        connectionFactory.setSessionCacheSize(bean.getSessionCacheSize());
 
-        return connectoryFacotry;
+        return connectionFactory;
     }
 
     private AMQConfigBean loadConfigure() {
