@@ -6,13 +6,6 @@ spring:
   application:
     name: jpa-specification #当前应用的名称
 
-  ################### DataSource Configuration ##########################
-  datasource :
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mybatis_test?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
-    username: root
-    password: Passw0rd
-
 
 logging:
   level:
