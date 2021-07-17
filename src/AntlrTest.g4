@@ -1,5 +1,5 @@
 grammar AntlrTest;
-prog:stat+;
+prog: stat+;
 
 stat: expr NEWLINE                  # print
 |ID '=' expr NEWLINE                # assign
@@ -19,7 +19,7 @@ MULTIPLY:'*';
 DIVIDE:'/';
 PLUS:'+';
 MINUS:'-';
-ID:[a-z]+;
+ID:[a-z]+;-
 INT:[1-9]+;
 NEWLINE:'\r'?'\n';
 WS:[ \t\r\n] -> skip;
