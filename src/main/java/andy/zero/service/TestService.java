@@ -1,6 +1,5 @@
 package andy.zero.service;
 
-import andy.zero.hasor.DataQueryContext;
 import andy.zero.hasor.UserByIdUdf;
 import lombok.extern.slf4j.Slf4j;
 import net.hasor.core.AppContext;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 参考文档 : https://www.hasor.net/doc/pages/viewpage.action?pageId=1573249
@@ -48,14 +48,15 @@ public class TestService {
     }
 
     public void testDataQL() throws IOException {
-        HashMap<String, Object> tempData = new HashMap<String, Object>() {{
+        Map<String, Object> envData = new HashMap<String, Object>() {{
             put("uid", "uid is 123");
             put("sid", "sid is 456");
         }};
 
-        DataQL dataQL = DataQueryContext.getDataQL();
+        AppContext appContext = Hasor.create().build();
+        DataQL dataQL = appContext.getInstance(DataQL.class);
         Query dataQuery = dataQL.createQuery("return [${uid},${sid}]");
-        QueryResult queryResult = dataQuery.execute(tempData);
+        QueryResult queryResult = dataQuery.execute(envData);
         DataModel dataModel = queryResult.getData();
 
         log.info("user info : {}", dataModel.unwrap());
@@ -63,6 +64,7 @@ public class TestService {
 
     /**
      * https://www.hasor.net/doc/pages/viewpage.action?pageId=1573253 SQL执行器
+     *
      * @throws IOException
      */
     public void testExecuteSQL() throws IOException {

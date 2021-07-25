@@ -12,7 +12,7 @@ public class SystemInitService implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         testService.testDataQL();
-        testService.testUDF();
-        testService.testExecuteSQL();
+        //testService.testUDF();
+        //testService.testExecuteSQL();
     }
 }
