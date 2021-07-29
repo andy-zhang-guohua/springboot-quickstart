@@ -1,3 +1,3 @@
 # 参考资料
 
-- 初始 springboot-web 项目
+- 初始 springboot 非 web 项目
