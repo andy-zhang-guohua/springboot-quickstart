@@ -1,5 +1,6 @@
 package andy.docx4j;
 
+import andy.docx4j.utils.RandomChineseUtils;
 import org.docx4j.jaxb.Context;
 import org.docx4j.model.structure.DocumentModel;
 import org.docx4j.model.structure.PageSizePaper;
@@ -10,7 +11,6 @@ import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.relationships.Relationship;
 import org.docx4j.wml.*;
 
-import javax.xml.bind.JAXBElement;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
@@ -27,7 +27,7 @@ import java.util.List;
  * - RPr run properties
  * - Text 文本
  */
-public class NewDocxFile {
+public class CreateDocxFile {
     public static void main(String[] args) throws Exception {
         boolean landscape = false;//横版 : false
         WordprocessingMLPackage wordprocessingMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.valueOf("A4"), landscape);
@@ -78,7 +78,7 @@ public class NewDocxFile {
             pPr.setJc(jc);
 
             // PAGE
-            addVARToP(factory, p, "PAGE");
+            addVarToParagraph(factory, p, "PAGE");
 
             // /
             R r = factory.createR();
@@ -89,46 +89,47 @@ public class NewDocxFile {
             r.getContent().add(t);
 
             // NUMPAGES
-            addVARToP(factory, p, "NUMPAGES");
+            addVarToParagraph(factory, p, "NUMPAGES");
         }
 
         {
             P p = factory.createP();
             header.getContent().add(p);
-            R r = factory.createR();
-            p.getContent().add(r);
+
             Text t = factory.createText();
             t.setValue("页眉文字");
-            r.getContent().add(t);
+
+            Docx4jUtils.addText(factory, p, t);
         }
 
-        {// new page : page 1
+        {// // 新增段落
             P p = factory.createP();
-            R r = factory.createR();
+            body.getContent().add(p);
 
             Text t = factory.createText();
-            t.setValue("第一页");
-            r.getContent().add(t);
-            p.getContent().add(r);
+            t.setValue("第一个段落");
 
-            body.getContent().add(p);
+            Docx4jUtils.addText(factory, p, t);
         }
 
+        // 添加分页符
         addPageBreak(mainDocumentPart, factory);
 
-        {// new page : page 2
+        {// 新增段落
             P p = factory.createP();
-            R r = factory.createR();
+            body.getContent().add(p);
 
             Text t = factory.createText();
-            t.setValue("第二页");
-            r.getContent().add(t);
-            p.getContent().add(r);
 
-            body.getContent().add(p);
+            String value = RandomChineseUtils.randomChineseString(2000);
+
+            t.setValue(value);
+
+            Docx4jUtils.addText(factory, p, t);
         }
 
-        FileOutputStream fos=new FileOutputStream(new File("/my_test.docx"));
+
+        FileOutputStream fos = new FileOutputStream(new File("/my-test.docx"));
         wordprocessingMLPackage.save(fos);
     }
 
@@ -142,36 +143,7 @@ public class NewDocxFile {
         Docx4jUtils.addPageBreak(documentPart, factory);
     }
 
-    public static void addVARToP(ObjectFactory factory, P paragraph, String var) {
-        R r = factory.createR();
-        paragraph.getContent().add(r);
-        FldChar fldChar = factory.createFldChar();
-        r.getContent().add(fldChar);
-        fldChar.setFldCharType(STFldCharType.BEGIN); // begin
-
-        r = factory.createR();
-        paragraph.getContent().add(r);
-        Text t = factory.createText();
-        t.setValue(var); // PAGE \* Arabic \* MERGEFORMAT
-        JAXBElement<Text> jaxbElement = factory.createRInstrText(t);
-        r.getContent().add(jaxbElement);
-
-        r = factory.createR();
-        paragraph.getContent().add(r);
-        fldChar = factory.createFldChar();
-        r.getContent().add(fldChar);
-        fldChar.setFldCharType(STFldCharType.SEPARATE);
-
-        r = factory.createR();
-        paragraph.getContent().add(r);
-        t = factory.createText();
-        t.setValue("1"); // start value set to 1
-        r.getContent().add(t);
-
-        r = factory.createR();
-        paragraph.getContent().add(r);
-        fldChar = factory.createFldChar();
-        r.getContent().add(fldChar);
-        fldChar.setFldCharType(STFldCharType.END); // end
+    public static void addVarToParagraph(ObjectFactory factory, P paragraph, String var) {
+        Docx4jUtils.addVarToParagraph(factory, paragraph, var, "1");
     }
 }

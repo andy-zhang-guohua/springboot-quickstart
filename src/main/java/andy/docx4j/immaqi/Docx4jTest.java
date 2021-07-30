@@ -1,6 +1,7 @@
-package andy.docx4j;
+package andy.docx4j.immaqi;
 
 
+import andy.docx4j.Docx4jUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.docx4j.XmlUtils;
 import org.docx4j.jaxb.Context;
@@ -24,6 +25,7 @@ import java.math.BigInteger;
 
 /**
  * 参考文章 : https://blog.csdn.net/immaqi/article/details/109719359
+ *
  * @author maqi
  * @date 2020/11/16 11:49
  */
@@ -52,8 +54,11 @@ public class Docx4jTest {
             docx4jTest.documentModel.getSections().get(docx4jTest.documentModel.getSections().size() - 1).setSectPr(sectPr);
         }
 
-        String watermark = "水印水印";
+        String watermark = "正文水印-786188617";
         // 修改值为 first even default 测试
+        // first : 首页不同
+        // even : 奇偶不同
+        // default : 默认
         String hdrFtrRef = "first";
 
         // header footer 判断规则 规则为： first even default
@@ -80,12 +85,12 @@ public class Docx4jTest {
         docx4jTest.mainDocumentPart.addObject(makePageBr());
         // end cover page
 
-        docx4jTest.mainDocumentPart.addStyledParagraphOfText("Heading1", "页面内容");
+        docx4jTest.mainDocumentPart.addStyledParagraphOfText("Heading1", "标题1");
         docx4jTest.mainDocumentPart.addObject(makePageBr());
-        docx4jTest.mainDocumentPart.addStyledParagraphOfText("Normal", "页面内容11111");
+        docx4jTest.mainDocumentPart.addStyledParagraphOfText("Normal", "正文文本");
         docx4jTest.mainDocumentPart.addObject(makePageBr());
 
-        docx4jTest.wordMLPackage.save(new java.io.File("/headerfooter_watermark_test.docx"));
+        docx4jTest.wordMLPackage.save(new java.io.File("/测试-页眉-页脚-水印.docx"));
 
     }
 
@@ -105,7 +110,7 @@ public class Docx4jTest {
         if ("first".equals(type)) {
             createHeaderFooterThreePart1(paragraph);
         } else {
-            createHeaderFooterThreePart(paragraph);
+            createHeaderFooterThreePartN(paragraph);
         }
         ftr.getContent().add(paragraph);
         sectPr.getEGHdrFtrReferences().add(footerReference);
@@ -113,8 +118,7 @@ public class Docx4jTest {
     }
 
     private void createHeader(SectPr sectPr, String type, String watermark) throws Exception {
-
-        HeaderPart headerPart = new HeaderPart(new PartName("/word/heade-" + type + ".xml"));
+        HeaderPart headerPart = new HeaderPart(new PartName("/word/header-" + type + ".xml"));
         Relationship relationship = this.mainDocumentPart.addTargetPart(headerPart);
         Hdr hdr = null;
         if (StringUtils.isNoneBlank(watermark)) {
@@ -130,7 +134,7 @@ public class Docx4jTest {
         if ("first".equals(type)) {
             createHeaderFooterThreePart1(paragraph);
         } else {
-            createHeaderFooterThreePart(paragraph);
+            createHeaderFooterThreePartN(paragraph);
         }
         hdr.getContent().add(paragraph);
 
@@ -141,7 +145,6 @@ public class Docx4jTest {
         headerReference.setType(HdrFtrRef.fromValue(type));
         headerReference.setId(relationship.getId());
         sectPr.getEGHdrFtrReferences().add(headerReference);
-
     }
 
     /**
@@ -149,14 +152,14 @@ public class Docx4jTest {
      *
      * @return 页脚对象
      */
-    private void createHeaderFooterThreePart(P paragraph) {
+    private void createHeaderFooterThreePartN(P paragraph) {
         RPr fontRPr = getRPr("宋体", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
         R run = factory.createR();
         run.setRPr(fontRPr);
         paragraph.getContent().add(run);
 
         // tab
-        paragraph.getContent().add(getTextField("left少时诵诗书"));
+        paragraph.getContent().add(getTextField("left左侧文字"));
         R r1 = factory.createR();
         R.Ptab rPtab = factory.createRPtab();
         rPtab.setAlignment(STPTabAlignment.CENTER);
@@ -164,19 +167,16 @@ public class Docx4jTest {
         rPtab.setLeader(STPTabLeader.NONE);
         r1.getContent().add(rPtab);
         paragraph.getContent().add(r1);
+
         // 中间内容
-        SdtContentBlock sdtContentBlock = factory.createSdtContentBlock();
-        sdtContentBlock.getContent().add(getTextField("第"));
-        sdtContentBlock.getContent().add(getFieldBegin());
-        sdtContentBlock.getContent().add(getPageNumberField());
-        sdtContentBlock.getContent().add(getFieldEnd());
-        sdtContentBlock.getContent().add(getTextField("页"));
-        sdtContentBlock.getContent().add(getTextField(" 总共"));
-        sdtContentBlock.getContent().add(getFieldBegin());
-        sdtContentBlock.getContent().add(getTotalPageNumberField());
-        sdtContentBlock.getContent().add(getFieldEnd());
-        sdtContentBlock.getContent().add(getTextField("页"));
-        paragraph.getContent().add(sdtContentBlock);
+        paragraph.getContent().add(getTextField("第"));
+        Docx4jUtils.addVarToParagraph(factory, paragraph, "PAGE", "1");
+        paragraph.getContent().add(getTextField("页"));
+        paragraph.getContent().add(getTextField(" 总共"));
+        Docx4jUtils.addVarToParagraph(factory, paragraph, " NUMPAGES \\* MERGEFORMAT ", "1");
+        paragraph.getContent().add(getTextField("页"));
+
+
         // tab
         R r2 = factory.createR();
         R.Ptab rPtab1 = factory.createRPtab();
@@ -187,7 +187,7 @@ public class Docx4jTest {
 
         // 右边内容
         paragraph.getContent().add(r2);
-        paragraph.getContent().add(getTextField("right塑料袋"));
+        paragraph.getContent().add(getTextField("right右侧文字"));
     }
 
     /**
@@ -202,7 +202,7 @@ public class Docx4jTest {
         paragraph.getContent().add(run);
 
         // tab
-        paragraph.getContent().add(getTextField("9990090"));
+        paragraph.getContent().add(getTextField("左边-这是文档首页"));
         R r1 = factory.createR();
         R.Ptab rPtab = factory.createRPtab();
         rPtab.setAlignment(STPTabAlignment.CENTER);
@@ -210,19 +210,15 @@ public class Docx4jTest {
         rPtab.setLeader(STPTabLeader.NONE);
         r1.getContent().add(rPtab);
         paragraph.getContent().add(r1);
+
         // 中间内容
-        SdtContentBlock sdtContentBlock = factory.createSdtContentBlock();
-        sdtContentBlock.getContent().add(getTextField("第"));
-        sdtContentBlock.getContent().add(getFieldBegin());
-        sdtContentBlock.getContent().add(getPageNumberField());
-        sdtContentBlock.getContent().add(getFieldEnd());
-        sdtContentBlock.getContent().add(getTextField("页"));
-        sdtContentBlock.getContent().add(getTextField(" 总共"));
-        sdtContentBlock.getContent().add(getFieldBegin());
-        sdtContentBlock.getContent().add(getTotalPageNumberField());
-        sdtContentBlock.getContent().add(getFieldEnd());
-        sdtContentBlock.getContent().add(getTextField("页"));
-        paragraph.getContent().add(sdtContentBlock);
+        paragraph.getContent().add(getTextField("第"));
+        Docx4jUtils.addVarToParagraph(factory, paragraph, "PAGE", "1");
+        paragraph.getContent().add(getTextField("页"));
+        paragraph.getContent().add(getTextField(" 总共"));
+        Docx4jUtils.addVarToParagraph(factory, paragraph, " NUMPAGES \\* MERGEFORMAT ", "1");
+        paragraph.getContent().add(getTextField("页"));
+
         // tab
         R r2 = factory.createR();
         R.Ptab rPtab1 = factory.createRPtab();
@@ -233,7 +229,7 @@ public class Docx4jTest {
 
         // 右边内容
         paragraph.getContent().add(r2);
-        paragraph.getContent().add(getTextField("uuuuuuuu"));
+        paragraph.getContent().add(getTextField("这是文档首页-右边 "));
     }
 
     private R getTextField(String content) {
@@ -244,41 +240,8 @@ public class Docx4jTest {
         return run;
     }
 
-    private static R getPageNumberField() {
-        R run = factory.createR();
-        Text txt = new Text();
-        txt.setSpace("preserve");
-        txt.setValue("PAGE \\* MERGEFORMAT");
-        run.getContent().add(factory.createRInstrText(txt));
-        return run;
-    }
 
-    private static R getTotalPageNumberField() {
-        R run = factory.createR();
-        Text txt = new Text();
-        txt.setSpace("preserve");
-        txt.setValue(" NUMPAGES \\* MERGEFORMAT ");
-        run.getContent().add(factory.createRInstrText(txt));
-        return run;
-    }
-
-    private static R getFieldBegin() {
-        R run = factory.createR();
-        FldChar fldchar = factory.createFldChar();
-        fldchar.setFldCharType(STFldCharType.BEGIN);
-        run.getContent().add(fldchar);
-        return run;
-    }
-
-    private R getFieldEnd() {
-        FldChar fldcharend = factory.createFldChar();
-        fldcharend.setFldCharType(STFldCharType.END);
-        R run = factory.createR();
-        run.getContent().add(fldcharend);
-        return run;
-    }
-
-    public RPr getRPr(String fontFamily, String colorVal, String fontSize, STHint sTHint, boolean isBlod,
+    public RPr getRPr(String fontFamily, String colorVal, String fontSize, STHint sTHint, boolean isBold,
                       boolean isUnderLine, boolean isItalic, boolean isStrike) {
         RPr rPr = factory.createRPr();
         RFonts rf = new RFonts();
@@ -289,7 +252,7 @@ public class Docx4jTest {
 
         BooleanDefaultTrue bdt = factory.createBooleanDefaultTrue();
         rPr.setBCs(bdt);
-        if (isBlod) {
+        if (isBold) {
             rPr.setB(bdt);
         }
         if (isItalic) {
@@ -317,7 +280,6 @@ public class Docx4jTest {
 
 
     private void setWatermarkHdr(HeaderPart headerPart, String text) throws Exception {
-
         ImagePngPart imagePart = new ImagePngPart(new PartName("/media/background.png"));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ImageIO.write(createWaterMark(text), "png", out);
@@ -397,13 +359,13 @@ public class Docx4jTest {
         return image;
     }
 
-    private static P makePageBr() throws Exception {
-        P p = factory.createP();
-        R r = factory.createR();
-        Br br = factory.createBr();
-        br.setType(STBrType.PAGE);
-        r.getContent().add(br);
-        p.getContent().add(r);
+    /**
+     * 新建分页符
+     *
+     * @return
+     */
+    private static P makePageBr() {
+        P p = Docx4jUtils.newPageBreak(factory);
         return p;
     }
 }
