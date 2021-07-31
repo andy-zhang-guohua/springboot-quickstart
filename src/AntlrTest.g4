@@ -19,7 +19,7 @@ MULTIPLY:'*';
 DIVIDE:'/';
 PLUS:'+';
 MINUS:'-';
-ID:[a-z]+;-
+ID:[a-z]+;
 INT:[1-9]+;
 NEWLINE:'\r'?'\n';
 WS:[ \t\r\n] -> skip;

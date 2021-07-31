@@ -1,9 +1,0 @@
-server:
-    port: 8080 #当前服务节点端口
-    contextPath: /
-
-
-logging:
-  level:
-    org.springframework.security: DEBUG
-    org.springframework.web: DEBUG

@@ -31,10 +31,16 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        String script = "a=5\n" +
+        String script1 = "a=5\n" +
                 "b=3\n" +
                 "c=a*b+3\n" +
                 "c*c*c\n";
-        run(script);
+        run(script1);
+
+        String script2 = "a=5\n" +
+                "b=3\n" +
+                "c=a*(b+3)\n" +
+                "c\n";
+        run(script2);
     }
 }
