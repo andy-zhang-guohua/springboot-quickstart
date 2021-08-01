@@ -110,10 +110,10 @@ public class Docx4jDumpUtils {
             return;
         }
 
-        log.info("{}{} : {}", padding, title);
+        log.info("{}{}", padding, title);
         for (int i = 0; i < tblContent.size(); i++) {
             Object child = tblContent.get(i);
-            String childTitle = title + child.getClass().getName() + "[" + (level) + "]";
+            String childTitle = child.getClass().getSimpleName() + "[" + (i + 1) + "]";
             dumpTblContentElement(level + 1, childTitle, child);
         }
     }
@@ -130,7 +130,40 @@ public class Docx4jDumpUtils {
 
     private static void dumpTr(int level, String title, Tr tr) {
         String padding = prefixPadding(level);
-        log.info("{}{} : {}", padding, title, tr);
+        log.info("{}{}", padding, title);
+
+        String subTitle = "行内各列内容";
+        dumpTrContent(level + 1, subTitle, tr.getContent());
+    }
+
+    private static void dumpTrContent(int level, String title, List<Object> trContent) {
+        String padding = prefixPadding(level);
+        log.info("{}{}", padding, title);
+
+        for (int i = 0; i < trContent.size(); i++) {
+            Object child = trContent.get(i);
+            String childTitle = child.getClass().getSimpleName() + "[" + (i + 1) + "]";
+            dumpTc(level + 1, i + 1, childTitle, child);
+        }
+    }
+
+    private static void dumpTc(int level, int order, String title, Object object) {
+        String padding = prefixPadding(level);
+
+        if (!(object instanceof JAXBElement)) {
+            log.info("{}{} : {}", padding, title, object);
+            return;
+        }
+
+        Object value = ((JAXBElement) object).getValue();
+        if (!(value instanceof Tc)) {
+            log.info("{}{} : {}", padding, title, value);
+            return;
+        }
+
+        Tc tc = (Tc) value;
+        String newTitle = "Tc[" + order + "]";
+        log.info("{}{} : {}", padding, newTitle, tc.getContent());
     }
 
     private static String toString(TblGrid tblGrid) {
