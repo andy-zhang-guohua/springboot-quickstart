@@ -1,5 +1,7 @@
-package andy.calc;
 // Generated from D:/idea_wks/springboot-quickstart/src\CALC.g4 by ANTLR 4.9.1
+
+    package andy.calc;
+
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -18,21 +20,21 @@ public interface CALCVisitor<T> extends ParseTreeVisitor<T> {
 	T visitProgram(CALCParser.ProgramContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code print}
-	 * labeled alternative in {@link CALCParser#stat}.
+	 * labeled alternative in {@link CALCParser#stmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPrint(CALCParser.PrintContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code assign}
-	 * labeled alternative in {@link CALCParser#stat}.
+	 * labeled alternative in {@link CALCParser#stmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAssign(CALCParser.AssignContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code blank}
-	 * labeled alternative in {@link CALCParser#stat}.
+	 * labeled alternative in {@link CALCParser#stmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -44,6 +46,13 @@ public interface CALCVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParenthesis(CALCParser.ParenthesisContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link CALCParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariable(CALCParser.VariableContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MulDiv}
 	 * labeled alternative in {@link CALCParser#expr}.
@@ -59,12 +68,12 @@ public interface CALCVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAddSub(CALCParser.AddSubContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code IdInt}
+	 * Visit a parse tree produced by the {@code Literal}
 	 * labeled alternative in {@link CALCParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIdInt(CALCParser.IdIntContext ctx);
+	T visitLiteral(CALCParser.LiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CALCParser#value}.
 	 * @param ctx the parse tree

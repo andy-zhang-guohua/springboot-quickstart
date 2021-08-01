@@ -1,5 +1,7 @@
-package andy.calc;
 // Generated from D:/idea_wks/springboot-quickstart/src\CALC.g4 by ANTLR 4.9.1
+
+    package andy.calc;
+
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -19,37 +21,37 @@ public interface CALCListener extends ParseTreeListener {
 	void exitProgram(CALCParser.ProgramContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code print}
-	 * labeled alternative in {@link CALCParser#stat}.
+	 * labeled alternative in {@link CALCParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void enterPrint(CALCParser.PrintContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code print}
-	 * labeled alternative in {@link CALCParser#stat}.
+	 * labeled alternative in {@link CALCParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void exitPrint(CALCParser.PrintContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code assign}
-	 * labeled alternative in {@link CALCParser#stat}.
+	 * labeled alternative in {@link CALCParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void enterAssign(CALCParser.AssignContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code assign}
-	 * labeled alternative in {@link CALCParser#stat}.
+	 * labeled alternative in {@link CALCParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void exitAssign(CALCParser.AssignContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code blank}
-	 * labeled alternative in {@link CALCParser#stat}.
+	 * labeled alternative in {@link CALCParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void enterBlank(CALCParser.BlankContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code blank}
-	 * labeled alternative in {@link CALCParser#stat}.
+	 * labeled alternative in {@link CALCParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void exitBlank(CALCParser.BlankContext ctx);
@@ -65,6 +67,18 @@ public interface CALCListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParenthesis(CALCParser.ParenthesisContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link CALCParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariable(CALCParser.VariableContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link CALCParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariable(CALCParser.VariableContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code MulDiv}
 	 * labeled alternative in {@link CALCParser#expr}.
@@ -90,17 +104,17 @@ public interface CALCListener extends ParseTreeListener {
 	 */
 	void exitAddSub(CALCParser.AddSubContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code IdInt}
+	 * Enter a parse tree produced by the {@code Literal}
 	 * labeled alternative in {@link CALCParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterIdInt(CALCParser.IdIntContext ctx);
+	void enterLiteral(CALCParser.LiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code IdInt}
+	 * Exit a parse tree produced by the {@code Literal}
 	 * labeled alternative in {@link CALCParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitIdInt(CALCParser.IdIntContext ctx);
+	void exitLiteral(CALCParser.LiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CALCParser#value}.
 	 * @param ctx the parse tree

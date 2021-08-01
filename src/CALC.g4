@@ -1,30 +1,48 @@
 grammar CALC;
 
+@header{
+    package andy.calc;
+}
+
 ///////////// 语法规则 (首字母小写)
-program: stat+;
+program: stmt+;
 
-stat: 'print' expr NEWLINE          # print // 输出表达式的值
-|ID '=' expr NEWLINE                # assign // 赋值语句
-|NEWLINE                            # blank // 空行
+stmt : 'print' expr SEMICOLON          # print // 输出表达式的值
+| ID '=' expr SEMICOLON                # assign // 赋值语句
+| SEMICOLON                            # blank // 空行
 ;
 
-expr:expr (MULTIPLY|DIVIDE) expr    # MulDiv // 乘除表达式
-|expr (PLUS|MINUS) expr             # AddSub // 加减表达式
-|'('expr')'                         # Parenthesis // ()表达式,提升优先级
-|value                              # IdInt // 字面值或者变量方式表达式
+expr : expr (MUL|DIV) expr   # MulDiv // 乘除表达式
+| expr (ADD|SUB) expr        # AddSub // 加减表达式
+| '('expr')'                 # Parenthesis // ()表达式,提升优先级
+| ID                         # Variable // 引用其他变量
+| value                      # Literal // 字面值或者表达式
 ;
 
-value:INT     // 直接是一个整数字面值
-|ID         // 引用另外一个变量
+value : FLOAT     // 直接是一个整数字面值
+| INT
 ;
 
 ////////////// 词法规则 (首字母大写)
 
-MULTIPLY:'*';  // 乘法操作符
-DIVIDE:'/'; // 除法操作符
-PLUS:'+'; // 加法操作符
-MINUS:'-'; // 减法操作符
-ID:[a-z]+; // 变量名称
-INT:[1-9]+; // 整数字面值
-NEWLINE:'\r'?'\n'; // 换行符号
-WS:[ \t\r\n] -> skip;
+MUL :   '*'; // 乘法操作符
+DIV :   '/'; // 除法操作符
+ADD :   '+'; // 加法操作符
+SUB :   '-'; // 减法操作符
+
+ID  :   ALPHA(ALPHA|DIGIT)*; // 变量名称
+
+INT :   '-'?[1-9][0-9]*  // 非0整数字面值
+        | '0'  // 0
+        ;
+
+FLOAT   :   '-'? DIGIT+ '.' DIGIT*  // 浮点数定义 // 1.52、3.14159等
+            | '-'? '.' DIGIT+ // .21 (表示0.21)
+            ;
+
+SEMICOLON   :   ';' ; // 分号，用来作为一个语句的结束
+
+WS      :   [ \t\r\n]+ -> skip;
+
+fragment ALPHA  : [a-zA-Z_]; // 匹配单个英文字母或者_
+fragment DIGIT  : [0-9]; // 匹配单个数字
