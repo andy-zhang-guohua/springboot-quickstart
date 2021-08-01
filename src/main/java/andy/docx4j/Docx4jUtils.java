@@ -1,11 +1,136 @@
 package andy.docx4j;
 
+import lombok.extern.slf4j.Slf4j;
+import org.docx4j.model.structure.DocumentModel;
+import org.docx4j.model.structure.HeaderFooterPolicy;
+import org.docx4j.model.structure.PageDimensions;
+import org.docx4j.model.structure.SectionWrapper;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.WordprocessingML.FooterPart;
+import org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.wml.*;
 
 import javax.xml.bind.JAXBElement;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.List;
+import java.util.StringJoiner;
 
+@Slf4j
 public class Docx4jUtils {
+    /**
+     * 加载指定路径上的 docx 文件
+     *
+     * @param docxFilePath
+     * @return
+     */
+    public static WordprocessingMLPackage load(String docxFilePath) {
+        try {
+            InputStream templateInputStream = new FileInputStream(docxFilePath);
+            WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(templateInputStream);
+            return wordMLPackage;
+        } catch (Exception e) {
+            throw new RuntimeException("加载文件异常 : " + docxFilePath, e);
+        }
+    }
+
+    /**
+     * 浏览 docx 文件主文档的元素
+     * 1. 能够浏览所有元素
+     * -- 1.1 包括隐藏元素
+     * 2. 能够替换某些元素
+     * 3. 能够隐藏某些元素
+     */
+    public static void dumpElements(WordprocessingMLPackage wordMLPackage) {
+        try {
+            MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
+
+            List<Object> objects = documentPart.getContent();
+            log.info("主文档内容 : {} 个对象 => {}", objects.size(), objects);
+
+            DocumentModel documentModel = wordMLPackage.getDocumentModel();
+            List<SectionWrapper> sections = documentModel.getSections();
+            log.info("主文档包含 Section 数量 : {}", sections.size());
+
+
+            for (int i = 0; i < sections.size(); i++) {
+                log.info("Section [{}] ====================> ", i + 1);
+                SectionWrapper section = sections.get(i);
+
+                HeaderFooterPolicy headerFooterPolicy = section.getHeaderFooterPolicy();
+                HeaderPart firstHeader = headerFooterPolicy.getFirstHeader(); // 首页页眉
+                if (firstHeader != null) {
+                    log.info("首页 -页眉内容 : {}", firstHeader.getContent());
+                }
+
+                HeaderPart defaultHeader = headerFooterPolicy.getDefaultHeader(); // 默认页面页眉
+                if (defaultHeader != null) {
+                    log.info("默认页面-页眉内容 : {}", defaultHeader.getContent());
+                }
+
+                PageDimensions pageDimensions = section.getPageDimensions();
+                log.info("页面尺寸 : {}", toString(pageDimensions.getPgSz()));
+                log.info("页面边距 : {}", toString(pageDimensions.getPgMar()));
+
+                FooterPart firstFooter = headerFooterPolicy.getFirstFooter(); // 首页页脚
+                if (firstFooter != null) {
+                    log.info("首页 -页脚内容 : {}", firstFooter.getContent());
+                }
+
+                FooterPart defaultFooter = headerFooterPolicy.getDefaultFooter(); // 默认页面页脚
+                if (defaultFooter != null) {
+                    log.info("默认页面-页脚内容 : {}", defaultFooter.getContent());
+                }
+
+                log.info("页眉页脚策略 : {}", headerFooterPolicy);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public static String toString(SectPr.PgSz pageSize) {
+        StringJoiner sj = new StringJoiner(" , ");
+
+        sj.add("w = " + pageSize.getW());
+
+        sj.add("h = " + pageSize.getH());
+
+        if (pageSize.getCode() != null) {
+            sj.add("code = " + pageSize.getCode());
+        }
+
+        if (pageSize.getOrient() != null) {
+            sj.add("o = " + pageSize.getOrient().value());
+        }
+
+        return sj.toString();
+    }
+
+    public static String toString(SectPr.PgMar pageMargin) {
+        StringJoiner sj = new StringJoiner(" , ");
+
+        sj.add("t = " + pageMargin.getTop());
+        sj.add("r = " + pageMargin.getRight());
+        sj.add("b = " + pageMargin.getBottom());
+        sj.add("l = " + pageMargin.getLeft());
+
+        if (pageMargin.getHeader() != null) {
+            sj.add("h = " + pageMargin.getHeader());
+        }
+
+        if (pageMargin.getFooter() != null) {
+            sj.add("f = " + pageMargin.getFooter());
+        }
+
+        return sj.toString();
+    }
+
+
     /**
      * 增加分页符
      *
