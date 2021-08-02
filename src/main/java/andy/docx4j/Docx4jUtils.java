@@ -12,8 +12,7 @@ import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.wml.*;
 
 import javax.xml.bind.JAXBElement;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -29,9 +28,31 @@ public class Docx4jUtils {
         try {
             InputStream templateInputStream = new FileInputStream(docxFilePath);
             WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(templateInputStream);
+            templateInputStream.close();
             return wordMLPackage;
         } catch (Exception e) {
             throw new RuntimeException("加载文件异常 : " + docxFilePath, e);
+        }
+    }
+
+    /**
+     * 将 wordprocessingMLPackage 内容保存为 docx 文件 targetFilePath
+     *
+     * @param wordprocessingMLPackage
+     * @param targetFilePath          目标 docx 文件
+     */
+    public static void save(WordprocessingMLPackage wordprocessingMLPackage, String targetFilePath) {
+        try {
+            OutputStream outputStream = new FileOutputStream(new File(targetFilePath));
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            wordprocessingMLPackage.save(byteArrayOutputStream);
+            byteArrayOutputStream.writeTo(outputStream);
+
+            outputStream.close();
+            byteArrayOutputStream.close();
+        } catch (Exception e) {
+            throw new RuntimeException("保存文件到[" + targetFilePath + "]异常", e);
         }
     }
 
@@ -90,7 +111,6 @@ public class Docx4jUtils {
             e.printStackTrace();
         }
     }
-
 
 
     public static String toString(SectPr.PgSz pageSize) {

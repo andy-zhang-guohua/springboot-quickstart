@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 @Slf4j
-public class Docx4jDumpUtils {
+public class DocxDumpUtils {
     /**
      * 浏览 docx 文件主文档的元素
      * 1. 能够浏览所有元素

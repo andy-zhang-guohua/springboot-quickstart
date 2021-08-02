@@ -17,6 +17,6 @@ public class Docx4jCommandLineRunner implements ApplicationRunner {
     private void testReadFileDocx() {
         String docxFilePath = "D:\\idea_wks\\springboot-quickstart\\src\\main\\resources\\模板-多样性测试.docx";
         WordprocessingMLPackage wordMLPackage = Docx4jUtils.load(docxFilePath);
-        Docx4jDumpUtils.dumpElements(wordMLPackage);
+        DocxDumpUtils.dumpElements(wordMLPackage);
     }
 }

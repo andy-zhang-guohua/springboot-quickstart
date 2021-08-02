@@ -48,10 +48,10 @@ public class RandomChineseUtils {
 
     /***
      * 生成固定长度随机中文
-     * @param n 中文个数
+     * @param length 中文个数
      * @return 中文串
      */
-    public static String randomChineseString(int n) {
+    public static String randomChineseString(int length) {
         String zh_cn = "";
         String str = "";
 
@@ -59,7 +59,7 @@ public class RandomChineseUtils {
         int start = Integer.parseInt("4e00", 16);
         int end = Integer.parseInt("9fa5", 16);
 
-        for (int ic = 0; ic < n; ic++) {
+        for (int ic = 0; ic < length; ic++) {
             // 随机值
             int code = (new Random()).nextInt(end - start + 1) + start;
             // 转字符
