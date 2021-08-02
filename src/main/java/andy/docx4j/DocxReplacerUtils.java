@@ -60,13 +60,14 @@ public class DocxReplacerUtils {
     private static void _replaceData(WordprocessingMLPackage wordMLPackage,
                                      Map<String, String> data,
                                      Map<Integer, List<Map<String, String>>> tables) {
-        // 在主体内替换一般占位符
-        _replaceCommonPlaceholdersInMainDocument(wordMLPackage, data);
 
-        // 在主体内查找表格，尝试替换表格中的占位符
+        // 1. 在主体内查找表格，尝试替换表格中的占位符
         _replacePlaceholdersInTablesOfMainDocument(wordMLPackage, tables);
 
-        // 替换页眉页脚中的一般占位符
+        // 2. 在主体内替换一般占位符 (注意一定要放在 主体内表格占位符替换之后，否则会影响表格内的占位符)
+        _replaceCommonPlaceholdersInMainDocument(wordMLPackage, data);
+
+        // 3. 替换页眉页脚中的一般占位符
         _replaceCommonPlaceholdersInHeaderFooters(wordMLPackage, data);
     }
 
@@ -145,7 +146,8 @@ public class DocxReplacerUtils {
 
         for (Map<String, String> trData : tableData) { // trData <placeholderName, placeholderValue>
             Tr workingTr = XmlUtils.deepCopy(templateTr);
-            _replaceTrData(workingTr, trData);
+            //_replaceTrData(workingTr, trData);
+            _resolvePlaceholdersInScope(workingTr, trData);
             children.add(workingTr); // 增加数据行
         }
 

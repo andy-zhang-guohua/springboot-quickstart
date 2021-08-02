@@ -32,7 +32,7 @@ public class DocxReplacerTest {
     private static Map<Integer, List<Map<String, String>>> mockTablesData1() {
         Map<Integer, List<Map<String, String>>> tables = new TreeMap<>();
 
-        List<Map<String, String>> table0Data = randomAuthSubCompanyRows(1000);
+        List<Map<String, String>> table0Data = randomAuthSubCompanyRows(40);
         tables.put(0, table0Data);
 
         return tables;
