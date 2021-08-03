@@ -1,6 +1,7 @@
-package andy.docx4j;
+package andy.docx4j.test;
 
 import andy.docx4j.utils.Docx4jUtils;
+import andy.docx4j.utils.DocxDumpUtils;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 
 /**
@@ -10,10 +11,10 @@ import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
  * 2. 能够替换某些元素
  * 3. 能够隐藏某些元素
  */
-public class TraverseDocxElements {
+public class DocxDumpTest {
     public static void main(String[] args) throws Exception {
         String docxFilePath = "D:\\idea_wks\\springboot-quickstart\\src\\main\\resources\\模板-多样性测试.docx";
         WordprocessingMLPackage wordprocessingMLPackage = Docx4jUtils.load(docxFilePath);
-        Docx4jUtils.dumpElements(wordprocessingMLPackage);
+        DocxDumpUtils.dumpElements(wordprocessingMLPackage);
     }
 }

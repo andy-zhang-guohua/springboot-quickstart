@@ -2,6 +2,7 @@ package andy.docx4j.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.docx4j.XmlUtils;
 import org.docx4j.model.structure.DocumentModel;
 import org.docx4j.model.structure.HeaderFooterPolicy;
 import org.docx4j.model.structure.PageDimensions;
@@ -69,7 +70,8 @@ public class DocxDumpUtils {
 
     private static void dumpJAXBElement(int level, String title, JAXBElement element) {
         String padding = prefixPadding(level);
-        Object value = element.getValue();
+
+        Object value = XmlUtils.unwrap(element);
         if (value == null) {
             log.info("{}JAXBElement{} : {}", padding, title, element);
             return;
