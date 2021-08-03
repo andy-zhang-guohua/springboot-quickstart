@@ -80,7 +80,33 @@ public class CALCVisitorImpl extends CALCBaseVisitor<Integer> {
         }
     }
 
+    /**
+     * 访问规则分支 : variable
+     *
+     * @param ctx
+     * @return
+     */
+    @Override
+    public Integer visitVariable(CALCParser.VariableContext ctx) {
+        String id = ctx.getText();
 
+        return memory.containsKey(id) ?
+                memory.get(id) : // 这是一个已经定义的变量
+                0; // 引用了一个未被定义的变量，则返回 0
+    }
+
+    /**
+     * 访问规则分支 : value
+     *
+     * @param ctx
+     * @return
+     */
+    @Override
+    public Integer visitValue(CALCParser.ValueContext ctx) {
+        String text = ctx.getText();
+        // 是整数数字字面值的情况
+        return Integer.parseInt(text);
+    }
 
     /**
      * 访问分支 : '('expr')'
