@@ -1,5 +1,6 @@
 package andy.docx4j;
 
+import andy.docx4j.utils.Docx4jUtils;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 
 /**

@@ -1,7 +1,7 @@
 package andy.docx4j.immaqi;
 
 
-import andy.docx4j.Docx4jUtils;
+import andy.docx4j.utils.Docx4jUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.docx4j.XmlUtils;
 import org.docx4j.jaxb.Context;

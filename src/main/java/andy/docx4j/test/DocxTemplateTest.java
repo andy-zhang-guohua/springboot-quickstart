@@ -1,6 +1,6 @@
 package andy.docx4j.test;
 
-import andy.docx4j.DocxReplacerUtils;
+import andy.docx4j.utils.DocxTemplateUtils;
 import andy.docx4j.utils.RandomChineseUtils;
 import org.apache.commons.lang3.RandomUtils;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class DocxReplacerTest {
+public class DocxTemplateTest {
     public static void main(String[] args) {
         String templateDocxFilePath = "D:\\idea_wks\\springboot-quickstart\\src\\main\\resources\\模板-多样性测试.docx";
         String targetDocxFilePath = "D:\\测试授权书.docx";
@@ -17,7 +17,7 @@ public class DocxReplacerTest {
         Map<String, String> data = mockData1();
         Map<Integer, List<Map<String, String>>> tables = mockTablesData1();
 
-        DocxReplacerUtils.replaceData(templateDocxFilePath, targetDocxFilePath, data, tables);
+        DocxTemplateUtils.replaceData(templateDocxFilePath, targetDocxFilePath, data, tables);
     }
 
 

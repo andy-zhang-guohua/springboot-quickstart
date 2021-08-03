@@ -1,4 +1,4 @@
-package andy.docx4j;
+package andy.docx4j.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.docx4j.TraversalUtil;
@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DocxReplacerUtils {
+public class DocxTemplateUtils {
     /**
      * 基于模板 sourceFile , 构造新的 docx 文件并输出到 targetFile, 替换其中的 占位符 和表格
      * 替换的位置包括 :

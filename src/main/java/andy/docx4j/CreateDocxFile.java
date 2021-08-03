@@ -1,5 +1,6 @@
 package andy.docx4j;
 
+import andy.docx4j.utils.Docx4jUtils;
 import andy.docx4j.utils.RandomChineseUtils;
 import org.docx4j.jaxb.Context;
 import org.docx4j.model.structure.DocumentModel;

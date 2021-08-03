@@ -1,5 +1,7 @@
 package andy.docx4j;
 
+import andy.docx4j.utils.Docx4jUtils;
+import andy.docx4j.utils.DocxDumpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.springframework.boot.ApplicationArguments;
