@@ -1,5 +1,9 @@
 grammar CALC;
 
+@header{
+    package andy.calc;
+}
+
 ///////////// 语法规则 (首字母小写)
 program: stmt+;
 
@@ -11,7 +15,7 @@ stmt: 'print' expr NEWLINE          # print // 输出表达式的值
 expr:expr (MUL|DIV) expr    # MulDiv // 乘除表达式
 |expr (ADD|SUB) expr        # AddSub // 加减表达式
 |'('expr')'                 # Parenthesis // ()表达式,提升优先级
-|ID                         # VariableName // 表达式指向另外一个变量
+|ID                         # Variable    // 表达式指向另外一个变量
 |value                      # IntLiteral // 字面值或者变量方式表达式
 ;
 

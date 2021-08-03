@@ -1,5 +1,7 @@
-package andy.calc;
 // Generated from D:/idea_wks/springboot-quickstart/src\CALC.g4 by ANTLR 4.9.1
+
+    package andy.calc;
+
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -17,8 +19,8 @@ public class CALCLexer extends Lexer {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, MULTIPLY=5, DIVIDE=6, PLUS=7, MINUS=8, 
-		ID=9, INT=10, NEWLINE=11, WS=12;
+		T__0=1, T__1=2, T__2=3, T__3=4, MUL=5, DIV=6, ADD=7, SUB=8, ID=9, INT=10, 
+		NEWLINE=11, WS=12;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -29,8 +31,8 @@ public class CALCLexer extends Lexer {
 
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"T__0", "T__1", "T__2", "T__3", "MULTIPLY", "DIVIDE", "PLUS", "MINUS", 
-			"ID", "INT", "NEWLINE", "WS"
+			"T__0", "T__1", "T__2", "T__3", "MUL", "DIV", "ADD", "SUB", "ID", "INT", 
+			"NEWLINE", "WS"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -43,8 +45,8 @@ public class CALCLexer extends Lexer {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, "MULTIPLY", "DIVIDE", "PLUS", "MINUS", 
-			"ID", "INT", "NEWLINE", "WS"
+			null, null, null, null, null, "MUL", "DIV", "ADD", "SUB", "ID", "INT", 
+			"NEWLINE", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();

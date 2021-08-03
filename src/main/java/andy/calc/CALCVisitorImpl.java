@@ -56,7 +56,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<Integer> {
     public Integer visitMulDiv(CALCParser.MulDivContext ctx) {
         Integer left = visit(ctx.expr(0)); // 乘除表达值 左操作数
         Integer right = visit(ctx.expr(1)); // 乘除表达式 右操作数
-        if (ctx.MULTIPLY() != null) {
+        if (ctx.MUL() != null) {
             return left * right; // 乘法的情况
         } else {
             return left / right; // 如果不是乘法，则认为是除法
@@ -73,33 +73,14 @@ public class CALCVisitorImpl extends CALCBaseVisitor<Integer> {
     public Integer visitAddSub(CALCParser.AddSubContext ctx) {
         Integer left = visit(ctx.expr(0));  // 加减表达值 左操作数
         Integer right = visit(ctx.expr(1)); // 加减表达值 右操作数
-        if (ctx.PLUS() != null) {
+        if (ctx.ADD() != null) {
             return left + right; // 加法的情况
         } else {
             return left - right; // 如果不是加法，则认为是减法
         }
     }
 
-    /**
-     * 访问规则分支 : value
-     *
-     * @param ctx
-     * @return
-     */
-    @Override
-    public Integer visitIdInt(CALCParser.IdIntContext ctx) {
-        String text = ctx.getText();
-        if (text.matches("[a-z]+")) {
-            // 是变量名称的情况
-            String id = text;
-            return memory.containsKey(id) ?
-                    memory.get(id) : // 这是一个已经定义的变量
-                    0; // 引用了一个未被定义的变量，则返回 0
-        }
 
-        // 是整数数字字面值的情况
-        return Integer.valueOf(text);
-    }
 
     /**
      * 访问分支 : '('expr')'
