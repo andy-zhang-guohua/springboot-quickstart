@@ -5,6 +5,7 @@ import org.docx4j.TraversalUtil;
 import org.docx4j.XmlUtils;
 import org.docx4j.finders.ClassFinder;
 import org.docx4j.model.datastorage.migration.VariablePrepare;
+import org.docx4j.model.structure.DocumentModel;
 import org.docx4j.model.structure.HeaderFooterPolicy;
 import org.docx4j.model.structure.SectionWrapper;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
@@ -72,8 +73,10 @@ public class DocxReplacerUtils {
     }
 
     private static void _replaceCommonPlaceholdersInHeaderFooters(WordprocessingMLPackage wordMLPackage, Map<String, String> data) {
-        List<SectionWrapper> sections = wordMLPackage.getDocumentModel().getSections();
+        DocumentModel documentModel = wordMLPackage.getDocumentModel();
+        List<SectionWrapper> sections = documentModel.getSections();
         if (sections == null || sections.isEmpty()) return;
+
 
         for (int i = 0; i < sections.size(); i++) {
             HeaderFooterPolicy headerFooterPolicy = sections.get(i).getHeaderFooterPolicy();
@@ -270,4 +273,6 @@ public class DocxReplacerUtils {
 
         return finder.results;
     }
+
+
 }

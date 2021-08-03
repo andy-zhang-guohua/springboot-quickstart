@@ -1,6 +1,7 @@
 package andy.docx4j;
 
 import lombok.extern.slf4j.Slf4j;
+import org.docx4j.XmlUtils;
 import org.docx4j.model.structure.DocumentModel;
 import org.docx4j.model.structure.HeaderFooterPolicy;
 import org.docx4j.model.structure.PageDimensions;
@@ -13,6 +14,7 @@ import org.docx4j.wml.*;
 
 import javax.xml.bind.JAXBElement;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -243,5 +245,47 @@ public class Docx4jUtils {
         R r = factory.createR();
         paragraph.getContent().add(r);
         r.getContent().add(fldChar);
+    }
+
+    /**
+     * 使用 xpath 定位特定元素
+     * @param documentPart
+     * @param xpath
+     * @return
+     */
+    public static List<Object> locateElementsByXPath(MainDocumentPart documentPart, String xpath) {
+        try {
+            List<Object> list = documentPart.getJAXBNodesViaXPath(xpath, false);
+            if (list == null || list.isEmpty()) return list;
+
+            List<Object> elements = new ArrayList<>();
+            list.forEach(o -> {
+                Object e = XmlUtils.unwrap(o);
+                elements.add(e);
+            });
+
+            return elements;
+        } catch (Exception e) {
+            throw new RuntimeException("xpath定位对象失败:" + xpath, e);
+        }
+    }
+
+    /**
+     * 清空 xpath 定位到到的 Text 组件的内容
+     *
+     * @param wordMLPackage
+     * @param xpath
+     */
+    public static void clearTextValue(WordprocessingMLPackage wordMLPackage, String xpath) {
+        MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
+
+        List<Object> targets = Docx4jUtils.locateElementsByXPath(documentPart, xpath);
+
+        for (Object target : targets) {
+            if (!(target instanceof Text)) continue;
+
+            Text t = (Text) target;
+            t.setValue("");
+        }
     }
 }
