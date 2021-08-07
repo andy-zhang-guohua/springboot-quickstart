@@ -1,15 +1,15 @@
 package andy.calc;
 
-import andy.calc.model.Data;
+import andy.calc.model.TypedData;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * CALC 脚本的 Visitor 模式实现类
  */
-public class CALCVisitorImpl extends CALCBaseVisitor<Data> {
+public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
     // 计算器内容， 用于记录变量的值
-    ConcurrentHashMap<String, Data> memory = new ConcurrentHashMap<String, Data>();
+    ConcurrentHashMap<String, TypedData> memory = new ConcurrentHashMap<String, TypedData>();
 
     /**
      * 访问规则分支 'print' expr NEWLINE
@@ -18,8 +18,8 @@ public class CALCVisitorImpl extends CALCBaseVisitor<Data> {
      * @return
      */
     @Override
-    public Data visitPrint(CALCParser.PrintContext ctx) {
-        Data value = visit(ctx.expr());
+    public TypedData visitPrint(CALCParser.PrintContext ctx) {
+        TypedData value = visit(ctx.expr());
 
         // 该节点有三个孩子
         // 1. print 字符串
@@ -30,7 +30,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<Data> {
         System.out.println(expressionLiteral + " = " + value);
 
         // 注意 : 该 print 语句返回了值 0, 语言开发者可以根据需要决定在这里返回什么值
-        return Data.ZERO;
+        return TypedData.ZERO;
     }
 
     /**
@@ -40,9 +40,9 @@ public class CALCVisitorImpl extends CALCBaseVisitor<Data> {
      * @return
      */
     @Override
-    public Data visitAssign(CALCParser.AssignContext ctx) {
+    public TypedData visitAssign(CALCParser.AssignContext ctx) {
         String id = ctx.ID().getText(); // 获取变量名称
-        Data value = visit(ctx.expr()); // 访问表达式，得到表达式的值
+        TypedData value = visit(ctx.expr()); // 访问表达式，得到表达式的值
         memory.put(id, value); // 将变量的值记录到计算器内存中
 
         return value;
@@ -55,9 +55,9 @@ public class CALCVisitorImpl extends CALCBaseVisitor<Data> {
      * @return
      */
     @Override
-    public Data visitMulDiv(CALCParser.MulDivContext ctx) {
-        Data left = visit(ctx.expr(0)); // 乘除表达值 左操作数
-        Data right = visit(ctx.expr(1)); // 乘除表达式 右操作数
+    public TypedData visitMulDiv(CALCParser.MulDivContext ctx) {
+        TypedData left = visit(ctx.expr(0)); // 乘除表达值 左操作数
+        TypedData right = visit(ctx.expr(1)); // 乘除表达式 右操作数
         if (ctx.MUL() != null) {
             return left.multiply(right); // 乘法的情况
         } else {
@@ -72,9 +72,9 @@ public class CALCVisitorImpl extends CALCBaseVisitor<Data> {
      * @return
      */
     @Override
-    public Data visitAddSub(CALCParser.AddSubContext ctx) {
-        Data left = visit(ctx.expr(0));  // 加减表达值 左操作数
-        Data right = visit(ctx.expr(1)); // 加减表达值 右操作数
+    public TypedData visitAddSub(CALCParser.AddSubContext ctx) {
+        TypedData left = visit(ctx.expr(0));  // 加减表达值 左操作数
+        TypedData right = visit(ctx.expr(1)); // 加减表达值 右操作数
         if (ctx.ADD() != null) {
             return left.add(right); // 加法的情况
         } else {
@@ -89,12 +89,12 @@ public class CALCVisitorImpl extends CALCBaseVisitor<Data> {
      * @return
      */
     @Override
-    public Data visitVariable(CALCParser.VariableContext ctx) {
+    public TypedData visitVariable(CALCParser.VariableContext ctx) {
         String id = ctx.getText();
 
         return memory.containsKey(id) ?
                 memory.get(id) : // 这是一个已经定义的变量
-                Data.ZERO; // 引用了一个未被定义的变量，则返回 0
+                TypedData.ZERO; // 引用了一个未被定义的变量，则返回 0
     }
 
     /**
@@ -104,10 +104,10 @@ public class CALCVisitorImpl extends CALCBaseVisitor<Data> {
      * @return
      */
     @Override
-    public Data visitValue(CALCParser.ValueContext ctx) {
+    public TypedData visitValue(CALCParser.ValueContext ctx) {
         String text = ctx.getText();
         // 是整数数字字面值的情况
-        return Data.parseNumberLiteral(text);
+        return TypedData.parseNumberLiteral(text);
     }
 
     /**
@@ -117,7 +117,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<Data> {
      * @return
      */
     @Override
-    public Data visitParenthesis(CALCParser.ParenthesisContext ctx) {
+    public TypedData visitParenthesis(CALCParser.ParenthesisContext ctx) {
         return visit(ctx.expr());
     }
 }

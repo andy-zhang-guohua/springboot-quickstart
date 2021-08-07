@@ -1,18 +1,34 @@
 package andy.calc.model;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.math.BigDecimal;
 
-@lombok.Data
-public class Data {
-    DataType type;
-    Object value;
+/**
+ * 带类型的数据
+ */
+public class TypedData {
+    private DataType type;
+    private Object value;
 
-    public static Data ZERO = zero();
+    public DataType getType() {
+        return type;
+    }
 
-    private static Data zero() {
-        Data zero = new Data();
+    public void setType(DataType type) {
+        this.type = type;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
+    public static TypedData ZERO = zero();
+
+    private static TypedData zero() {
+        TypedData zero = new TypedData();
 
         zero.setType(DataType.INTEGER);
         zero.setValue(0L);
@@ -20,19 +36,19 @@ public class Data {
         return zero;
     }
 
-    public static Data toFloat(BigDecimal value) {
+    public static TypedData toFloat(BigDecimal value) {
         if (value == null) return ZERO;
 
-        Data data = new Data();
+        TypedData data = new TypedData();
         data.setType(DataType.FLOAT);
         data.setValue(value);
         return data;
     }
 
-    public static Data toInteger(Long value) {
+    public static TypedData toInteger(Long value) {
         if (value == null) return ZERO;
 
-        Data data = new Data();
+        TypedData data = new TypedData();
         data.setType(DataType.INTEGER);
         data.setValue(value);
         return data;
@@ -40,11 +56,12 @@ public class Data {
 
     /**
      * 乘法支持
+     *
      * @param another
      * @return
      */
-    public Data multiply(Data another) {
-        if (another == null) return Data.zero();
+    public TypedData multiply(TypedData another) {
+        if (another == null) return TypedData.zero();
 
         if (getType() != another.getType() || (getType() == DataType.FLOAT)) {
             BigDecimal a = new BigDecimal(getValue().toString());
@@ -52,23 +69,24 @@ public class Data {
 
             BigDecimal resultValue = a.multiply(b);
 
-            Data result = Data.toFloat(resultValue);
+            TypedData result = TypedData.toFloat(resultValue);
             return result;
         } else {
             Long a = (Long) getValue();
             Long b = (Long) another.getValue();
-            Data result = Data.toInteger(a * b);
+            TypedData result = TypedData.toInteger(a * b);
             return result;
         }
     }
 
     /**
      * 除法支持
+     *
      * @param another
      * @return
      */
-    public Data divide(Data another) {
-        if (another == null) return Data.zero();
+    public TypedData divide(TypedData another) {
+        if (another == null) return TypedData.zero();
 
         if (getType() != another.getType() || (getType() == DataType.FLOAT)) {
             BigDecimal a = new BigDecimal(getValue().toString());
@@ -76,18 +94,18 @@ public class Data {
 
             BigDecimal resultValue = a.divide(b);
 
-            Data result = Data.toFloat(resultValue);
+            TypedData result = TypedData.toFloat(resultValue);
             return result;
         } else {
             Long a = (Long) getValue();
             Long b = (Long) another.getValue();
-            Data result = Data.toInteger(a / b);
+            TypedData result = TypedData.toInteger(a / b);
             return result;
         }
     }
 
-    public Data add(Data another) {
-        if (another == null) return Data.zero();
+    public TypedData add(TypedData another) {
+        if (another == null) return TypedData.zero();
 
         if (getType() != another.getType() || (getType() == DataType.FLOAT)) {
             BigDecimal a = new BigDecimal(getValue().toString());
@@ -95,18 +113,18 @@ public class Data {
 
             BigDecimal resultValue = a.add(b);
 
-            Data result = Data.toFloat(resultValue);
+            TypedData result = TypedData.toFloat(resultValue);
             return result;
         } else {
             Long a = (Long) getValue();
             Long b = (Long) another.getValue();
-            Data result = Data.toInteger(a + b);
+            TypedData result = TypedData.toInteger(a + b);
             return result;
         }
     }
 
-    public Data subtract(Data another) {
-        if (another == null) return Data.zero();
+    public TypedData subtract(TypedData another) {
+        if (another == null) return TypedData.zero();
 
         if (getType() != another.getType() || (getType() == DataType.FLOAT)) {
             BigDecimal a = new BigDecimal(getValue().toString());
@@ -114,12 +132,12 @@ public class Data {
 
             BigDecimal resultValue = a.subtract(b);
 
-            Data result = Data.toFloat(resultValue);
+            TypedData result = TypedData.toFloat(resultValue);
             return result;
         } else {
             Long a = (Long) getValue();
             Long b = (Long) another.getValue();
-            Data result = Data.toInteger(a - b);
+            TypedData result = TypedData.toInteger(a - b);
             return result;
         }
     }
@@ -130,24 +148,24 @@ public class Data {
      * @param numberLiteral
      * @return
      */
-    public static Data parseNumberLiteral(String numberLiteral) {
-        if (StringUtils.isBlank(numberLiteral)) return Data.ZERO;
+    public static TypedData parseNumberLiteral(String numberLiteral) {
+        if (numberLiteral == null || numberLiteral.trim().isEmpty()) return TypedData.ZERO;
 
         if (numberLiteral.contains(".")) {
             BigDecimal value = new BigDecimal(numberLiteral);
-            Data result = new Data();
+            TypedData result = new TypedData();
             result.setType(DataType.FLOAT);
             result.setValue(value);
             return result;
         }
 
-        Data result = new Data();
+        TypedData result = new TypedData();
         result.setType(DataType.INTEGER);
         result.setValue(Long.parseLong(numberLiteral));
         return result;
     }
 
     public String toString() {
-        return "[" + type + "]" + value;
+        return "[" + getType() + "]" + getValue();
     }
 }
