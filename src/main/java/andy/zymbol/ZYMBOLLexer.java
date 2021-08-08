@@ -1,18 +1,15 @@
-// Generated from D:/idea_wks/springboot-quickstart/src\CALC.g4 by ANTLR 4.9.1
+// Generated from D:/idea_wks/springboot-quickstart/src\ZYMBOL.g4 by ANTLR 4.9.1
 
-    package andy.calc;
+    package andy.zymbol;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class CALCLexer extends Lexer {
+public class ZYMBOLLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -85,13 +82,13 @@ public class CALCLexer extends Lexer {
 	}
 
 
-	public CALCLexer(CharStream input) {
+	public ZYMBOLLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "CALC.g4"; }
+	public String getGrammarFileName() { return "ZYMBOL.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

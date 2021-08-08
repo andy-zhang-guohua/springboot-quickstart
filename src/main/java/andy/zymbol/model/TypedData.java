@@ -1,4 +1,4 @@
-package andy.calc.model;
+package andy.zymbol.model;
 
 import java.math.BigDecimal;
 

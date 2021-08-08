@@ -1,4 +1,4 @@
-grammar CALC;
+grammar ZYMBOL;
 
 @header{
     package andy.calc;

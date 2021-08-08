@@ -1,6 +1,6 @@
-// Generated from D:/idea_wks/springboot-quickstart/src\CALC.g4 by ANTLR 4.9.1
+// Generated from D:/idea_wks/springboot-quickstart/src\ZYMBOL.g4 by ANTLR 4.9.1
 
-    package andy.calc;
+    package andy.zymbol;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class CALCParser extends Parser {
+public class ZYMBOLParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -78,7 +78,7 @@ public class CALCParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "CALC.g4"; }
+	public String getGrammarFileName() { return "ZYMBOL.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -89,7 +89,7 @@ public class CALCParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public CALCParser(TokenStream input) {
+	public ZYMBOLParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
@@ -107,15 +107,15 @@ public class CALCParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_program; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).enterProgram(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterProgram(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).exitProgram(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitProgram(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CALCVisitor ) return ((CALCVisitor<? extends T>)visitor).visitProgram(this);
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitProgram(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -169,57 +169,57 @@ public class CALCParser extends Parser {
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
-		public TerminalNode SEMICOLON() { return getToken(CALCParser.SEMICOLON, 0); }
+		public TerminalNode SEMICOLON() { return getToken(ZYMBOLParser.SEMICOLON, 0); }
 		public PrintContext(StmtContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).enterPrint(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterPrint(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).exitPrint(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitPrint(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CALCVisitor ) return ((CALCVisitor<? extends T>)visitor).visitPrint(this);
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitPrint(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	public static class BlankContext extends StmtContext {
-		public TerminalNode SEMICOLON() { return getToken(CALCParser.SEMICOLON, 0); }
+		public TerminalNode SEMICOLON() { return getToken(ZYMBOLParser.SEMICOLON, 0); }
 		public BlankContext(StmtContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).enterBlank(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterBlank(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).exitBlank(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitBlank(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CALCVisitor ) return ((CALCVisitor<? extends T>)visitor).visitBlank(this);
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitBlank(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	public static class AssignContext extends StmtContext {
-		public TerminalNode ID() { return getToken(CALCParser.ID, 0); }
+		public TerminalNode ID() { return getToken(ZYMBOLParser.ID, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
-		public TerminalNode SEMICOLON() { return getToken(CALCParser.SEMICOLON, 0); }
+		public TerminalNode SEMICOLON() { return getToken(ZYMBOLParser.SEMICOLON, 0); }
 		public AssignContext(StmtContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).enterAssign(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterAssign(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).exitAssign(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitAssign(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CALCVisitor ) return ((CALCVisitor<? extends T>)visitor).visitAssign(this);
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitAssign(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -298,32 +298,32 @@ public class CALCParser extends Parser {
 		public ParenthesisContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).enterParenthesis(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterParenthesis(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).exitParenthesis(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitParenthesis(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CALCVisitor ) return ((CALCVisitor<? extends T>)visitor).visitParenthesis(this);
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitParenthesis(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 	public static class VariableContext extends ExprContext {
-		public TerminalNode ID() { return getToken(CALCParser.ID, 0); }
+		public TerminalNode ID() { return getToken(ZYMBOLParser.ID, 0); }
 		public VariableContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).enterVariable(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterVariable(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).exitVariable(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitVariable(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CALCVisitor ) return ((CALCVisitor<? extends T>)visitor).visitVariable(this);
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitVariable(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -334,20 +334,20 @@ public class CALCParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode MUL() { return getToken(CALCParser.MUL, 0); }
-		public TerminalNode DIV() { return getToken(CALCParser.DIV, 0); }
+		public TerminalNode MUL() { return getToken(ZYMBOLParser.MUL, 0); }
+		public TerminalNode DIV() { return getToken(ZYMBOLParser.DIV, 0); }
 		public MulDivContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).enterMulDiv(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterMulDiv(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).exitMulDiv(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitMulDiv(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CALCVisitor ) return ((CALCVisitor<? extends T>)visitor).visitMulDiv(this);
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitMulDiv(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -358,20 +358,20 @@ public class CALCParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode ADD() { return getToken(CALCParser.ADD, 0); }
-		public TerminalNode SUB() { return getToken(CALCParser.SUB, 0); }
+		public TerminalNode ADD() { return getToken(ZYMBOLParser.ADD, 0); }
+		public TerminalNode SUB() { return getToken(ZYMBOLParser.SUB, 0); }
 		public AddSubContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).enterAddSub(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterAddSub(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).exitAddSub(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitAddSub(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CALCVisitor ) return ((CALCVisitor<? extends T>)visitor).visitAddSub(this);
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitAddSub(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -382,15 +382,15 @@ public class CALCParser extends Parser {
 		public LiteralContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).enterLiteral(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterLiteral(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).exitLiteral(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitLiteral(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CALCVisitor ) return ((CALCVisitor<? extends T>)visitor).visitLiteral(this);
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -454,7 +454,7 @@ public class CALCParser extends Parser {
 			setState(42);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
-			while ( _alt!=2 && _alt!= ATN.INVALID_ALT_NUMBER ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
@@ -523,23 +523,23 @@ public class CALCParser extends Parser {
 	}
 
 	public static class ValueContext extends ParserRuleContext {
-		public TerminalNode FLOAT() { return getToken(CALCParser.FLOAT, 0); }
-		public TerminalNode INT() { return getToken(CALCParser.INT, 0); }
+		public TerminalNode FLOAT() { return getToken(ZYMBOLParser.FLOAT, 0); }
+		public TerminalNode INT() { return getToken(ZYMBOLParser.INT, 0); }
 		public ValueContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_value; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).enterValue(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterValue(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CALCListener ) ((CALCListener)listener).exitValue(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitValue(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CALCVisitor ) return ((CALCVisitor<? extends T>)visitor).visitValue(this);
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitValue(this);
 			else return visitor.visitChildren(this);
 		}
 	}

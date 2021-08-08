@@ -1,13 +1,13 @@
-package andy.calc;
+package andy.zymbol;
 
-import andy.calc.model.TypedData;
+import andy.zymbol.model.TypedData;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * CALC 脚本的 Visitor 模式实现类
  */
-public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
+public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
     // 计算器内容， 用于记录变量的值
     ConcurrentHashMap<String, TypedData> memory = new ConcurrentHashMap<String, TypedData>();
 
@@ -18,7 +18,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
      * @return
      */
     @Override
-    public TypedData visitPrint(CALCParser.PrintContext ctx) {
+    public TypedData visitPrint(ZYMBOLParser.PrintContext ctx) {
         TypedData value = visit(ctx.expr());
 
         // 该节点有三个孩子
@@ -40,7 +40,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
      * @return
      */
     @Override
-    public TypedData visitAssign(CALCParser.AssignContext ctx) {
+    public TypedData visitAssign(ZYMBOLParser.AssignContext ctx) {
         String id = ctx.ID().getText(); // 获取变量名称
         TypedData value = visit(ctx.expr()); // 访问表达式，得到表达式的值
         memory.put(id, value); // 将变量的值记录到计算器内存中
@@ -55,7 +55,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
      * @return
      */
     @Override
-    public TypedData visitMulDiv(CALCParser.MulDivContext ctx) {
+    public TypedData visitMulDiv(ZYMBOLParser.MulDivContext ctx) {
         TypedData left = visit(ctx.expr(0)); // 乘除表达值 左操作数
         TypedData right = visit(ctx.expr(1)); // 乘除表达式 右操作数
         if (ctx.MUL() != null) {
@@ -72,7 +72,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
      * @return
      */
     @Override
-    public TypedData visitAddSub(CALCParser.AddSubContext ctx) {
+    public TypedData visitAddSub(ZYMBOLParser.AddSubContext ctx) {
         TypedData left = visit(ctx.expr(0));  // 加减表达值 左操作数
         TypedData right = visit(ctx.expr(1)); // 加减表达值 右操作数
         if (ctx.ADD() != null) {
@@ -89,7 +89,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
      * @return
      */
     @Override
-    public TypedData visitVariable(CALCParser.VariableContext ctx) {
+    public TypedData visitVariable(ZYMBOLParser.VariableContext ctx) {
         String id = ctx.getText();
 
         return memory.containsKey(id) ?
@@ -104,7 +104,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
      * @return
      */
     @Override
-    public TypedData visitValue(CALCParser.ValueContext ctx) {
+    public TypedData visitValue(ZYMBOLParser.ValueContext ctx) {
         String text = ctx.getText();
         // 是整数数字字面值的情况
         return TypedData.parseNumberLiteral(text);
@@ -117,7 +117,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
      * @return
      */
     @Override
-    public TypedData visitParenthesis(CALCParser.ParenthesisContext ctx) {
+    public TypedData visitParenthesis(ZYMBOLParser.ParenthesisContext ctx) {
         return visit(ctx.expr());
     }
 }
