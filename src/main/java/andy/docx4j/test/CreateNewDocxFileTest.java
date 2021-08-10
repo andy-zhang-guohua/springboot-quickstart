@@ -60,15 +60,21 @@ public class CreateNewDocxFileTest {
         wordMLPackage.getMainDocumentPart().addParagraphOfText("Hello Word!");
         wordMLPackage.getMainDocumentPart().addParagraphOfText("中文字符！");
 
-        mockANewSection("S1", 10);
-        mockANewSection("S2", 11);
-        mockANewSection("S3", 12);
+        int index = Docx4jUtils.getIndexOfFirstMainDocumentChildP_R_Text(wordMLPackage.getMainDocumentPart(), "中文字符");
+        int nextPosition = index + 1;
+
+        insertNewSectionP("nextPage", nextPosition); // 结束当前 Section,开始新的一页
+
+        nextPosition = index + 2;
+        nextPosition = mockANewSection("S1", nextPosition);
+        nextPosition = mockANewSection("S2", nextPosition);
+        nextPosition = mockANewSection("S3", nextPosition);
 
         wordMLPackage.save(new File("/程序创建WORD文档.docx"));
     }
 
 
-    private static void mockANewSection(String text, int startPosition) {
+    private static int mockANewSection(String text, int startPosition) {
         Text t = objectFactory.createText(); // create text
         t.setValue("程序化插入的 Section P段落(该Section内的最后一个P段落), 参数文本 : " + text);
 
@@ -86,6 +92,8 @@ public class CreateNewDocxFileTest {
         list.add(startPosition, p); // add to main document part
 
         insertNewSectionP("nextPage", startPosition + 1);
+
+        return startPosition + 2;
     }
 
     /**

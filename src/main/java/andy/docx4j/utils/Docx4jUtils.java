@@ -1,6 +1,7 @@
 package andy.docx4j.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.docx4j.XmlUtils;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
@@ -217,6 +218,101 @@ public class Docx4jUtils {
         } catch (Exception e) {
             throw new RuntimeException("xpath定位对象失败:" + xpath, e);
         }
+    }
+
+    /**
+     * 在主文档 documentPart getContent() 孩子元素中查找第一个段落P,该段落P包含一个 Text 元素，并且其内容包含指定文字
+     *
+     * @param documentPart
+     * @param textToSearch
+     * @return -1 表示没有找到
+     */
+    public static int getIndexOfFirstMainDocumentChildP_R_Text(MainDocumentPart documentPart, String textToSearch) {
+        if (documentPart == null) return -1;
+        if (textToSearch == null) return -1;
+
+        List<Object> children = documentPart.getContent();
+        for (int ci = 0; ci < children.size(); ci++) {
+            Object child = children.get(ci);
+
+            if (isP_R_Text(child, textToSearch)) return ci;
+        }
+
+        return -1;
+    }
+
+    /**
+     * 检测一个对象是否是一个P元素，该元素包含了一个 R.Text , 其文本包含内容 textToSearch
+     *
+     * @param object
+     * @param textToSearch
+     * @return
+     */
+    public static boolean isP_R_Text(Object object, String textToSearch) {
+        if (object == null) return false;
+        if (textToSearch == null) return false;
+
+        if (!(object instanceof P)) return false;
+
+        P p = ((P) object);
+        List<Object> children = p.getContent();
+
+        for (int ci = 0; ci < children.size(); ci++) {
+            Object child = children.get(ci);
+
+            if (isR_Text(child, textToSearch)) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 检测一个对象是否是一个R元素，该元素包含了一个 Text , 其文本包含内容 textToSearch
+     *
+     * @param object
+     * @param textToSearch
+     * @return
+     */
+    public static boolean isR_Text(Object object, String textToSearch) {
+        if (object == null) return false;
+        if (textToSearch == null) return false;
+
+        if (object instanceof JAXBElement) {
+            object = XmlUtils.unwrap(object);
+        }
+
+        if (!(object instanceof R)) return false;
+
+        R r = ((R) object);
+        List<Object> children = r.getContent();
+
+        for (int ci = 0; ci < children.size(); ci++) {
+            Object child = children.get(ci);
+
+            if (isText(child, textToSearch)) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 检测一个对象是否是一个Text元素，其文本包含内容 textToSearch
+     *
+     * @param object
+     * @param textToSearch
+     * @return
+     */
+    public static boolean isText(Object object, String textToSearch) {
+        if (object == null) return false;
+        if (textToSearch == null) return false;
+
+        if (!(object instanceof Text)) return false;
+
+        Text t = ((Text) object);
+        String value = t.getValue();
+
+        boolean match = StringUtils.contains(value, textToSearch);
+        return match;
     }
 
     /**
