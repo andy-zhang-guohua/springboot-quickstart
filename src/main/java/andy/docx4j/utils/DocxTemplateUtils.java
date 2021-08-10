@@ -26,6 +26,20 @@ import java.util.regex.Pattern;
 
 public class DocxTemplateUtils {
     /**
+     * docx4j 文件加载后处理器
+     */
+    public static interface AfterLoadProcessor {
+        WordprocessingMLPackage process(WordprocessingMLPackage wordMLPackage);
+    }
+
+    /**
+     * docx4j 文件保存前处理器
+     */
+    public static interface BeforeSaveProcessor {
+        WordprocessingMLPackage process(WordprocessingMLPackage wordMLPackage);
+    }
+
+    /**
      * 基于模板 sourceFile , 构造新的 docx 文件并输出到 targetFile, 替换其中的 占位符 和表格
      * 替换的位置包括 :
      * 1. 文档主体部分中的占位符及其表格
@@ -39,12 +53,62 @@ public class DocxTemplateUtils {
     public static void replaceData(String sourceFile, String targetFile,
                                    Map<String, String> data,
                                    Map<Integer, List<Map<String, String>>> tables) {
+        replaceData(sourceFile, targetFile, data, tables, null, null);
+    }
+
+    /**
+     * 基于模板 sourceFile , 构造新的 docx 文件并输出到 targetFile, 替换其中的 占位符 和表格
+     * 替换的位置包括 :
+     * 1. 文档主体部分中的占位符及其表格
+     * 2. 页眉页脚内容中的占位符
+     *
+     * @param sourceFile
+     * @param targetFile
+     * @param data
+     * @param tables
+     * @param afterLoadProcessor
+     */
+    public static void replaceData(String sourceFile, String targetFile,
+                                   Map<String, String> data,
+                                   Map<Integer, List<Map<String, String>>> tables,
+                                   AfterLoadProcessor afterLoadProcessor) {
+        replaceData(sourceFile, targetFile, data, tables, afterLoadProcessor, null);
+    }
+
+    /**
+     * 基于模板 sourceFile , 构造新的 docx 文件并输出到 targetFile, 替换其中的 占位符 和表格
+     * 替换的位置包括 :
+     * 1. 文档主体部分中的占位符及其表格
+     * 2. 页眉页脚内容中的占位符
+     *
+     * @param sourceFile
+     * @param targetFile
+     * @param data
+     * @param tables
+     * @param afterLoadProcessor
+     * @param beforeSaveProcessor
+     */
+    public static void replaceData(String sourceFile, String targetFile,
+                                   Map<String, String> data,
+                                   Map<Integer, List<Map<String, String>>> tables,
+                                   AfterLoadProcessor afterLoadProcessor,
+                                   BeforeSaveProcessor beforeSaveProcessor) {
         synchronized (sourceFile) {
             // 加载模板文件到内存对象 wordMLPackage
             WordprocessingMLPackage wordMLPackage = Docx4jUtils.load(sourceFile);
 
+            // docx 文件加载后置处理
+            if (afterLoadProcessor != null) {
+                wordMLPackage = afterLoadProcessor.process(wordMLPackage);
+            }
+
             // 在加载的模板中替换占位符 : 主体文档，页眉，页脚 中的占位符; 表格中的占位符；
             _replaceData(wordMLPackage, data, tables);
+
+            // docx 文件保存前置处理
+            if (beforeSaveProcessor != null) {
+                wordMLPackage = beforeSaveProcessor.process(wordMLPackage);
+            }
 
             // 保存替换后的 wordMLPackage
             Docx4jUtils.save(wordMLPackage, targetFile);

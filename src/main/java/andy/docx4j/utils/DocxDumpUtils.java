@@ -20,38 +20,56 @@ import java.util.StringJoiner;
 @Slf4j
 public class DocxDumpUtils {
     /**
-     * 浏览 docx 文件主文档的元素
-     * 1. 能够浏览所有元素
-     * -- 1.1 包括隐藏元素
-     * 2. 能够替换某些元素
-     * 3. 能够隐藏某些元素
+     * 浏览 docx 文件的元素
+     * 1. 各个 Section 的情况 : 页面尺寸,页眉/页脚 内容
+     * 2. 主文档中所有的元素
      */
     public static void dumpElements(WordprocessingMLPackage wordMLPackage) {
+        ///////////////////////////////////// 输出各个Section的信息 /////////////////////////////////////////////
+        // 将整个 docx 理解成一个 DocumentModel
         DocumentModel documentModel = wordMLPackage.getDocumentModel();
         List<SectionWrapper> sections = documentModel.getSections();
-        log.info("主文档包含 Section 数量 : {}", sections.size());
+        log.info("DocumentModel 包含 Section 数量 : {}", sections.size());
 
-
-        for (int i = 0; i < sections.size(); i++) {
+        final int SECTION_TOTAL = sections.size();
+        final int INDEX_OF_BODY_SECTION = SECTION_TOTAL - 1;// 属于 body 的 section 总是最后一个 Section
+        for (int i = 0; i < SECTION_TOTAL; i++) {
             SectionWrapper section = sections.get(i);
 
-            String title = "Section [" + (i + 1) + "] ====================> ";
+            final String bodySection = i == INDEX_OF_BODY_SECTION ? "- BODY" : "";
+            final String title = "Section [" + (i + 1) + "]" + bodySection;
             dumpSection(1, title, section);
         }
 
+        ///////////////////////////////////// 输出主文档各个元素的信息 /////////////////////////////////////////////
+        // 只输出docx文件主文档 word/document.xml 中的各级元素， 不包含页眉页脚，页眉页脚信息需要通过访问 Section 方式访问
         MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
 
         List<Object> objects = documentPart.getContent();
-        log.info("主文档内容 : {} 个对象 => {}", objects.size(), objects);
+        log.info("MainDocument 内容 : {} 个对象 => {}", objects.size(), objects);
+        dumpChildren(0, documentPart);
+    }
+
+    private static void dumpChildren(int level, ContentAccessor contentContainer) {
+        List<Object> objects = contentContainer.getContent();
         for (int i = 0; i < objects.size(); i++) {
-            String title = "元素[" + (i + 1) + "]";
-            dumpContentElement(1, title, objects.get(i));
+            String title = String.format("元素[%02d]", i + 1);
+            dumpContentElement(level + 1, title, objects.get(i));
         }
     }
 
     private static void dumpContentElement(int level, String title, Object element) {
+        String padding = prefixPadding(level);
+        log.info("{}{}级{}{}", padding, level, title, element.getClass().getSimpleName());
+
+
         if (element instanceof P) {
             dumpP(level, title, (P) element);
+            return;
+        }
+
+        if (element instanceof ContentAccessor) {
+            dumpChildren(level, (ContentAccessor) element);
             return;
         }
 
@@ -59,21 +77,32 @@ public class DocxDumpUtils {
             dumpJAXBElement(level, title, (JAXBElement) element);
             return;
         }
-        String padding = prefixPadding(level);
-        log.info("{}{}", padding, title);
     }
 
     private static void dumpP(int level, String title, P element) {
         String padding = prefixPadding(level);
-        log.info("{}P{} : {}", padding, title, element);
+
+        int childrenCount = element.getContent().size();
+        if (childrenCount == 0) {
+            PPr ppr = element.getPPr();
+            SectPr sectPr = ppr.getSectPr();
+            if (sectPr != null) {
+                log.info("{} == Section 定义节点 {}", padding, sectPr);
+            }
+
+            return;
+        }
+
+        dumpChildren(level, element);
     }
 
     private static void dumpJAXBElement(int level, String title, JAXBElement element) {
-        String padding = prefixPadding(level);
-
         Object value = XmlUtils.unwrap(element);
+
+        level = level + 1;
+        String padding = prefixPadding(level);
         if (value == null) {
-            log.info("{}JAXBElement{} : {}", padding, title, element);
+            log.info("{}{}JAXBElement : {}", padding, title, element);
             return;
         }
 
@@ -81,6 +110,24 @@ public class DocxDumpUtils {
             dumpTbl(level, title, (Tbl) value);
             return;
         }
+
+        if (value instanceof Text) {
+            dumpText(level, (Text) value);
+            return;
+        }
+
+        String valueClass = value.getClass().getSimpleName();
+        log.info("{}{}级{}", padding, level, valueClass);
+
+        if (value instanceof ContentAccessor) {
+            dumpChildren(level, (ContentAccessor) value);
+            return;
+        }
+    }
+
+    private static void dumpText(int level, Text text) {
+        String padding = prefixPadding(level);
+        log.info("{}{}级元素Text : {}", padding, level, text.getValue());
     }
 
     private static void dumpTbl(int level, String title, Tbl tbl) {
@@ -180,9 +227,16 @@ public class DocxDumpUtils {
     }
 
 
+    /**
+     * 输出一个 Section 的内容
+     *
+     * @param level   当前 Section 的层级
+     * @param title   当前 Section 的输出标题，由调用者设置
+     * @param section 要输出的 Section
+     */
     private static void dumpSection(int level, String title, SectionWrapper section) {
         String padding = prefixPadding(level);
-        log.info("{}{}", padding, title);
+        log.info("{}{} ====================> ", padding, title);
 
         // 页面维度信息
         PageDimensions pageDimensions = section.getPageDimensions();

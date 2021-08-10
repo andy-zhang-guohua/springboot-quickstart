@@ -100,7 +100,7 @@ public class CreateDocxFile {
             Text t = factory.createText();
             t.setValue("页眉文字");
 
-            Docx4jUtils.addText(factory, p, t);
+            Docx4jUtils.newR_Text(factory, p, t);
         }
 
         {// // 新增段落
@@ -110,7 +110,7 @@ public class CreateDocxFile {
             Text t = factory.createText();
             t.setValue("第一个段落");
 
-            Docx4jUtils.addText(factory, p, t);
+            Docx4jUtils.newR_Text(factory, p, t);
         }
 
         // 添加分页符
@@ -126,7 +126,7 @@ public class CreateDocxFile {
 
             t.setValue(value);
 
-            Docx4jUtils.addText(factory, p, t);
+            Docx4jUtils.newR_Text(factory, p, t);
         }
 
 

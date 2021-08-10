@@ -59,7 +59,7 @@ public class Docx4jUtils {
      * @param factory
      */
     public static void addPageBreak(MainDocumentPart documentPart, ObjectFactory factory) {
-        P paragraph = newPageBreak(factory);
+        P paragraph = newP_R_PageBreak(factory);
 
         try {
             documentPart.getContents().getBody().getContent().add(paragraph);
@@ -68,16 +68,49 @@ public class Docx4jUtils {
         }
     }
 
-    public static P newPageBreak(ObjectFactory factory) {
-        Br pageBreak = factory.createBr();
-        pageBreak.setType(STBrType.PAGE);
+    public static P newP_R_PageBreak(ObjectFactory factory) {
+        Br br = factory.createBr();
+        br.setType(STBrType.PAGE);
 
-        R run = factory.createR();
-        run.getContent().add(pageBreak);
+        R r = factory.createR();
+        r.getContent().add(br);
 
-        P paragraph = factory.createP();
-        paragraph.getContent().add(run);
-        return paragraph;
+        P p = factory.createP();
+        p.getContent().add(r);
+        return p;
+    }
+
+    /**
+     * 创建一个空的 P, 其 PPr 属性包含了一个 SectPr ,
+     * <p>
+     * 该 SectPr P 用于新建一个新的 Section
+     * <p>
+     * Section 类型 :
+     * * continuous - Begins the section on the next paragraph. Certain page-level section properties cannot be specified, as they are inherited from the previous section. If a footnote occurs of the same page as a section of this kind, the new section begins on the following page.
+     * * evenPage - The section begins on the next even-numbered page, leaving the next odd page blank if necessary.
+     * * nextColumn - The section begins on the following column on the page.
+     * * nextPage - The section begins on the following page.
+     * * oddPage - The section begins on the next odd-numbered page, leaving the next even page blank if necessary.
+     *
+     * @param objectFactory
+     * @param sectionType
+     * @return
+     */
+    public static P newP_PPr_SectPr(ObjectFactory objectFactory, String sectionType) {
+        SectPr.Type sectPrType = objectFactory.createSectPrType();
+        sectPrType.setVal(sectionType);
+
+        // create new section and add it to the document
+        SectPr sectPr = objectFactory.createSectPr(); // create new section
+        sectPr.setType(sectPrType);
+
+        PPr ppr = objectFactory.createPPr();
+        ppr.setSectPr(sectPr);
+
+        P p = objectFactory.createP(); // create new paragraph
+        p.setPPr(ppr);
+
+        return p;
     }
 
     /**
@@ -97,50 +130,50 @@ public class Docx4jUtils {
             FldChar fldChar = factory.createFldChar();
             // http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/ST_FldCharType.html
             fldChar.setFldCharType(STFldCharType.BEGIN);
-            addFldChar(factory, paragraph, fldChar);
+            newR_FldChar(factory, paragraph, fldChar);
         }
 
         { // 变量名称
             Text t = factory.createText();
             t.setValue(varName); // PAGE \* Arabic \* MERGEFORMAT
-            addInstrText(factory, paragraph, t);
+            newR_InstrText(factory, paragraph, t);
         }
 
         {
             FldChar fldChar = factory.createFldChar();
             fldChar.setFldCharType(STFldCharType.SEPARATE);
-            addFldChar(factory, paragraph, fldChar);
+            newR_FldChar(factory, paragraph, fldChar);
         }
 
         { // 初始值
             Text t = factory.createText();
             t.setValue(initialValue); //设置初始值
-            addText(factory, paragraph, t);
+            newR_Text(factory, paragraph, t);
         }
 
         {// end
             FldChar fldChar = factory.createFldChar();
             fldChar.setFldCharType(STFldCharType.END);
-            addFldChar(factory, paragraph, fldChar);
+            newR_FldChar(factory, paragraph, fldChar);
         }
 
 
     }
 
-    public static void addInstrText(ObjectFactory factory, ContentAccessor paragraph, Text t) {
+    public static void newR_InstrText(ObjectFactory factory, ContentAccessor paragraph, Text t) {
         R r = factory.createR();
         paragraph.getContent().add(r);
         JAXBElement<Text> jaxbElement = factory.createRInstrText(t);
         r.getContent().add(jaxbElement);
     }
 
-    public static void addText(ObjectFactory factory, ContentAccessor paragraph, Text t) {
+    public static void newR_Text(ObjectFactory factory, ContentAccessor paragraph, Text t) {
         R r = factory.createR();
         paragraph.getContent().add(r);
         r.getContent().add(t);
     }
 
-    public static void addFldChar(ObjectFactory factory, ContentAccessor paragraph, FldChar fldChar) {
+    public static void newR_FldChar(ObjectFactory factory, ContentAccessor paragraph, FldChar fldChar) {
         R r = factory.createR();
         paragraph.getContent().add(r);
         r.getContent().add(fldChar);

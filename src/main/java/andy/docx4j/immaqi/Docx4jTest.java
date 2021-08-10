@@ -365,7 +365,7 @@ public class Docx4jTest {
      * @return
      */
     private static P makePageBr() {
-        P p = Docx4jUtils.newPageBreak(factory);
+        P p = Docx4jUtils.newP_R_PageBreak(factory);
         return p;
     }
 }
