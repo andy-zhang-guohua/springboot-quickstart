@@ -8,6 +8,7 @@ import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.FooterPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart;
+import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.relationships.Relationship;
 import org.docx4j.wml.*;
 
@@ -59,27 +60,39 @@ public class CreateNewDocxFileTest {
         wordMLPackage.getMainDocumentPart().addParagraphOfText("Hello Word!");
         wordMLPackage.getMainDocumentPart().addParagraphOfText("中文字符！");
 
-        addNewSection();
+        mockANewSection("S1", 10);
+        mockANewSection("S2", 11);
+        mockANewSection("S3", 12);
 
         wordMLPackage.save(new File("/程序创建WORD文档.docx"));
     }
 
 
-    private static void addNewSection() {
-        addNewSection("nextPage");
+    private static void mockANewSection(String text, int startPosition) {
+        Text t = objectFactory.createText(); // create text
+        t.setValue("程序化插入的 Section P段落(该Section内的最后一个P段落), 参数文本 : " + text);
+
+        R r = objectFactory.createR(); // create new run
+        r.getContent().add(t); // add text ton the run
 
         // proceed to create another paragraph with a run containing text.
-        P paragraph2 = objectFactory.createP(); // create new paragraph
-        R run2 = objectFactory.createR(); // create new run
-        Text text2 = objectFactory.createText(); // create text
+        P p = objectFactory.createP(); // create new paragraph
+        p.getContent().add(r); // add run to paragraph
 
-        text2.setValue("这是一个程序化新建的Section内的第一个文本段落，该 Section 从一个新的页面开始。");
-        run2.getContent().add(text2); // add text ton the run
-        paragraph2.getContent().add(run2); // add run to paragraph
-        wordMLPackage.getMainDocumentPart().addObject(paragraph2); // add to main document part
+        MainDocumentPart mainDocumentPart = wordMLPackage.getMainDocumentPart();
+        List list = mainDocumentPart.getContent();
+        startPosition = startPosition >= list.size() ? list.size() : startPosition;
+
+        list.add(startPosition, p); // add to main document part
+
+        insertNewSectionP("nextPage", startPosition + 1);
     }
 
     /**
+     * 在指定位置插入一个 段落 P，该段落无内容，只包含一个 SectPr,
+     * <p>
+     * 1. 该目的是用来添加一个Section，具体添加方式 : 将插入点之前上个一Section P 之后的所有段落 P 形成一个新的 Section 并结束当前 Section;
+     * <p>
      * Section 类型 :
      * * continuous - Begins the section on the next paragraph. Certain page-level section properties cannot be specified, as they are inherited from the previous section. If a footnote occurs of the same page as a section of this kind, the new section begins on the following page.
      * * evenPage - The section begins on the next even-numbered page, leaving the next odd page blank if necessary.
@@ -89,10 +102,12 @@ public class CreateNewDocxFileTest {
      *
      * @param sectionType
      */
-    private static void addNewSection(String sectionType) {
+    private static void insertNewSectionP(String sectionType, int position) {
         P p = Docx4jUtils.newP_PPr_SectPr(objectFactory, sectionType);
 
-        wordMLPackage.getMainDocumentPart().addObject(p); // add section to document part
+        MainDocumentPart mainDocumentPart = wordMLPackage.getMainDocumentPart();
+        Docx4jUtils.insert_P(mainDocumentPart, position, p);
+        wordMLPackage.getDocumentModel().refresh();
     }
 
     private static Ftr createFooter(String content) {

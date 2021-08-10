@@ -114,6 +114,22 @@ public class Docx4jUtils {
     }
 
     /**
+     * 插入一个 P 元素到指定的索引
+     *
+     * @param mainDocumentPart
+     * @param index
+     * @param p
+     */
+    public static void insert_P(MainDocumentPart mainDocumentPart, int index, P p) {
+        if (index < 0 || p == null) return;
+
+        List<Object> list = mainDocumentPart.getContent();
+        if (index >= list.size()) index = list.size();
+
+        list.add(index, p);
+    }
+
+    /**
      * 为段落增加一个变量
      * <p>
      * http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/fldChar.html
