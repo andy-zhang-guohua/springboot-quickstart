@@ -3,6 +3,8 @@ package andy.docx4j.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.docx4j.XmlUtils;
+import org.docx4j.model.structure.DocumentModel;
+import org.docx4j.model.structure.SectionWrapper;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.wml.*;
@@ -97,14 +99,16 @@ public class Docx4jUtils {
      * @param sectionType
      * @return
      */
-    public static P newP_PPr_SectPr(ObjectFactory objectFactory, String sectionType) {
-        SectPr.Type sectPrType = objectFactory.createSectPrType();
-        sectPrType.setVal(sectionType);
+    public static P newP_SectPr(ObjectFactory objectFactory, String sectionType) {
+        // 新建一个 SectPr
+        SectPr sectPr = newSectPr(objectFactory, sectionType);
 
-        // create new section and add it to the document
-        SectPr sectPr = objectFactory.createSectPr(); // create new section
-        sectPr.setType(sectPrType);
+        P p = newP_SectPr(objectFactory, sectPr);
 
+        return p;
+    }
+
+    public static P newP_SectPr(ObjectFactory objectFactory, SectPr sectPr) {
         PPr ppr = objectFactory.createPPr();
         ppr.setSectPr(sectPr);
 
@@ -112,6 +116,25 @@ public class Docx4jUtils {
         p.setPPr(ppr);
 
         return p;
+    }
+
+    /**
+     * 新建一个 SectPr
+     *
+     * @param objectFactory
+     * @param sectionType
+     * @return
+     */
+    public static SectPr newSectPr(ObjectFactory objectFactory, String sectionType) {
+        SectPr.Type sectPrType = objectFactory.createSectPrType();
+        sectPrType.setVal(sectionType);
+
+        // 新建
+        // create new section and add it to the document
+        SectPr sectPr = objectFactory.createSectPr(); // create new section
+        sectPr.setType(sectPrType);
+
+        return sectPr;
     }
 
     /**
@@ -128,6 +151,50 @@ public class Docx4jUtils {
         if (index >= list.size()) index = list.size();
 
         list.add(index, p);
+    }
+
+    /**
+     * 插入一个 P 元素到指定的索引
+     *
+     * @param mainDocumentPart
+     * @param index
+     * @param xmlContentForP
+     */
+    public static void insert_P(MainDocumentPart mainDocumentPart, int index, String xmlContentForP) {
+        P p = (P) unmarshalString(xmlContentForP);
+
+        if (index < 0 || p == null) return;
+
+        List<Object> list = mainDocumentPart.getContent();
+        if (index >= list.size()) index = list.size();
+
+        list.add(index, p);
+    }
+
+    /**
+     * 插入一个 Tbl 元素到指定的索引
+     *
+     * @param mainDocumentPart
+     * @param index
+     * @param xmlContent
+     */
+    public static void insert_Tbl(MainDocumentPart mainDocumentPart, int index, String xmlContent) {
+        Tbl tbl = (Tbl) unmarshalString(xmlContent);
+
+        if (index < 0 || tbl == null) return;
+
+        List<Object> list = mainDocumentPart.getContent();
+        if (index >= list.size()) index = list.size();
+
+        list.add(index, tbl);
+    }
+
+    public static Object unmarshalString(String xmlContent) {
+        try {
+            return XmlUtils.unmarshalString(xmlContent);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -315,6 +382,94 @@ public class Docx4jUtils {
         return match;
     }
 
+
+    /**
+     * 在主文档 documentPart getContent() 孩子元素中查找第一个段落P,该段落P包含一个了一个 R.Br , 并且是 分页符号
+     *
+     * @param documentPart
+     * @return -1 表示没有找到
+     */
+    public static int getIndexOfFirstMainDocumentChildP_R_Br_Page(MainDocumentPart documentPart) {
+        if (documentPart == null) return -1;
+
+        List<Object> children = documentPart.getContent();
+        for (int ci = 0; ci < children.size(); ci++) {
+            Object child = children.get(ci);
+
+            if (isP_R_Br_Page(child)) return ci;
+        }
+
+        return -1;
+    }
+
+    /**
+     * 检测一个对象是否是一个P元素，该元素包含了一个 R.Br , 并且是 分页符号
+     *
+     * @param object
+     * @return
+     */
+    public static boolean isP_R_Br_Page(Object object) {
+        if (object == null) return false;
+
+        if (!(object instanceof P)) return false;
+
+        P p = ((P) object);
+        List<Object> children = p.getContent();
+
+        for (int ci = 0; ci < children.size(); ci++) {
+            Object child = children.get(ci);
+
+            if (isR_Br_Page(child)) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 检测一个对象是否是一个R元素，该元素包含了一个 R.Br , 并且是 分页符号
+     *
+     * @param object
+     * @return
+     */
+    public static boolean isR_Br_Page(Object object) {
+        if (object == null) return false;
+
+        if (object instanceof JAXBElement) {
+            object = XmlUtils.unwrap(object);
+        }
+
+        if (!(object instanceof R)) return false;
+
+        R r = ((R) object);
+        List<Object> children = r.getContent();
+
+        for (int ci = 0; ci < children.size(); ci++) {
+            Object child = children.get(ci);
+
+            if (isBrOfType(child, STBrType.PAGE)) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 检测一个对象是否是一个 R.Br , 并且是指定类型
+     *
+     * @param object
+     * @param expectedStBrType 期望的类型
+     * @return
+     */
+    public static boolean isBrOfType(Object object, STBrType expectedStBrType) {
+        if (object == null) return false;
+
+        if (!(object instanceof Br)) return false;
+
+        Br t = ((Br) object);
+
+        boolean match = expectedStBrType == t.getType();
+        return match;
+    }
+
     /**
      * 清空 xpath 定位到到的 Text 组件的内容
      *
@@ -332,5 +487,57 @@ public class Docx4jUtils {
             Text t = (Text) target;
             t.setValue("");
         }
+    }
+
+    /**
+     * 获取文档中所有的 SectPr
+     *
+     * @param wordMLPackage
+     * @return
+     */
+    public static List<SectionWrapper> listSectPr(WordprocessingMLPackage wordMLPackage) {
+        if (wordMLPackage == null) return null;
+
+        DocumentModel documentModel = wordMLPackage.getDocumentModel();
+        List<SectionWrapper> sections = documentModel.getSections();
+
+        return sections;
+    }
+
+    /**
+     * 获取文档中第 index 个 SectionWrapper
+     *
+     * @param wordMLPackage
+     * @param index
+     * @return
+     */
+    public static SectionWrapper getSectPrOfIndex(WordprocessingMLPackage wordMLPackage, int index) {
+        if (wordMLPackage == null) return null;
+
+        DocumentModel documentModel = wordMLPackage.getDocumentModel();
+        List<SectionWrapper> sections = documentModel.getSections();
+
+        if (sections == null || sections.isEmpty()) return null;
+
+        if (index < 0 || index >= sections.size()) return null;
+
+        return sections.get(index);
+    }
+
+    /**
+     * 获取文档中 Body 的默认 SectPr, 这其实是文档所有 SectPr 的最后一个
+     *
+     * @param wordMLPackage
+     * @return
+     */
+    public static SectionWrapper getBodySectPr(WordprocessingMLPackage wordMLPackage) {
+        if (wordMLPackage == null) return null;
+
+        DocumentModel documentModel = wordMLPackage.getDocumentModel();
+        List<SectionWrapper> sections = documentModel.getSections();
+
+        if (sections == null || sections.isEmpty()) return null;
+
+        return sections.get(sections.size() - 1);
     }
 }

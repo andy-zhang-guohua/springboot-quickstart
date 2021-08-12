@@ -73,6 +73,42 @@ public class CreateNewDocxFileTest {
         wordMLPackage.save(new File("/程序创建WORD文档.docx"));
     }
 
+    private static void newHdrFtrToSectPr(SectPr targetSectPr) {
+        try {
+            { // 创建一个页眉
+                // 1. 创建 Hdr
+                Hdr hdr = createHeader("页眉");
+                // 2. 创建 HeaderPart <== Hdr
+                HeaderPart headerPart = new HeaderPart();
+                headerPart.setPackage(wordMLPackage);
+                headerPart.setJaxbElement(hdr);
+                // 3. 创建 Relationship <== HeaderPart
+                Relationship relationshipHeader = wordMLPackage.getMainDocumentPart().addTargetPart(headerPart);
+                // 4. 创建 HeaderReference <== Relationship
+                HeaderReference headerReference = createHeaderReference(relationshipHeader);
+                // 5. 绑定 HeaderReference ==> SectPr BODY
+                targetSectPr.getEGHdrFtrReferences().add(headerReference);
+            }
+
+            { // 创建页脚
+                // 1. 创建 Ftr
+                Ftr ftr = createFooter("页脚");
+                // 2. 创建 FooterPart <== Ftr
+                FooterPart footerPart = new FooterPart();
+                footerPart.setPackage(wordMLPackage);
+                footerPart.setJaxbElement(ftr);
+                // 3. 创建 Relationship <== FooterPart
+                Relationship relationshipFooter = wordMLPackage.getMainDocumentPart().addTargetPart(footerPart);
+                // 4. 创建 FooterReference <== Relationship
+                FooterReference footerReference = createFooterReference(relationshipFooter);
+                // 5. 绑定 FooterReference ==> SectPr BODY
+                targetSectPr.getEGHdrFtrReferences().add(footerReference);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private static int mockANewSection(String text, int startPosition) {
         Text t = objectFactory.createText(); // create text
@@ -111,7 +147,11 @@ public class CreateNewDocxFileTest {
      * @param sectionType
      */
     private static void insertNewSectionP(String sectionType, int position) {
-        P p = Docx4jUtils.newP_PPr_SectPr(objectFactory, sectionType);
+        SectPr sectPr = Docx4jUtils.newSectPr(objectFactory, sectionType);
+
+        newHdrFtrToSectPr(sectPr);
+
+        P p = Docx4jUtils.newP_SectPr(objectFactory, sectPr);
 
         MainDocumentPart mainDocumentPart = wordMLPackage.getMainDocumentPart();
         Docx4jUtils.insert_P(mainDocumentPart, position, p);
