@@ -19,8 +19,8 @@ expr : expr (MUL|DIV) expr   # MulDiv // 乘除表达式
 | value                      # Literal // 字面值或者表达式
 ;
 
-value : FLOAT     // 直接是一个整数字面值
-| INT
+value : FLOAT     // 直接是一个浮点数字面值
+| INT // 直接是一个整数字面值
 ;
 
 ////////////// 词法规则 (首字母大写)
