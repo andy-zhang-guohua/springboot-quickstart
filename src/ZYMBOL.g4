@@ -7,9 +7,9 @@ grammar ZYMBOL;
 ///////////// 语法规则 (首字母小写)
 program: stmt+;
 
-stmt : 'print' expr SEMICOLON          # print // 输出表达式的值
-| ID '=' expr SEMICOLON                # assign // 赋值语句
-| SEMICOLON                            # blank // 空行
+stmt : 'print' expr SEMICOLON       # print // 输出表达式的值
+| ID '=' expr SEMICOLON             # assign // 赋值语句
+| SEMICOLON                         # blank // 空行带注释
 ;
 
 expr : expr (MUL|DIV) expr   # MulDiv // 乘除表达式
@@ -40,9 +40,16 @@ FLOAT   :   '-'? DIGIT+ '.' DIGIT*  // 浮点数定义 // 1.52、3.14159等
             | '-'? '.' DIGIT+ // .21 (表示0.21)
             ;
 
+STRING: '"' (ESC|.)*? '"' ;
+
+LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ; // 单行注释 : 匹配双斜杠//开头的注释
+
+COMMENT : '/*' .*? '*/' -> skip ; // 多行注释 : 匹配 /* 和 */ 包裹的注释
+
 SEMICOLON   :   ';' ; // 分号，用来作为一个语句的结束
 
 WS      :   [ \t\r\n]+ -> skip;
 
 fragment ALPHA  : [a-zA-Z_]; // 匹配单个英文字母或者_
 fragment DIGIT  : [0-9]; // 匹配单个数字
+fragment ESC : '\\"' | '\\\\' ; // 转义符号 \" 和 \\
