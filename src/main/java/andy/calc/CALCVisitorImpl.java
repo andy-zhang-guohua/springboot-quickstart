@@ -12,7 +12,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
     ConcurrentHashMap<String, TypedData> memory = new ConcurrentHashMap<String, TypedData>();
 
     /**
-     * 访问规则分支 'print' expr NEWLINE
+     * 访问规则分支 'print' expr SEMICOLON
      *
      * @param ctx
      * @return
@@ -24,7 +24,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
         // 该节点有三个孩子
         // 1. print 字符串
         // 2. expr 表达式
-        // 4. NEWLINE 换行符
+        // 4. SEMICOLON 换行符
         String expressionLiteral = ctx.getChild(1).getText();
 
         System.out.println(expressionLiteral + " = " + value);
@@ -34,7 +34,7 @@ public class CALCVisitorImpl extends CALCBaseVisitor<TypedData> {
     }
 
     /**
-     * 访问规则分支 : ID '=' expr NEWLINE
+     * 访问规则分支 : ID '=' expr SEMICOLON
      *
      * @param ctx
      * @return
