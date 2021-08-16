@@ -1,5 +1,6 @@
 package andy.zymbol;
 
+import andy.zymbol.model.NumericData;
 import andy.zymbol.model.TypedData;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,7 +31,7 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
         System.out.println(expressionLiteral + " = " + value);
 
         // 注意 : 该 print 语句返回了值 0, 语言开发者可以根据需要决定在这里返回什么值
-        return TypedData.ZERO;
+        return NumericData.ZERO;
     }
 
     /**
@@ -56,8 +57,8 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
      */
     @Override
     public TypedData visitMulDiv(ZYMBOLParser.MulDivContext ctx) {
-        TypedData left = visit(ctx.expr(0)); // 乘除表达值 左操作数
-        TypedData right = visit(ctx.expr(1)); // 乘除表达式 右操作数
+        NumericData left = (NumericData) visit(ctx.expr(0)); // 乘除表达值 左操作数
+        NumericData right = (NumericData) visit(ctx.expr(1)); // 乘除表达式 右操作数
         if (ctx.MUL() != null) {
             return left.multiply(right); // 乘法的情况
         } else {
@@ -73,8 +74,8 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
      */
     @Override
     public TypedData visitAddSub(ZYMBOLParser.AddSubContext ctx) {
-        TypedData left = visit(ctx.expr(0));  // 加减表达值 左操作数
-        TypedData right = visit(ctx.expr(1)); // 加减表达值 右操作数
+        NumericData left = (NumericData) visit(ctx.expr(0));  // 加减表达值 左操作数
+        NumericData right = (NumericData) visit(ctx.expr(1)); // 加减表达值 右操作数
         if (ctx.ADD() != null) {
             return left.add(right); // 加法的情况
         } else {
@@ -94,7 +95,7 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
 
         return memory.containsKey(id) ?
                 memory.get(id) : // 这是一个已经定义的变量
-                TypedData.ZERO; // 引用了一个未被定义的变量，则返回 0
+                NumericData.ZERO; // 引用了一个未被定义的变量，则返回 0
     }
 
     /**
@@ -107,7 +108,7 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
     public TypedData visitValue(ZYMBOLParser.ValueContext ctx) {
         String text = ctx.getText();
         // 是整数数字字面值的情况
-        return TypedData.parseNumberLiteral(text);
+        return NumericData.parseNumberLiteral(text);
     }
 
     /**

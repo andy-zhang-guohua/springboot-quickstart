@@ -5,8 +5,11 @@
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class ZYMBOLParser extends Parser {
@@ -17,7 +20,7 @@ public class ZYMBOLParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, MUL=5, DIV=6, ADD=7, SUB=8, ID=9, INT=10, 
-		FLOAT=11, SEMICOLON=12, WS=13;
+		FLOAT=11, STRING=12, LINE_COMMENT=13, COMMENT=14, SEMICOLON=15, WS=16;
 	public static final int
 		RULE_program = 0, RULE_stmt = 1, RULE_expr = 2, RULE_value = 3;
 	private static String[] makeRuleNames() {
@@ -30,14 +33,14 @@ public class ZYMBOLParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'print'", "'='", "'('", "')'", "'*'", "'/'", "'+'", "'-'", null, 
-			null, null, "';'"
+			null, null, null, null, null, "';'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, "MUL", "DIV", "ADD", "SUB", "ID", "INT", 
-			"FLOAT", "SEMICOLON", "WS"
+			"FLOAT", "STRING", "LINE_COMMENT", "COMMENT", "SEMICOLON", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -589,15 +592,15 @@ public class ZYMBOLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\17\62\4\2\t\2\4\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\22\62\4\2\t\2\4\3"+
 		"\t\3\4\4\t\4\4\5\t\5\3\2\6\2\f\n\2\r\2\16\2\r\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\5\3\32\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4#\n\4\3\4\3"+
 		"\4\3\4\3\4\3\4\3\4\7\4+\n\4\f\4\16\4.\13\4\3\5\3\5\3\5\2\3\6\6\2\4\6\b"+
 		"\2\5\3\2\7\b\3\2\t\n\3\2\f\r\2\64\2\13\3\2\2\2\4\31\3\2\2\2\6\"\3\2\2"+
 		"\2\b/\3\2\2\2\n\f\5\4\3\2\13\n\3\2\2\2\f\r\3\2\2\2\r\13\3\2\2\2\r\16\3"+
-		"\2\2\2\16\3\3\2\2\2\17\20\7\3\2\2\20\21\5\6\4\2\21\22\7\16\2\2\22\32\3"+
-		"\2\2\2\23\24\7\13\2\2\24\25\7\4\2\2\25\26\5\6\4\2\26\27\7\16\2\2\27\32"+
-		"\3\2\2\2\30\32\7\16\2\2\31\17\3\2\2\2\31\23\3\2\2\2\31\30\3\2\2\2\32\5"+
+		"\2\2\2\16\3\3\2\2\2\17\20\7\3\2\2\20\21\5\6\4\2\21\22\7\21\2\2\22\32\3"+
+		"\2\2\2\23\24\7\13\2\2\24\25\7\4\2\2\25\26\5\6\4\2\26\27\7\21\2\2\27\32"+
+		"\3\2\2\2\30\32\7\21\2\2\31\17\3\2\2\2\31\23\3\2\2\2\31\30\3\2\2\2\32\5"+
 		"\3\2\2\2\33\34\b\4\1\2\34\35\7\5\2\2\35\36\5\6\4\2\36\37\7\6\2\2\37#\3"+
 		"\2\2\2 #\7\13\2\2!#\5\b\5\2\"\33\3\2\2\2\" \3\2\2\2\"!\3\2\2\2#,\3\2\2"+
 		"\2$%\f\7\2\2%&\t\2\2\2&+\5\6\4\b\'(\f\6\2\2()\t\3\2\2)+\5\6\4\7*$\3\2"+
