@@ -7,20 +7,31 @@ grammar ZYMBOL;
 ///////////// 语法规则 (首字母小写)
 program: stmt+;
 
-stmt : 'print' expr SEMICOLON       # print // 输出表达式的值
-| ID '=' expr SEMICOLON             # assign // 赋值语句
-| SEMICOLON                         # blank // 空行带注释
+stmt : 'print' expr SEMICOLON       # Print // 输出表达式的值
+| ID '=' expr SEMICOLON             # Assign // 赋值语句
+| SEMICOLON                         # Blank // 空行带注释
 ;
 
-expr : expr (MUL|DIV) expr   # MulDiv // 乘除表达式
-| expr (ADD|SUB) expr        # AddSub // 加减表达式
-| '('expr')'                 # Parenthesis // ()表达式,提升优先级
-| ID                         # Variable // 引用其他变量
-| value                      # Literal // 字面值或者表达式
+expr : exprNumerical                # ExpressionNumerical // 数字表达式
+| exprString                        # ExpressionString  // 字符串表达式
+| ID                                # Variable // 引用其他变量
 ;
 
-value : FLOAT     // 直接是一个浮点数字面值
+exprNumerical : exprNumerical (MUL|DIV) exprNumerical   # MulDiv // 乘除表达式
+| exprNumerical (ADD|SUB) exprNumerical                 # AddSub // 加减表达式
+| '(' exprNumerical ')'                                   # Parenthesis // ()表达式,提升优先级
+| valueNumerical                                        # NumericalLiteral // 数字字面值
+;
+
+exprString : exprString (ADD) exprString    # StringConcatenation // 拼接字符串
+| valueString                               # StringLiteral //  字符串字面值
+;
+
+valueNumerical : FLOAT     // 直接是一个浮点数字面值
 | INT // 直接是一个整数字面值
+;
+
+valueString : STRING     // 直接是一个字符串字面值
 ;
 
 ////////////// 词法规则 (首字母大写)
