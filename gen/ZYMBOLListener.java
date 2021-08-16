@@ -20,53 +20,65 @@ public interface ZYMBOLListener extends ParseTreeListener {
 	 */
 	void exitProgram(ZYMBOLParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code print}
+	 * Enter a parse tree produced by the {@code Print}
 	 * labeled alternative in {@link ZYMBOLParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void enterPrint(ZYMBOLParser.PrintContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code print}
+	 * Exit a parse tree produced by the {@code Print}
 	 * labeled alternative in {@link ZYMBOLParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void exitPrint(ZYMBOLParser.PrintContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code assign}
+	 * Enter a parse tree produced by the {@code Assign}
 	 * labeled alternative in {@link ZYMBOLParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void enterAssign(ZYMBOLParser.AssignContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code assign}
+	 * Exit a parse tree produced by the {@code Assign}
 	 * labeled alternative in {@link ZYMBOLParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void exitAssign(ZYMBOLParser.AssignContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code blank}
+	 * Enter a parse tree produced by the {@code Blank}
 	 * labeled alternative in {@link ZYMBOLParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void enterBlank(ZYMBOLParser.BlankContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code blank}
+	 * Exit a parse tree produced by the {@code Blank}
 	 * labeled alternative in {@link ZYMBOLParser#stmt}.
 	 * @param ctx the parse tree
 	 */
 	void exitBlank(ZYMBOLParser.BlankContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Parenthesis}
+	 * Enter a parse tree produced by the {@code ExpressionNumerical}
 	 * labeled alternative in {@link ZYMBOLParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterParenthesis(ZYMBOLParser.ParenthesisContext ctx);
+	void enterExpressionNumerical(ZYMBOLParser.ExpressionNumericalContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Parenthesis}
+	 * Exit a parse tree produced by the {@code ExpressionNumerical}
 	 * labeled alternative in {@link ZYMBOLParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitParenthesis(ZYMBOLParser.ParenthesisContext ctx);
+	void exitExpressionNumerical(ZYMBOLParser.ExpressionNumericalContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ExpressionString}
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressionString(ZYMBOLParser.ExpressionStringContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExpressionString}
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressionString(ZYMBOLParser.ExpressionStringContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Variable}
 	 * labeled alternative in {@link ZYMBOLParser#expr}.
@@ -80,49 +92,95 @@ public interface ZYMBOLListener extends ParseTreeListener {
 	 */
 	void exitVariable(ZYMBOLParser.VariableContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Parenthesis}
+	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
+	 * @param ctx the parse tree
+	 */
+	void enterParenthesis(ZYMBOLParser.ParenthesisContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Parenthesis}
+	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
+	 * @param ctx the parse tree
+	 */
+	void exitParenthesis(ZYMBOLParser.ParenthesisContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code MulDiv}
-	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
 	 * @param ctx the parse tree
 	 */
 	void enterMulDiv(ZYMBOLParser.MulDivContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code MulDiv}
-	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
 	 * @param ctx the parse tree
 	 */
 	void exitMulDiv(ZYMBOLParser.MulDivContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code AddSub}
-	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
 	 * @param ctx the parse tree
 	 */
 	void enterAddSub(ZYMBOLParser.AddSubContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code AddSub}
-	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
 	 * @param ctx the parse tree
 	 */
 	void exitAddSub(ZYMBOLParser.AddSubContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Literal}
-	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * Enter a parse tree produced by the {@code NumericalLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
 	 * @param ctx the parse tree
 	 */
-	void enterLiteral(ZYMBOLParser.LiteralContext ctx);
+	void enterNumericalLiteral(ZYMBOLParser.NumericalLiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Literal}
-	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * Exit a parse tree produced by the {@code NumericalLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
 	 * @param ctx the parse tree
 	 */
-	void exitLiteral(ZYMBOLParser.LiteralContext ctx);
+	void exitNumericalLiteral(ZYMBOLParser.NumericalLiteralContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ZYMBOLParser#value}.
+	 * Enter a parse tree produced by the {@code StringLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#exprString}.
 	 * @param ctx the parse tree
 	 */
-	void enterValue(ZYMBOLParser.ValueContext ctx);
+	void enterStringLiteral(ZYMBOLParser.StringLiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ZYMBOLParser#value}.
+	 * Exit a parse tree produced by the {@code StringLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#exprString}.
 	 * @param ctx the parse tree
 	 */
-	void exitValue(ZYMBOLParser.ValueContext ctx);
+	void exitStringLiteral(ZYMBOLParser.StringLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code StringConcatenation}
+	 * labeled alternative in {@link ZYMBOLParser#exprString}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringConcatenation(ZYMBOLParser.StringConcatenationContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code StringConcatenation}
+	 * labeled alternative in {@link ZYMBOLParser#exprString}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringConcatenation(ZYMBOLParser.StringConcatenationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ZYMBOLParser#valueNumerical}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueNumerical(ZYMBOLParser.ValueNumericalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ZYMBOLParser#valueNumerical}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueNumerical(ZYMBOLParser.ValueNumericalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ZYMBOLParser#valueString}.
+	 * @param ctx the parse tree
+	 */
+	void enterValueString(ZYMBOLParser.ValueStringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ZYMBOLParser#valueString}.
+	 * @param ctx the parse tree
+	 */
+	void exitValueString(ZYMBOLParser.ValueStringContext ctx);
 }

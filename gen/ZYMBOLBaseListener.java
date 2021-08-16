@@ -66,13 +66,25 @@ public class ZYMBOLBaseListener implements ZYMBOLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParenthesis(ZYMBOLParser.ParenthesisContext ctx) { }
+	@Override public void enterExpressionNumerical(ZYMBOLParser.ExpressionNumericalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParenthesis(ZYMBOLParser.ParenthesisContext ctx) { }
+	@Override public void exitExpressionNumerical(ZYMBOLParser.ExpressionNumericalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpressionString(ZYMBOLParser.ExpressionStringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpressionString(ZYMBOLParser.ExpressionStringContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -85,6 +97,18 @@ public class ZYMBOLBaseListener implements ZYMBOLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVariable(ZYMBOLParser.VariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParenthesis(ZYMBOLParser.ParenthesisContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParenthesis(ZYMBOLParser.ParenthesisContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -114,25 +138,61 @@ public class ZYMBOLBaseListener implements ZYMBOLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLiteral(ZYMBOLParser.LiteralContext ctx) { }
+	@Override public void enterNumericalLiteral(ZYMBOLParser.NumericalLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLiteral(ZYMBOLParser.LiteralContext ctx) { }
+	@Override public void exitNumericalLiteral(ZYMBOLParser.NumericalLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterValue(ZYMBOLParser.ValueContext ctx) { }
+	@Override public void enterStringLiteral(ZYMBOLParser.StringLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitValue(ZYMBOLParser.ValueContext ctx) { }
+	@Override public void exitStringLiteral(ZYMBOLParser.StringLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStringConcatenation(ZYMBOLParser.StringConcatenationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStringConcatenation(ZYMBOLParser.StringConcatenationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValueNumerical(ZYMBOLParser.ValueNumericalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValueNumerical(ZYMBOLParser.ValueNumericalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValueString(ZYMBOLParser.ValueStringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValueString(ZYMBOLParser.ValueStringContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
