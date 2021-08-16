@@ -1,7 +1,7 @@
 grammar ZYMBOL;
 
 @header{
-    package andy.calc;
+    package andy.zymbol;
 }
 
 ///////////// 语法规则 (首字母小写)
