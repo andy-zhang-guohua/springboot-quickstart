@@ -312,23 +312,6 @@ public class ZYMBOLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class VariableContext extends ExprContext {
-		public TerminalNode ID() { return getToken(ZYMBOLParser.ID, 0); }
-		public VariableContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterVariable(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitVariable(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitVariable(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class ExpressionStringContext extends ExprContext {
 		public ExprStringContext exprString() {
 			return getRuleContext(ExprStringContext.class,0);
@@ -353,12 +336,10 @@ public class ZYMBOLParser extends Parser {
 		ExprContext _localctx = new ExprContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_expr);
 		try {
-			setState(34);
+			setState(33);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case T__2:
-			case INT:
-			case FLOAT:
+			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			case 1:
 				_localctx = new ExpressionNumericalContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
@@ -366,7 +347,7 @@ public class ZYMBOLParser extends Parser {
 				exprNumerical(0);
 				}
 				break;
-			case STRING:
+			case 2:
 				_localctx = new ExpressionStringContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
@@ -374,16 +355,6 @@ public class ZYMBOLParser extends Parser {
 				exprString(0);
 				}
 				break;
-			case ID:
-				_localctx = new VariableContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(33);
-				match(ID);
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -424,6 +395,23 @@ public class ZYMBOLParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitParenthesis(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NumericalVariableContext extends ExprNumericalContext {
+		public TerminalNode ID() { return getToken(ZYMBOLParser.ID, 0); }
+		public NumericalVariableContext(ExprNumericalContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterNumericalVariable(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitNumericalVariable(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitNumericalVariable(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -520,12 +508,21 @@ public class ZYMBOLParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(37);
+				setState(36);
 				match(T__2);
-				setState(38);
+				setState(37);
 				exprNumerical(0);
-				setState(39);
+				setState(38);
 				match(T__3);
+				}
+				break;
+			case ID:
+				{
+				_localctx = new NumericalVariableContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(40);
+				match(ID);
 				}
 				break;
 			case INT:
@@ -558,7 +555,7 @@ public class ZYMBOLParser extends Parser {
 						_localctx = new MulDivContext(new ExprNumericalContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_exprNumerical);
 						setState(44);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(45);
 						_la = _input.LA(1);
 						if ( !(_la==MUL || _la==DIV) ) {
@@ -570,7 +567,7 @@ public class ZYMBOLParser extends Parser {
 							consume();
 						}
 						setState(46);
-						exprNumerical(5);
+						exprNumerical(6);
 						}
 						break;
 					case 2:
@@ -578,7 +575,7 @@ public class ZYMBOLParser extends Parser {
 						_localctx = new AddSubContext(new ExprNumericalContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_exprNumerical);
 						setState(47);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(48);
 						_la = _input.LA(1);
 						if ( !(_la==ADD || _la==SUB) ) {
@@ -590,7 +587,7 @@ public class ZYMBOLParser extends Parser {
 							consume();
 						}
 						setState(49);
-						exprNumerical(4);
+						exprNumerical(5);
 						}
 						break;
 					}
@@ -666,6 +663,23 @@ public class ZYMBOLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class StringVariableContext extends ExprStringContext {
+		public TerminalNode ID() { return getToken(ZYMBOLParser.ID, 0); }
+		public StringVariableContext(ExprStringContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterStringVariable(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitStringVariable(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitStringVariable(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final ExprStringContext exprString() throws RecognitionException {
 		return exprString(0);
@@ -682,18 +696,35 @@ public class ZYMBOLParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			{
-			_localctx = new StringLiteralContext(_localctx);
-			_ctx = _localctx;
-			_prevctx = _localctx;
+			setState(58);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case STRING:
+				{
+				_localctx = new StringLiteralContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 
-			setState(56);
-			valueString();
+				setState(56);
+				valueString();
+				}
+				break;
+			case ID:
+				{
+				_localctx = new StringVariableContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(57);
+				match(ID);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(63);
+			setState(65);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
@@ -702,20 +733,20 @@ public class ZYMBOLParser extends Parser {
 					{
 					_localctx = new StringConcatenationContext(new ExprStringContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_exprString);
-					setState(58);
-					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+					setState(60);
+					if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 					{
-					setState(59);
+					setState(61);
 					match(ADD);
 					}
-					setState(60);
-					exprString(3);
+					setState(62);
+					exprString(4);
 					}
 					} 
 				}
-				setState(65);
+				setState(67);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			}
 			}
 		}
@@ -759,7 +790,7 @@ public class ZYMBOLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(66);
+			setState(68);
 			_la = _input.LA(1);
 			if ( !(_la==INT || _la==FLOAT) ) {
 			_errHandler.recoverInline(this);
@@ -809,7 +840,7 @@ public class ZYMBOLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(68);
+			setState(70);
 			match(STRING);
 			}
 		}
@@ -836,40 +867,41 @@ public class ZYMBOLParser extends Parser {
 	private boolean exprNumerical_sempred(ExprNumericalContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 4);
+			return precpred(_ctx, 5);
 		case 1:
-			return precpred(_ctx, 3);
+			return precpred(_ctx, 4);
 		}
 		return true;
 	}
 	private boolean exprString_sempred(ExprStringContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 2:
-			return precpred(_ctx, 2);
+			return precpred(_ctx, 3);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\22I\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\22K\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\6\2\22\n\2\r\2\16\2\23"+
-		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3 \n\3\3\4\3\4\3\4\5\4%\n\4"+
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3 \n\3\3\4\3\4\5\4$\n\4\3\5"+
 		"\3\5\3\5\3\5\3\5\3\5\3\5\5\5-\n\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5\65\n\5\f"+
-		"\5\16\58\13\5\3\6\3\6\3\6\3\6\3\6\3\6\7\6@\n\6\f\6\16\6C\13\6\3\7\3\7"+
-		"\3\b\3\b\3\b\2\4\b\n\t\2\4\6\b\n\f\16\2\5\3\2\7\b\3\2\t\n\3\2\f\r\2J\2"+
-		"\21\3\2\2\2\4\37\3\2\2\2\6$\3\2\2\2\b,\3\2\2\2\n9\3\2\2\2\fD\3\2\2\2\16"+
-		"F\3\2\2\2\20\22\5\4\3\2\21\20\3\2\2\2\22\23\3\2\2\2\23\21\3\2\2\2\23\24"+
-		"\3\2\2\2\24\3\3\2\2\2\25\26\7\3\2\2\26\27\5\6\4\2\27\30\7\21\2\2\30 \3"+
-		"\2\2\2\31\32\7\13\2\2\32\33\7\4\2\2\33\34\5\6\4\2\34\35\7\21\2\2\35 \3"+
-		"\2\2\2\36 \7\21\2\2\37\25\3\2\2\2\37\31\3\2\2\2\37\36\3\2\2\2 \5\3\2\2"+
-		"\2!%\5\b\5\2\"%\5\n\6\2#%\7\13\2\2$!\3\2\2\2$\"\3\2\2\2$#\3\2\2\2%\7\3"+
-		"\2\2\2&\'\b\5\1\2\'(\7\5\2\2()\5\b\5\2)*\7\6\2\2*-\3\2\2\2+-\5\f\7\2,"+
-		"&\3\2\2\2,+\3\2\2\2-\66\3\2\2\2./\f\6\2\2/\60\t\2\2\2\60\65\5\b\5\7\61"+
-		"\62\f\5\2\2\62\63\t\3\2\2\63\65\5\b\5\6\64.\3\2\2\2\64\61\3\2\2\2\658"+
-		"\3\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2\67\t\3\2\2\28\66\3\2\2\29:\b\6\1"+
-		"\2:;\5\16\b\2;A\3\2\2\2<=\f\4\2\2=>\7\t\2\2>@\5\n\6\5?<\3\2\2\2@C\3\2"+
-		"\2\2A?\3\2\2\2AB\3\2\2\2B\13\3\2\2\2CA\3\2\2\2DE\t\4\2\2E\r\3\2\2\2FG"+
-		"\7\16\2\2G\17\3\2\2\2\t\23\37$,\64\66A";
+		"\5\16\58\13\5\3\6\3\6\3\6\5\6=\n\6\3\6\3\6\3\6\7\6B\n\6\f\6\16\6E\13\6"+
+		"\3\7\3\7\3\b\3\b\3\b\2\4\b\n\t\2\4\6\b\n\f\16\2\5\3\2\7\b\3\2\t\n\3\2"+
+		"\f\r\2M\2\21\3\2\2\2\4\37\3\2\2\2\6#\3\2\2\2\b,\3\2\2\2\n<\3\2\2\2\fF"+
+		"\3\2\2\2\16H\3\2\2\2\20\22\5\4\3\2\21\20\3\2\2\2\22\23\3\2\2\2\23\21\3"+
+		"\2\2\2\23\24\3\2\2\2\24\3\3\2\2\2\25\26\7\3\2\2\26\27\5\6\4\2\27\30\7"+
+		"\21\2\2\30 \3\2\2\2\31\32\7\13\2\2\32\33\7\4\2\2\33\34\5\6\4\2\34\35\7"+
+		"\21\2\2\35 \3\2\2\2\36 \7\21\2\2\37\25\3\2\2\2\37\31\3\2\2\2\37\36\3\2"+
+		"\2\2 \5\3\2\2\2!$\5\b\5\2\"$\5\n\6\2#!\3\2\2\2#\"\3\2\2\2$\7\3\2\2\2%"+
+		"&\b\5\1\2&\'\7\5\2\2\'(\5\b\5\2()\7\6\2\2)-\3\2\2\2*-\7\13\2\2+-\5\f\7"+
+		"\2,%\3\2\2\2,*\3\2\2\2,+\3\2\2\2-\66\3\2\2\2./\f\7\2\2/\60\t\2\2\2\60"+
+		"\65\5\b\5\b\61\62\f\6\2\2\62\63\t\3\2\2\63\65\5\b\5\7\64.\3\2\2\2\64\61"+
+		"\3\2\2\2\658\3\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2\67\t\3\2\2\28\66\3\2"+
+		"\2\29:\b\6\1\2:=\5\16\b\2;=\7\13\2\2<9\3\2\2\2<;\3\2\2\2=C\3\2\2\2>?\f"+
+		"\5\2\2?@\7\t\2\2@B\5\n\6\6A>\3\2\2\2BE\3\2\2\2CA\3\2\2\2CD\3\2\2\2D\13"+
+		"\3\2\2\2EC\3\2\2\2FG\t\4\2\2G\r\3\2\2\2HI\7\16\2\2I\17\3\2\2\2\n\23\37"+
+		"#,\64\66<C";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

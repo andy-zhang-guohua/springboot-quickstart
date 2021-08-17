@@ -80,18 +80,6 @@ public interface ZYMBOLListener extends ParseTreeListener {
 	 */
 	void exitExpressionString(ZYMBOLParser.ExpressionStringContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Variable}
-	 * labeled alternative in {@link ZYMBOLParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterVariable(ZYMBOLParser.VariableContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Variable}
-	 * labeled alternative in {@link ZYMBOLParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitVariable(ZYMBOLParser.VariableContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code Parenthesis}
 	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
 	 * @param ctx the parse tree
@@ -103,6 +91,18 @@ public interface ZYMBOLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParenthesis(ZYMBOLParser.ParenthesisContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code NumericalVariable}
+	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumericalVariable(ZYMBOLParser.NumericalVariableContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code NumericalVariable}
+	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumericalVariable(ZYMBOLParser.NumericalVariableContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code MulDiv}
 	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
@@ -163,6 +163,18 @@ public interface ZYMBOLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStringConcatenation(ZYMBOLParser.StringConcatenationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code StringVariable}
+	 * labeled alternative in {@link ZYMBOLParser#exprString}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringVariable(ZYMBOLParser.StringVariableContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code StringVariable}
+	 * labeled alternative in {@link ZYMBOLParser#exprString}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringVariable(ZYMBOLParser.StringVariableContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ZYMBOLParser#valueNumerical}.
 	 * @param ctx the parse tree

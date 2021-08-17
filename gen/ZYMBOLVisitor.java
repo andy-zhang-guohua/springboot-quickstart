@@ -54,19 +54,19 @@ public interface ZYMBOLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpressionString(ZYMBOLParser.ExpressionStringContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Variable}
-	 * labeled alternative in {@link ZYMBOLParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVariable(ZYMBOLParser.VariableContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code Parenthesis}
 	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitParenthesis(ZYMBOLParser.ParenthesisContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NumericalVariable}
+	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumericalVariable(ZYMBOLParser.NumericalVariableContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MulDiv}
 	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
@@ -102,6 +102,13 @@ public interface ZYMBOLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStringConcatenation(ZYMBOLParser.StringConcatenationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code StringVariable}
+	 * labeled alternative in {@link ZYMBOLParser#exprString}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringVariable(ZYMBOLParser.StringVariableContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ZYMBOLParser#valueNumerical}.
 	 * @param ctx the parse tree

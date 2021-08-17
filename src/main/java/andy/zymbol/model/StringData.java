@@ -7,7 +7,7 @@ public class StringData extends TypedData {
     /**
      * 定义常量空字符串(0长度字符串)
      */
-    public static StringData EMPTY = empty();
+    public final static StringData EMPTY = empty();
 
     /**
      * 内部工具方法，用于构造空字符串(0长度字符串)
@@ -23,6 +23,23 @@ public class StringData extends TypedData {
         return empty;
     }
 
+    public static StringData of(String text) {
+        if (text == null) return EMPTY;
+
+        StringData newStringData = new StringData();
+        newStringData.setType(DataType.STRING);
+        newStringData.setValue(text);
+        return newStringData;
+    }
+
+    public static StringData of(StringData another) {
+        if (another == null) return EMPTY;
+
+        StringData newStringData = new StringData();
+        newStringData.setType(DataType.STRING);
+        newStringData.setValue(another.getValue().toString());
+        return newStringData;
+    }
 
     /**
      * 字符串拼接

@@ -14,17 +14,18 @@ stmt : 'print' expr SEMICOLON       # Print // 输出表达式的值
 
 expr : exprNumerical                # ExpressionNumerical // 数字表达式
 | exprString                        # ExpressionString  // 字符串表达式
-| ID                                # Variable // 引用其他变量
 ;
 
 exprNumerical : exprNumerical (MUL|DIV) exprNumerical   # MulDiv // 乘除表达式
 | exprNumerical (ADD|SUB) exprNumerical                 # AddSub // 加减表达式
-| '(' exprNumerical ')'                                   # Parenthesis // ()表达式,提升优先级
+| '('exprNumerical')'                                   # Parenthesis // ()表达式,提升优先级
+| ID                                                    # NumericalVariable // 引用其他变量
 | valueNumerical                                        # NumericalLiteral // 数字字面值
 ;
 
 exprString : exprString (ADD) exprString    # StringConcatenation // 拼接字符串
 | valueString                               # StringLiteral //  字符串字面值
+| ID                                        # StringVariable // 引用其他变量
 ;
 
 valueNumerical : FLOAT     // 直接是一个浮点数字面值

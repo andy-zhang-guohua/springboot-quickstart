@@ -1,6 +1,7 @@
 package andy.zymbol;
 
 import andy.zymbol.model.NumericData;
+import andy.zymbol.model.StringData;
 import andy.zymbol.model.TypedData;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,14 +46,12 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
         String id = ctx.ID().getText(); // 获取变量名称
         ZYMBOLParser.ExprContext exprContext = ctx.expr();
         TypedData value = visit(exprContext); // 访问表达式，得到表达式的值
+
+        if (value == null) throw new RuntimeException("变量不允许设置为空值 : " + id);
+
         memory.put(id, value); // 将变量的值记录到计算器内存中
 
         return value;
-    }
-
-    @Override
-    public TypedData visitExpressionString(ZYMBOLParser.ExpressionStringContext ctx) {
-        return visitChildren(ctx);
     }
 
     /**
@@ -63,7 +62,7 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
      */
     @Override
     public TypedData visitMulDiv(ZYMBOLParser.MulDivContext ctx) {
-        NumericData left = (NumericData) visit(ctx.exprNumerical(0)); // 乘除表达值 左操作数
+        NumericData left = (NumericData) visit(ctx.exprNumerical(0)); // 乘除表达式 左操作数
         NumericData right = (NumericData) visit(ctx.exprNumerical(1)); // 乘除表达式 右操作数
         if (ctx.MUL() != null) {
             return left.multiply(right); // 乘法的情况
@@ -90,13 +89,13 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
     }
 
     /**
-     * 访问规则分支 : Variable
+     * 访问规则分支 : NumericalVariable
      *
      * @param ctx
      * @return
      */
     @Override
-    public TypedData visitVariable(ZYMBOLParser.VariableContext ctx) {
+    public TypedData visitNumericalVariable(ZYMBOLParser.NumericalVariableContext ctx) {
         String id = ctx.getText();
 
         if (memory.containsKey(id))
@@ -129,5 +128,30 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
     public TypedData visitParenthesis(ZYMBOLParser.ParenthesisContext ctx) {
         ZYMBOLParser.ExprNumericalContext exprNumericalContext = ctx.exprNumerical();
         return visit(exprNumericalContext);
+    }
+
+
+    /**
+     * 访问规则
+     * <p>
+     * valueString : STRING     // 直接是一个字符串字面值
+     *
+     * @param ctx
+     * @return
+     */
+    @Override
+    public TypedData visitValueString(ZYMBOLParser.ValueStringContext ctx) {
+        String text = ctx.getText();
+
+        return StringData.of(text);
+    }
+
+    @Override
+    public TypedData visitStringConcatenation(ZYMBOLParser.StringConcatenationContext ctx) {
+        StringData left = (StringData) visit(ctx.exprString(0)); // 字符串拼接 左操作数
+        StringData right = (StringData) visit(ctx.exprString(1)); // 字符串拼接 右操作数
+
+        StringData result = StringData.of(left).concatenate(right);
+        return result;
     }
 }
