@@ -7,7 +7,7 @@ import andy.zymbol.model.TypedData;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * CALC 脚本的 Visitor 模式实现类
+ * ZYMBOL 脚本的 Visitor 模式实现类
  */
 public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
     // 计算器内容， 用于记录变量的值
@@ -106,16 +106,28 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
     }
 
     /**
-     * 访问规则 : valueNumerical
+     * 访问规则分支 : FloatLiteral
+     * @param ctx
+     * @return
+     */
+    @Override
+    public TypedData visitFloatLiteral(ZYMBOLParser.FloatLiteralContext ctx) {
+        String text = ctx.getText();
+        // 是整数数字字面值的情况
+        return NumericData.parseFloatLiteral(text);
+    }
+
+    /**
+     * 访问规则分支 : IntLiteral
      *
      * @param ctx
      * @return
      */
     @Override
-    public TypedData visitValueNumerical(ZYMBOLParser.ValueNumericalContext ctx) {
+    public TypedData visitIntLiteral(ZYMBOLParser.IntLiteralContext ctx) {
         String text = ctx.getText();
         // 是整数数字字面值的情况
-        return NumericData.parseNumberLiteral(text);
+        return NumericData.parseIntLiteral(text);
     }
 
     /**
@@ -131,6 +143,15 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
     }
 
 
+    @Override
+    public TypedData visitStringConcatenation(ZYMBOLParser.StringConcatenationContext ctx) {
+        StringData left = (StringData) visit(ctx.exprString(0)); // 字符串拼接 左操作数
+        StringData right = (StringData) visit(ctx.exprString(1)); // 字符串拼接 右操作数
+
+        StringData result = StringData.of(left).concatenate(right);
+        return result;
+    }
+
     /**
      * 访问规则
      * <p>
@@ -141,17 +162,30 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
      */
     @Override
     public TypedData visitValueString(ZYMBOLParser.ValueStringContext ctx) {
+        // 这里获得的 text 包括首尾的双引号字符
         String text = ctx.getText();
 
-        return StringData.of(text);
+        // 去除首尾的双引号字符
+        int length = text.length();
+        String value = text.substring(1, length - 1);
+
+        return StringData.of(value);
     }
 
+    /**
+     * 访问规则分支 : StringVariable
+     *
+     * @param ctx
+     * @return
+     */
     @Override
-    public TypedData visitStringConcatenation(ZYMBOLParser.StringConcatenationContext ctx) {
-        StringData left = (StringData) visit(ctx.exprString(0)); // 字符串拼接 左操作数
-        StringData right = (StringData) visit(ctx.exprString(1)); // 字符串拼接 右操作数
+    public TypedData visitStringVariable(ZYMBOLParser.StringVariableContext ctx) {
+        String id = ctx.getText();
 
-        StringData result = StringData.of(left).concatenate(right);
-        return result;
+        if (memory.containsKey(id))
+            // 这是一个已经定义的变量
+            return memory.get(id);
+
+        throw new RuntimeException("未定义的变量 : " + id);
     }
 }

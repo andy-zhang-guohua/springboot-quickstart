@@ -186,13 +186,25 @@ public class ZYMBOLBaseListener implements ZYMBOLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterValueNumerical(ZYMBOLParser.ValueNumericalContext ctx) { }
+	@Override public void enterFloatLiteral(ZYMBOLParser.FloatLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitValueNumerical(ZYMBOLParser.ValueNumericalContext ctx) { }
+	@Override public void exitFloatLiteral(ZYMBOLParser.FloatLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIntLiteral(ZYMBOLParser.IntLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIntLiteral(ZYMBOLParser.IntLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

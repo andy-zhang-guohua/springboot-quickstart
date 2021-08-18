@@ -176,15 +176,29 @@ public interface ZYMBOLListener extends ParseTreeListener {
 	 */
 	void exitStringVariable(ZYMBOLParser.StringVariableContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ZYMBOLParser#valueNumerical}.
+	 * Enter a parse tree produced by the {@code FloatLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#valueNumerical}.
 	 * @param ctx the parse tree
 	 */
-	void enterValueNumerical(ZYMBOLParser.ValueNumericalContext ctx);
+	void enterFloatLiteral(ZYMBOLParser.FloatLiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ZYMBOLParser#valueNumerical}.
+	 * Exit a parse tree produced by the {@code FloatLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#valueNumerical}.
 	 * @param ctx the parse tree
 	 */
-	void exitValueNumerical(ZYMBOLParser.ValueNumericalContext ctx);
+	void exitFloatLiteral(ZYMBOLParser.FloatLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code IntLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#valueNumerical}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntLiteral(ZYMBOLParser.IntLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code IntLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#valueNumerical}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntLiteral(ZYMBOLParser.IntLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ZYMBOLParser#valueString}.
 	 * @param ctx the parse tree

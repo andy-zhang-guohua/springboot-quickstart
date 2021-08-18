@@ -4,7 +4,7 @@ package andy.zero;
 import andy.zymbol.ZYMBOLInterpreter;
 
 /**
- * 使用 CALC v2 的例子
+ * 使用 ZYMBOL v1 的例子
  */
 public class Application {
     public static void main(String[] args) {
@@ -19,11 +19,11 @@ public class Application {
                 "print e;\n" + // 语句7 : 输出变量 e 的值, 应该为 -7.4
                 // "print f;\n" + // 语句8 : 输出变量 f 的值, 应该为 0, 因为 f 是一个未被定义的变量
                 "print .4 + 5.1 + 20.8 / 2 ;\n" + // 语句9 : 输出一个直接表达式的值, 应该为 15.9
-                "\n" +
-                "s1 = \"Hello World!\";\n" +
-                "s2 = \" 蓝色星球!\";\n" +
-                "s3 = s1 + s2;\n" +
-                "print s3;\n";// 语句10 : 空语句
+                "\n" +  // 语句10 :
+                "s1 = \"Hello World!\";\n" + // 语句11 :
+                "s2 = \"蓝色星球!\";\n" + // 语句12 :
+                "s3 = s1..s2;\n" + // 语句13 :
+                "print s3;\n";// 语句14 : 空语句
 
 
         System.out.print("脚本为 : \n" + script);

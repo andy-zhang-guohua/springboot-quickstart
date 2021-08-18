@@ -110,11 +110,19 @@ public interface ZYMBOLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStringVariable(ZYMBOLParser.StringVariableContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ZYMBOLParser#valueNumerical}.
+	 * Visit a parse tree produced by the {@code FloatLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#valueNumerical}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValueNumerical(ZYMBOLParser.ValueNumericalContext ctx);
+	T visitFloatLiteral(ZYMBOLParser.FloatLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code IntLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#valueNumerical}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIntLiteral(ZYMBOLParser.IntLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ZYMBOLParser#valueString}.
 	 * @param ctx the parse tree

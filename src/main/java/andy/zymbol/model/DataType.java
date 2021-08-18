@@ -1,7 +1,7 @@
 package andy.zymbol.model;
 
 /**
- * 脚本所能支持的数据类型
+ * ZYMBOL v1 脚本所能支持的数据类型
  */
 public enum DataType {
     INTEGER, // 数字类型 : 整数

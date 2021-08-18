@@ -166,26 +166,39 @@ public class NumericData extends TypedData {
     }
 
     /**
-     * 从数字字面值分析数字，类型可能是浮点数，或者整数
+     * 从浮点数字面值分析数字
      *
      * @param numberLiteral
      * @return
      */
-    public static NumericData parseNumberLiteral(String numberLiteral) {
+    public static NumericData parseIntLiteral(String numberLiteral) {
         if (numberLiteral == null || numberLiteral.trim().isEmpty()) return NumericData.ZERO;
 
-        if (numberLiteral.contains(".")) { // 字面值字符串包含. ==> 这会是一个浮点数
-            BigDecimal value = new BigDecimal(numberLiteral);
-            NumericData result = new NumericData();
-            result.setType(DataType.FLOAT); // <=== 类型设置为 浮点数
-            result.setValue(value);
-            return result;
-        }
-
-        // 否则 ==> 这应该会是一个整数
         NumericData result = new NumericData();
         result.setType(DataType.INTEGER);// <=== 类型设置为 整数
         result.setValue(Long.parseLong(numberLiteral));
+        return result;
+    }
+
+    /**
+     * 从浮点数字面值分析数字
+     *
+     * @param numberLiteral
+     * @return
+     */
+    public static NumericData parseFloatLiteral(String numberLiteral) {
+        if (numberLiteral == null || numberLiteral.trim().isEmpty()) {
+            NumericData result = new NumericData();
+            result.setType(DataType.FLOAT);// <=== 类型设置为 浮点数
+            result.setValue(BigDecimal.ZERO);
+            return result;
+        }
+
+
+        BigDecimal value = new BigDecimal(numberLiteral);
+        NumericData result = new NumericData();
+        result.setType(DataType.FLOAT); // <=== 类型设置为 浮点数
+        result.setValue(value);
         return result;
     }
 }

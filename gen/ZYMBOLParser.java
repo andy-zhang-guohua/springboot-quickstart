@@ -19,8 +19,9 @@ public class ZYMBOLParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, MUL=5, DIV=6, ADD=7, SUB=8, ID=9, INT=10, 
-		FLOAT=11, STRING=12, LINE_COMMENT=13, COMMENT=14, SEMICOLON=15, WS=16;
+		T__0=1, T__1=2, T__2=3, T__3=4, MUL=5, DIV=6, ADD=7, SUB=8, CONCAT=9, 
+		ID=10, INT=11, FLOAT=12, STRING=13, LINE_COMMENT=14, COMMENT=15, SEMICOLON=16, 
+		WS=17;
 	public static final int
 		RULE_program = 0, RULE_stmt = 1, RULE_expr = 2, RULE_exprNumerical = 3, 
 		RULE_exprString = 4, RULE_valueNumerical = 5, RULE_valueString = 6;
@@ -34,15 +35,15 @@ public class ZYMBOLParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'print'", "'='", "'('", "')'", "'*'", "'/'", "'+'", "'-'", null, 
-			null, null, null, null, null, "';'"
+			null, "'print'", "'='", "'('", "')'", "'*'", "'/'", "'+'", "'-'", "'..'", 
+			null, null, null, null, null, null, "';'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, "MUL", "DIV", "ADD", "SUB", "ID", "INT", 
-			"FLOAT", "STRING", "LINE_COMMENT", "COMMENT", "SEMICOLON", "WS"
+			null, null, null, null, null, "MUL", "DIV", "ADD", "SUB", "CONCAT", "ID", 
+			"INT", "FLOAT", "STRING", "LINE_COMMENT", "COMMENT", "SEMICOLON", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -647,7 +648,7 @@ public class ZYMBOLParser extends Parser {
 		public ExprStringContext exprString(int i) {
 			return getRuleContext(ExprStringContext.class,i);
 		}
-		public TerminalNode ADD() { return getToken(ZYMBOLParser.ADD, 0); }
+		public TerminalNode CONCAT() { return getToken(ZYMBOLParser.CONCAT, 0); }
 		public StringConcatenationContext(ExprStringContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -737,7 +738,7 @@ public class ZYMBOLParser extends Parser {
 					if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 					{
 					setState(61);
-					match(ADD);
+					match(CONCAT);
 					}
 					setState(62);
 					exprString(4);
@@ -762,23 +763,47 @@ public class ZYMBOLParser extends Parser {
 	}
 
 	public static class ValueNumericalContext extends ParserRuleContext {
-		public TerminalNode FLOAT() { return getToken(ZYMBOLParser.FLOAT, 0); }
-		public TerminalNode INT() { return getToken(ZYMBOLParser.INT, 0); }
 		public ValueNumericalContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_valueNumerical; }
+	 
+		public ValueNumericalContext() { }
+		public void copyFrom(ValueNumericalContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class FloatLiteralContext extends ValueNumericalContext {
+		public TerminalNode FLOAT() { return getToken(ZYMBOLParser.FLOAT, 0); }
+		public FloatLiteralContext(ValueNumericalContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterValueNumerical(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterFloatLiteral(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitValueNumerical(this);
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitFloatLiteral(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitValueNumerical(this);
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitFloatLiteral(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IntLiteralContext extends ValueNumericalContext {
+		public TerminalNode INT() { return getToken(ZYMBOLParser.INT, 0); }
+		public IntLiteralContext(ValueNumericalContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).enterIntLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ZYMBOLListener ) ((ZYMBOLListener)listener).exitIntLiteral(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ZYMBOLVisitor ) return ((ZYMBOLVisitor<? extends T>)visitor).visitIntLiteral(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -786,20 +811,28 @@ public class ZYMBOLParser extends Parser {
 	public final ValueNumericalContext valueNumerical() throws RecognitionException {
 		ValueNumericalContext _localctx = new ValueNumericalContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_valueNumerical);
-		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(68);
-			_la = _input.LA(1);
-			if ( !(_la==INT || _la==FLOAT) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			setState(70);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case FLOAT:
+				_localctx = new FloatLiteralContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(68);
+				match(FLOAT);
+				}
+				break;
+			case INT:
+				_localctx = new IntLiteralContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(69);
+				match(INT);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -840,7 +873,7 @@ public class ZYMBOLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(70);
+			setState(72);
 			match(STRING);
 			}
 		}
@@ -882,26 +915,26 @@ public class ZYMBOLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\22K\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\23M\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\6\2\22\n\2\r\2\16\2\23"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3 \n\3\3\4\3\4\5\4$\n\4\3\5"+
 		"\3\5\3\5\3\5\3\5\3\5\3\5\5\5-\n\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5\65\n\5\f"+
 		"\5\16\58\13\5\3\6\3\6\3\6\5\6=\n\6\3\6\3\6\3\6\7\6B\n\6\f\6\16\6E\13\6"+
-		"\3\7\3\7\3\b\3\b\3\b\2\4\b\n\t\2\4\6\b\n\f\16\2\5\3\2\7\b\3\2\t\n\3\2"+
-		"\f\r\2M\2\21\3\2\2\2\4\37\3\2\2\2\6#\3\2\2\2\b,\3\2\2\2\n<\3\2\2\2\fF"+
-		"\3\2\2\2\16H\3\2\2\2\20\22\5\4\3\2\21\20\3\2\2\2\22\23\3\2\2\2\23\21\3"+
+		"\3\7\3\7\5\7I\n\7\3\b\3\b\3\b\2\4\b\n\t\2\4\6\b\n\f\16\2\4\3\2\7\b\3\2"+
+		"\t\n\2P\2\21\3\2\2\2\4\37\3\2\2\2\6#\3\2\2\2\b,\3\2\2\2\n<\3\2\2\2\fH"+
+		"\3\2\2\2\16J\3\2\2\2\20\22\5\4\3\2\21\20\3\2\2\2\22\23\3\2\2\2\23\21\3"+
 		"\2\2\2\23\24\3\2\2\2\24\3\3\2\2\2\25\26\7\3\2\2\26\27\5\6\4\2\27\30\7"+
-		"\21\2\2\30 \3\2\2\2\31\32\7\13\2\2\32\33\7\4\2\2\33\34\5\6\4\2\34\35\7"+
-		"\21\2\2\35 \3\2\2\2\36 \7\21\2\2\37\25\3\2\2\2\37\31\3\2\2\2\37\36\3\2"+
+		"\22\2\2\30 \3\2\2\2\31\32\7\f\2\2\32\33\7\4\2\2\33\34\5\6\4\2\34\35\7"+
+		"\22\2\2\35 \3\2\2\2\36 \7\22\2\2\37\25\3\2\2\2\37\31\3\2\2\2\37\36\3\2"+
 		"\2\2 \5\3\2\2\2!$\5\b\5\2\"$\5\n\6\2#!\3\2\2\2#\"\3\2\2\2$\7\3\2\2\2%"+
-		"&\b\5\1\2&\'\7\5\2\2\'(\5\b\5\2()\7\6\2\2)-\3\2\2\2*-\7\13\2\2+-\5\f\7"+
+		"&\b\5\1\2&\'\7\5\2\2\'(\5\b\5\2()\7\6\2\2)-\3\2\2\2*-\7\f\2\2+-\5\f\7"+
 		"\2,%\3\2\2\2,*\3\2\2\2,+\3\2\2\2-\66\3\2\2\2./\f\7\2\2/\60\t\2\2\2\60"+
 		"\65\5\b\5\b\61\62\f\6\2\2\62\63\t\3\2\2\63\65\5\b\5\7\64.\3\2\2\2\64\61"+
 		"\3\2\2\2\658\3\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2\67\t\3\2\2\28\66\3\2"+
-		"\2\29:\b\6\1\2:=\5\16\b\2;=\7\13\2\2<9\3\2\2\2<;\3\2\2\2=C\3\2\2\2>?\f"+
-		"\5\2\2?@\7\t\2\2@B\5\n\6\6A>\3\2\2\2BE\3\2\2\2CA\3\2\2\2CD\3\2\2\2D\13"+
-		"\3\2\2\2EC\3\2\2\2FG\t\4\2\2G\r\3\2\2\2HI\7\16\2\2I\17\3\2\2\2\n\23\37"+
-		"#,\64\66<C";
+		"\2\29:\b\6\1\2:=\5\16\b\2;=\7\f\2\2<9\3\2\2\2<;\3\2\2\2=C\3\2\2\2>?\f"+
+		"\5\2\2?@\7\13\2\2@B\5\n\6\6A>\3\2\2\2BE\3\2\2\2CA\3\2\2\2CD\3\2\2\2D\13"+
+		"\3\2\2\2EC\3\2\2\2FI\7\16\2\2GI\7\r\2\2HF\3\2\2\2HG\3\2\2\2I\r\3\2\2\2"+
+		"JK\7\17\2\2K\17\3\2\2\2\13\23\37#,\64\66<CH";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -23,6 +23,11 @@ public class StringData extends TypedData {
         return empty;
     }
 
+    /**
+     * 从一个Java字符串构造一个 StringData 对象
+     * @param text
+     * @return
+     */
     public static StringData of(String text) {
         if (text == null) return EMPTY;
 
@@ -32,6 +37,13 @@ public class StringData extends TypedData {
         return newStringData;
     }
 
+    /**
+     * 从另外一个 StringData 对象复制构造一个新的 StringData 对象
+     *
+     * 该方法对 null 做了特殊处理，所有 null 被转换成 EMPTY
+     * @param another
+     * @return
+     */
     public static StringData of(StringData another) {
         if (another == null) return EMPTY;
 

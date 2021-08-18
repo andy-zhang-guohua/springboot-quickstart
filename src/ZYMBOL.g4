@@ -23,13 +23,13 @@ exprNumerical : exprNumerical (MUL|DIV) exprNumerical   # MulDiv // 乘除表达
 | valueNumerical                                        # NumericalLiteral // 数字字面值
 ;
 
-exprString : exprString (ADD) exprString    # StringConcatenation // 拼接字符串
+exprString : exprString (CONCAT) exprString    # StringConcatenation // 拼接字符串
 | valueString                               # StringLiteral //  字符串字面值
 | ID                                        # StringVariable // 引用其他变量
 ;
 
-valueNumerical : FLOAT     // 直接是一个浮点数字面值
-| INT // 直接是一个整数字面值
+valueNumerical : FLOAT     # FloatLiteral// 直接是一个浮点数字面值
+| INT # IntLiteral // 直接是一个整数字面值
 ;
 
 valueString : STRING     // 直接是一个字符串字面值
@@ -37,10 +37,12 @@ valueString : STRING     // 直接是一个字符串字面值
 
 ////////////// 词法规则 (首字母大写)
 
-MUL :   '*'; // 乘法操作符
-DIV :   '/'; // 除法操作符
-ADD :   '+'; // 加法操作符
-SUB :   '-'; // 减法操作符
+MUL :   '*'; // (数字)乘法操作符
+DIV :   '/'; // (数字)除法操作符
+ADD :   '+'; // (数字)加法操作符
+SUB :   '-'; // (数字)减法操作符
+
+CONCAT : '..'; // (字符串)连接
 
 ID  :   ALPHA(ALPHA|DIGIT)*; // 变量名称
 
