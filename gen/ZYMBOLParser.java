@@ -20,7 +20,8 @@ public class ZYMBOLParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, MUL=5, DIV=6, ADD=7, SUB=8, CONCAT=9, 
-		ID=10, INT=11, FLOAT=12, STRING=13, SEMICOLON=14, WS=15;
+		ID=10, INT=11, FLOAT=12, STRING=13, LINE_COMMENT=14, COMMENT=15, SEMICOLON=16, 
+		WS=17;
 	public static final int
 		RULE_program = 0, RULE_stmt = 1, RULE_expr = 2, RULE_exprNumerical = 3, 
 		RULE_exprString = 4, RULE_valueNumerical = 5, RULE_valueString = 6;
@@ -35,14 +36,14 @@ public class ZYMBOLParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'print'", "'='", "'('", "')'", "'*'", "'/'", "'+'", "'-'", "'..'", 
-			null, null, null, null, "';'"
+			null, null, null, null, null, null, "';'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, "MUL", "DIV", "ADD", "SUB", "CONCAT", "ID", 
-			"INT", "FLOAT", "STRING", "SEMICOLON", "WS"
+			"INT", "FLOAT", "STRING", "LINE_COMMENT", "COMMENT", "SEMICOLON", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -914,7 +915,7 @@ public class ZYMBOLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\21M\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\23M\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\6\2\22\n\2\r\2\16\2\23"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3 \n\3\3\4\3\4\5\4$\n\4\3\5"+
 		"\3\5\3\5\3\5\3\5\3\5\3\5\5\5-\n\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5\65\n\5\f"+
@@ -923,8 +924,8 @@ public class ZYMBOLParser extends Parser {
 		"\t\n\2P\2\21\3\2\2\2\4\37\3\2\2\2\6#\3\2\2\2\b,\3\2\2\2\n<\3\2\2\2\fH"+
 		"\3\2\2\2\16J\3\2\2\2\20\22\5\4\3\2\21\20\3\2\2\2\22\23\3\2\2\2\23\21\3"+
 		"\2\2\2\23\24\3\2\2\2\24\3\3\2\2\2\25\26\7\3\2\2\26\27\5\6\4\2\27\30\7"+
-		"\20\2\2\30 \3\2\2\2\31\32\7\f\2\2\32\33\7\4\2\2\33\34\5\6\4\2\34\35\7"+
-		"\20\2\2\35 \3\2\2\2\36 \7\20\2\2\37\25\3\2\2\2\37\31\3\2\2\2\37\36\3\2"+
+		"\22\2\2\30 \3\2\2\2\31\32\7\f\2\2\32\33\7\4\2\2\33\34\5\6\4\2\34\35\7"+
+		"\22\2\2\35 \3\2\2\2\36 \7\22\2\2\37\25\3\2\2\2\37\31\3\2\2\2\37\36\3\2"+
 		"\2\2 \5\3\2\2\2!$\5\b\5\2\"$\5\n\6\2#!\3\2\2\2#\"\3\2\2\2$\7\3\2\2\2%"+
 		"&\b\5\1\2&\'\7\5\2\2\'(\5\b\5\2()\7\6\2\2)-\3\2\2\2*-\7\f\2\2+-\5\f\7"+
 		"\2,%\3\2\2\2,*\3\2\2\2,+\3\2\2\2-\66\3\2\2\2./\f\7\2\2/\60\t\2\2\2\60"+
