@@ -176,7 +176,7 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
         // 简易处理转义字符 : \\ ==> \
         value = value.replace("\\\\", "\\");
 
-        // 简易处理转义字符 : \* ==> *
+        // 简易处理转义字符 : \" ==> "
         value = value.replace("\\\"", "\"");
 
         return StringData.of(value);

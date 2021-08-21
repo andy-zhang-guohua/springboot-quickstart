@@ -69,13 +69,4 @@ public class StringData extends TypedData {
 
         return newStringData;
     }
-
-    /**
-     * 获取字符串长度
-     *
-     * @return
-     */
-    public int getLength() {
-        return ((String) getValue()).length();
-    }
 }
