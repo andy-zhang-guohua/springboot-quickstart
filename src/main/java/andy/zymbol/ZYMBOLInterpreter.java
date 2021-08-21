@@ -4,7 +4,14 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CodePointCharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
+/**
+ * ZYMBOL 语言脚本的解释执行器
+ */
 public class ZYMBOLInterpreter {
+    /**
+     * 执行一段 ZYMBOL 语言脚本
+     * @param script 一段 ZYMBOL 语言脚本
+     */
     public void run(String script) {
         //  对每一个输入的字符串，构造一个 CodePointCharStream
         CodePointCharStream stream = CharStreams.fromString(script);

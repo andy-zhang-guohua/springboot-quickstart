@@ -24,8 +24,8 @@ exprNumerical : exprNumerical (MUL|DIV) exprNumerical   # MulDiv // 乘除表达
 ;
 
 exprString : exprString (CONCAT) exprString    # StringConcatenation // 拼接字符串
-| valueString                               # StringLiteral //  字符串字面值
 | ID                                        # StringVariable // 引用其他变量
+| valueString                               # StringLiteral //  字符串字面值
 ;
 
 valueNumerical : FLOAT     # FloatLiteral// 直接是一个浮点数字面值
@@ -55,10 +55,6 @@ FLOAT   :   '-'? DIGIT+ '.' DIGIT*  // 浮点数定义 // 1.52、3.14159等
             ;
 
 STRING: '"' (ESC|.)*? '"' ;
-
-LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ; // 单行注释 : 匹配双斜杠//开头的注释
-
-COMMENT : '/*' .*? '*/' -> skip ; // 多行注释 : 匹配 /* 和 */ 包裹的注释
 
 SEMICOLON   :   ';' ; // 分号，用来作为一个语句的结束
 

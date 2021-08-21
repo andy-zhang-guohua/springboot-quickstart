@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
     // 计算器内容， 用于记录变量的值
-    ConcurrentHashMap<String, TypedData> memory = new ConcurrentHashMap<String, TypedData>();
+    ConcurrentHashMap<String, TypedData> variables = new ConcurrentHashMap<String, TypedData>();
 
     /**
      * 访问规则分支 'print' expr SEMICOLON
@@ -21,14 +21,18 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
      */
     @Override
     public TypedData visitPrint(ZYMBOLParser.PrintContext ctx) {
-        TypedData value = visit(ctx.expr());
-
         // 该节点有三个孩子
         // 1. print 字符串
         // 2. expr 表达式
-        // 4. SEMICOLON 换行符
-        String expressionLiteral = ctx.getChild(1).getText();
+        // 3. SEMICOLON 换行符
 
+        // 访问表达式，得到该表达式的值
+        TypedData value = visit(ctx.expr());
+
+        // 获取表达式的字符串文字表示
+        String expressionLiteral = ctx.expr().getText();
+
+        // 输出该表达式及其值
         System.out.println(expressionLiteral + " = " + value);
 
         // 注意 : 该 print 语句返回了值 0, 语言开发者可以根据需要决定在这里返回什么值
@@ -43,13 +47,12 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
      */
     @Override
     public TypedData visitAssign(ZYMBOLParser.AssignContext ctx) {
-        String id = ctx.ID().getText(); // 获取变量名称
-        ZYMBOLParser.ExprContext exprContext = ctx.expr();
-        TypedData value = visit(exprContext); // 访问表达式，得到表达式的值
+        String variableName = ctx.ID().getText(); // 获取变量名称
+        TypedData value = visit(ctx.expr()); // 访问表达式，得到表达式的值
 
-        if (value == null) throw new RuntimeException("变量不允许设置为空值 : " + id);
+        if (value == null) throw new RuntimeException("变量不允许设置为空值 : " + variableName);
 
-        memory.put(id, value); // 将变量的值记录到计算器内存中
+        variables.put(variableName, value); // 将变量的值记录到内存中
 
         return value;
     }
@@ -96,17 +99,18 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
      */
     @Override
     public TypedData visitNumericalVariable(ZYMBOLParser.NumericalVariableContext ctx) {
-        String id = ctx.getText();
+        String variableName = ctx.getText();
 
-        if (memory.containsKey(id))
+        if (variables.containsKey(variableName))
             // 这是一个已经定义的变量
-            return memory.get(id);
+            return variables.get(variableName);
 
-        throw new RuntimeException("未定义的变量 : " + id);
+        throw new RuntimeException("未定义的变量 : " + variableName);
     }
 
     /**
      * 访问规则分支 : FloatLiteral
+     *
      * @param ctx
      * @return
      */
@@ -169,6 +173,12 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
         int length = text.length();
         String value = text.substring(1, length - 1);
 
+        // 简易处理转义字符 : \\ ==> \
+        value = value.replace("\\\\", "\\");
+
+        // 简易处理转义字符 : \* ==> *
+        value = value.replace("\\\"", "\"");
+
         return StringData.of(value);
     }
 
@@ -180,12 +190,12 @@ public class ZYMBOLVisitorImpl extends ZYMBOLBaseVisitor<TypedData> {
      */
     @Override
     public TypedData visitStringVariable(ZYMBOLParser.StringVariableContext ctx) {
-        String id = ctx.getText();
+        String variableName = ctx.getText();
 
-        if (memory.containsKey(id))
+        if (variables.containsKey(variableName))
             // 这是一个已经定义的变量
-            return memory.get(id);
+            return variables.get(variableName);
 
-        throw new RuntimeException("未定义的变量 : " + id);
+        throw new RuntimeException("未定义的变量 : " + variableName);
     }
 }
