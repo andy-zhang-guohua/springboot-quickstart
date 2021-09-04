@@ -17,3 +17,4 @@
         - 在IDEA中文件 `AntlrTest.g4`上右键菜单选项 : Generate ANTLR Recognizer
         - 默认会在根目录下生成新目录 gen, 并在其下多出 6 个文件
 - [使用Antlr实现简单的DSL](https://www.cnblogs.com/haoxinyue/p/4225006.html)
+- [Java运算符优先级](https://www.cnblogs.com/maqing/p/4206677.html)
