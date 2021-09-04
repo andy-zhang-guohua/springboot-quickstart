@@ -4,29 +4,48 @@ package andy.zero;
 import andy.zymbol.ZYMBOLInterpreter;
 
 /**
- * 使用 ZYMBOL v1 的例子
+ * 使用 ZYMBOL v3 的例子
  */
 public class Application {
     public static void main(String[] args) {
         ZYMBOLInterpreter interpreter = new ZYMBOLInterpreter();
 
-        String script = ";\n" + // 语句1 : 空语句,为了下面各脚本行对齐添加的一个空语句行,没有什么其他意义
-                "a = -1.15   ;\n" + // 语句2 : 定义变量 a ,浮点数, 值为 -1.15
-                "b = 2 ;\n" + // 语句3 : 定义变量 b, 整数, 值为 2
-                "c = -4;\n" + // 语句4 : 定义变量 c, 整数, 值为 -4
-                "d = ( a + b + 1 ) * c ;\n" + // 语句5: 定义变量 d, 为一个表达式，最终结果应该是 -7.4
-                "e = d ;\n" + // 语句6 : 定义变量 e, 值复制自 d, 应该为 -7.4
-                "print e;\n" + // 语句7 : 输出变量 e 的值, 应该为 -7.4
-                // "print f;\n" + // 语句8 : 输出变量 f 的值, 应该为 0, 因为 f 是一个未被定义的变量
-                "print .4 + 5.1 + 20.8 / 2 ;\n" + // 语句9 : 输出一个直接表达式的值, 应该为 15.9
-                "s1 = \"Hello World!\";\n" + // 语句10 : 定义一个字符串变量 s1
-                "s2 = \"小龙说:\\\"太阳升起来了!\\\"\";\n" + // 语句11 : 定义一个字符串变量 s2
-                "s3 = s1..s2;\n" + // 语句12 : 新定义一个字符串，结果是前两个字符串 s1 和 s2 的拼接
-                "print s3;\n";// 语句13 : 输出字符串 s3 的值，应该是 : Hello World!小龙说:"太阳升起来了!"
+        String script = "" +
+                "boolT = true;\n" +
+                "boolF = false;\n" +
+                "bool1 = !false;\n" +
+                "bool2 = false && true;\n" +
+                "bool3 = true || true && boolF;\n" +
+                "bool4 = boolT || boolF;\n" +
+                "boolA = 1 < 3;\n" +
+                "boolB = 1 <= 3;\n" +
+                "boolC = 1 == 3;\n" +
+                "boolD = 1 >= 3;\n" +
+                "boolE = (1 > 0.9);\n" +
+                "print boolT;\n" +
+                "print boolF;\n" +
+                "print bool1;\n" +
+                "print bool2;\n" +
+                "print bool3;\n" +
+                "print bool4;\n" +
+                "print boolA;\n" +
+                "print boolB;\n" +
+                "print boolC;\n" +
+                "print boolD;\n" +
+                "print boolE;\n" +
+                "print boolF;\n" +
+                "";
 
+        String script1 = "" +
+                "varNumeric = ((21+9) -(-(-10))) * (32 + -2) * 0.05;\n" +
+                "varBool = ((1+19) - 0) == (19);\n" +
+                "varString= \"abc\"..\"123\";\n" +
+                "print varNumeric;\n" +
+                "print varBool;\n" +
+                "print varString;\n" +
+                "";
 
-        System.out.print("脚本为 : \n" + script+"\n<==脚本结束\n");
-
+        System.out.print("脚本为 : \n" + script + "\n<==脚本结束\n");
 
         interpreter.run(script);
     }

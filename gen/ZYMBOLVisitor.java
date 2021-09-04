@@ -26,6 +26,13 @@ public interface ZYMBOLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrint(ZYMBOLParser.PrintContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code SimplePrint}
+	 * labeled alternative in {@link ZYMBOLParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimplePrint(ZYMBOLParser.SimplePrintContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Assign}
 	 * labeled alternative in {@link ZYMBOLParser#stmt}.
 	 * @param ctx the parse tree
@@ -40,75 +47,96 @@ public interface ZYMBOLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlank(ZYMBOLParser.BlankContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ExpressionNumerical}
+	 * Visit a parse tree produced by the {@code Variable}
 	 * labeled alternative in {@link ZYMBOLParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpressionNumerical(ZYMBOLParser.ExpressionNumericalContext ctx);
+	T visitVariable(ZYMBOLParser.VariableContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ExpressionString}
+	 * Visit a parse tree produced by the {@code NumericNegative}
 	 * labeled alternative in {@link ZYMBOLParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpressionString(ZYMBOLParser.ExpressionStringContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Parenthesis}
-	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParenthesis(ZYMBOLParser.ParenthesisContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code NumericalVariable}
-	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNumericalVariable(ZYMBOLParser.NumericalVariableContext ctx);
+	T visitNumericNegative(ZYMBOLParser.NumericNegativeContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MulDiv}
-	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMulDiv(ZYMBOLParser.MulDivContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code AddSub}
-	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAddSub(ZYMBOLParser.AddSubContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code NumericalLiteral}
-	 * labeled alternative in {@link ZYMBOLParser#exprNumerical}.
+	 * Visit a parse tree produced by the {@code BooleanLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNumericalLiteral(ZYMBOLParser.NumericalLiteralContext ctx);
+	T visitBooleanLiteral(ZYMBOLParser.BooleanLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BooleanOr}
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanOr(ZYMBOLParser.BooleanOrContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BooleanNot}
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanNot(ZYMBOLParser.BooleanNotContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BooleanAnd}
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanAnd(ZYMBOLParser.BooleanAndContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Parenthesis}
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParenthesis(ZYMBOLParser.ParenthesisContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code StringLiteral}
-	 * labeled alternative in {@link ZYMBOLParser#exprString}.
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitStringLiteral(ZYMBOLParser.StringLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code StringConcatenation}
-	 * labeled alternative in {@link ZYMBOLParser#exprString}.
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitStringConcatenation(ZYMBOLParser.StringConcatenationContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code StringVariable}
-	 * labeled alternative in {@link ZYMBOLParser#exprString}.
+	 * Visit a parse tree produced by the {@code NumericalLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStringVariable(ZYMBOLParser.StringVariableContext ctx);
+	T visitNumericalLiteral(ZYMBOLParser.NumericalLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NumericalComparator}
+	 * labeled alternative in {@link ZYMBOLParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumericalComparator(ZYMBOLParser.NumericalComparatorContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code FloatLiteral}
 	 * labeled alternative in {@link ZYMBOLParser#valueNumerical}.
@@ -129,4 +157,18 @@ public interface ZYMBOLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitValueString(ZYMBOLParser.ValueStringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BooleanTrueLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#valueBoolean}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanTrueLiteral(ZYMBOLParser.BooleanTrueLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BooleanFalseLiteral}
+	 * labeled alternative in {@link ZYMBOLParser#valueBoolean}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanFalseLiteral(ZYMBOLParser.BooleanFalseLiteralContext ctx);
 }

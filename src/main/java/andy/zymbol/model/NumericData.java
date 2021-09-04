@@ -201,4 +201,87 @@ public class NumericData extends TypedData {
         result.setValue(value);
         return result;
     }
+
+    public boolean isGreaterThan(NumericData another) {
+        if (another == null) return true;
+
+
+        if (getValue() instanceof Long && another.getValue() instanceof Long) {
+            return (Long) (getValue()) > (Long) (another.getValue());
+        }
+
+        BigDecimal a = new BigDecimal(getValue().toString());
+        BigDecimal b = new BigDecimal(another.getValue().toString());
+
+        return a.compareTo(b) > 0;
+    }
+
+    public boolean isGreaterThanOrEqualTo(NumericData another) {
+        if (another == null) return true;
+
+
+        if (getValue() instanceof Long && another.getValue() instanceof Long) {
+            return (Long) (getValue()) >= (Long) (another.getValue());
+        }
+
+        BigDecimal a = new BigDecimal(getValue().toString());
+        BigDecimal b = new BigDecimal(another.getValue().toString());
+
+        return a.compareTo(b) >= 0;
+    }
+
+    public boolean isEqualTo(NumericData another) {
+        if (another == null) return true;
+
+
+        if (getValue() instanceof Long && another.getValue() instanceof Long) {
+            return getValue() == another.getValue();
+        }
+
+        BigDecimal a = new BigDecimal(getValue().toString());
+        BigDecimal b = new BigDecimal(another.getValue().toString());
+
+        return a.compareTo(b) == 0;
+    }
+
+    public boolean isLessThanOrEqualTo(NumericData another) {
+        if (another == null) return true;
+
+
+        if (getValue() instanceof Long && another.getValue() instanceof Long) {
+            return (Long) (getValue()) <= (Long) (another.getValue());
+        }
+
+        BigDecimal a = new BigDecimal(getValue().toString());
+        BigDecimal b = new BigDecimal(another.getValue().toString());
+
+        return a.compareTo(b) <= 0;
+    }
+
+    public boolean isLessThan(NumericData another) {
+        if (another == null) return true;
+
+
+        if (getValue() instanceof Long && another.getValue() instanceof Long) {
+            return (Long) (getValue()) < (Long) (another.getValue());
+        }
+
+        BigDecimal a = new BigDecimal(getValue().toString());
+        BigDecimal b = new BigDecimal(another.getValue().toString());
+
+        return a.compareTo(b) < 0;
+    }
+
+    public boolean isNotEqualTo(NumericData another) {
+        return !isEqualTo(another);
+    }
+
+    public NumericData negate() {
+        if (getValue() instanceof Long) {
+            setValue(-(Long) getValue());
+        } else {
+            setValue(((BigDecimal) getValue()).negate());
+        }
+        return this;
+    }
 }

@@ -1,10 +1,11 @@
 package andy.zymbol.model;
 
 /**
- * ZYMBOL v1 脚本所能支持的数据类型
+ * ZYMBOL v3 脚本所能支持的数据类型
  */
 public enum DataType {
     INTEGER, // 数字类型 : 整数
     FLOAT, // 数字类型 : 浮点数
-    STRING; // 字符串
+    STRING,// 字符串
+    BOOLEAN;// 布尔变量
 }
