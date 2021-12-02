@@ -35,6 +35,12 @@
             <artifactId>docx4j</artifactId>
             <version>6.1.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.docx4j/docx4j-export-fo -->
+        <dependency>
+            <groupId>org.docx4j</groupId>
+            <artifactId>docx4j-export-fo</artifactId>
+            <version>6.1.0</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
         <dependency>
             <groupId>cn.hutool</groupId>
