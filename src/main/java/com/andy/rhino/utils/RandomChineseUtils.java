@@ -1,4 +1,4 @@
-package andy.docx4j.utils;
+package com.andy.rhino.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
