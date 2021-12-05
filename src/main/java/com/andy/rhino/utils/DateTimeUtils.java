@@ -1,6 +1,5 @@
 package com.andy.rhino.utils;
 
-import cn.hutool.core.date.LocalDateTimeUtil;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -141,7 +140,7 @@ public class DateTimeUtils {
 
     public static LocalDateTime toLocalDateTime(String str) {
         try {
-            LocalDateTime dt = LocalDateTimeUtil.parse(str);
+            LocalDateTime dt = LocalDateTime.parse(str);
             return dt;
         } catch (Exception e) {
         }
@@ -194,22 +193,5 @@ public class DateTimeUtils {
      */
     public static String getGMTDateString(LocalDateTime localDateTime) {
         return getGMTDateString(toDate(localDateTime));
-    }
-
-    public static void main(String[] args) {
-        {
-            LocalDate ld = toLocalDate("2021-02-12 23:01:01.4");
-            System.out.println(ld);
-        }
-
-        {
-            LocalDate ld = toLocalDate("2021-02-12 23:01:01.42");
-            System.out.println(ld);
-        }
-
-        {
-            LocalDateTime ld = toLocalDateTime("2021-02-12 23:01:01.423");
-            System.out.println(ld);
-        }
     }
 }

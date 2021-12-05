@@ -70,32 +70,4 @@ public class CommaStringUtils {
         List<String> distinctList = list.stream().distinct().sorted().collect(Collectors.toList());
         return distinctList;
     }
-
-
-    public static void main(String[] args) {
-        {
-            List<String> result = split("S20210900382");
-            log.info("拆分结果 : {}", result);
-        }
-
-        {
-            List<String> result = split("S20210900372,S20210900371");
-            log.info("拆分结果 : {}", result);
-        }
-
-        {
-            List<String> result = split("S20210900372,S20210900371,    ,");
-            log.info("拆分结果 : {}", result);
-        }
-
-        {
-            List<String> result = splitThenDistinct("S20210900372,S20210900371,,S20210900371,S20210900371");
-            log.info("拆分结果 : {}", result);
-        }
-
-        {
-            List<String> result = splitDistinctThenSort("S20210900372,S20210900371,,S20210900371,S20210900371");
-            log.info("拆分结果 : {}", result);
-        }
-    }
 }
