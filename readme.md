@@ -17,3 +17,9 @@
 - 在jdk/bin目录下引入.dll文件
     - 64位：jacob-1.20-x64.dll       
     - 32位：jacob-1.20-x86.dll
+    
+- 参考资料
+    - [java 将word转为PDF (100%与word软件转换一样)](https://www.cnblogs.com/mh-study/p/10342246.html) 
+    - [java实现word,ppt,excel,jpg转pdf](https://blog.csdn.net/xuchaozheng/article/details/19199721)
+    - [通过Jacob调用WPS将office文件转为PDF文件](https://blog.csdn.net/cocoaxian/article/details/81333273)
+    - [jacob操作word excel](https://www.iteye.com/topic/588050)
