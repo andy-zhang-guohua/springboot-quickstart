@@ -8,6 +8,17 @@ import java.util.Map;
  * 基于 Rhino 的 javascript 脚本执行器
  */
 public final class RhinoJavascriptEvaluateUtils {
+
+    private static Context defaultContext = null;
+
+    private static Context getDefaultContext() {
+        if (defaultContext != null) return defaultContext;
+        Context context = Context.enter();
+
+        defaultContext = context;
+        return defaultContext;
+    }
+
     public static String evalToString(String javascript, Map<String, Object> beans) {
         Object result = eval(javascript, beans);
         String strResult = ScriptRuntime.toString(result);
@@ -15,12 +26,12 @@ public final class RhinoJavascriptEvaluateUtils {
     }
 
     public static Object eval(String javascript, Map<String, Object> beans) {
-        Context context = Context.enter();
+        Context context = getDefaultContext();
+
         try {
             Scriptable scope = context.initStandardObjects();
 
             addCustomerBeansToScope(scope, beans);
-
 
             Script script = context.compileString(javascript, null, 1, null);
             Object result = script.exec(context, scope);
@@ -34,13 +45,12 @@ public final class RhinoJavascriptEvaluateUtils {
             return result;
         } catch (Exception e) {
             throw new RuntimeException("执行Javascript脚本异常", e);
-        } finally {
-            Context.exit();
         }
     }
 
     /**
      * 添加定制的工作组件对象 beans 到可执行环境，在 javascript 中可以使用这些 对象
+     *
      * @param scope
      * @param beans
      */

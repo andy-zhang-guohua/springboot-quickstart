@@ -22,7 +22,7 @@ public class JavascriptEvaluateUtilsTest {
         String javascript = "var d = java.time.LocalDateTime.now();\n" + // 使用Java类
                 "com.andy.rhino.utils.DateTimeUtils.toStringDate(d);\n"; // 输出对象属性; 注意这里包头是 com, 如果是 andy 不会被加载
 
-        String result = NashornJavascriptEvaluateUtils.evalToString(javascript);
+        String result = NashornJavascriptEvaluateUtils.evalToString(javascript, null);
 
         log.info("执行结果 : {}", result);
     }
