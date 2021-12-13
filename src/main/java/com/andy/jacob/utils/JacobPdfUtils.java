@@ -1,4 +1,4 @@
-package com.andy.rhino.utils;
+package com.andy.jacob.utils;
 
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
