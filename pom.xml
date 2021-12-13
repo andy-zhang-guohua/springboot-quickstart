@@ -58,11 +58,7 @@
             <version>2.6</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.jacob</groupId>
-            <artifactId>jacob</artifactId>
-            <version>1.20</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.nlpcn</groupId>
