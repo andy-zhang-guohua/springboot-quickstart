@@ -29,6 +29,8 @@ public class OrderTest {
         log.info("基于 Executors.newSingleThreadExecutor()");
         testOrder(executorService2);
 
+        executorService1.shutdown();
+        executorService2.shutdown();
     }
 
     private static void testOrder(ExecutorService executorService) throws InterruptedException {
