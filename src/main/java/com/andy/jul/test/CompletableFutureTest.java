@@ -1,4 +1,4 @@
-package com.andy.jacob.test;
+package com.andy.jul.test;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
@@ -6,8 +6,7 @@ import org.apache.commons.lang3.time.StopWatch;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
@@ -16,11 +15,12 @@ import java.util.stream.IntStream;
  */
 @Slf4j
 public class CompletableFutureTest {
-    public static void main(String[] args) {
+
+    private static void test() {
         //// 用以记录异步并发任务
         List<CompletableFuture> futures = new ArrayList<>();
 
-        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
 
         StopWatch stopWatch = StopWatch.createStarted();
 
@@ -35,7 +35,7 @@ public class CompletableFutureTest {
                     e.printStackTrace();
                 }
             };
-            CompletableFuture completableFuture = CompletableFuture.runAsync(r, executorService);
+            CompletableFuture completableFuture = CompletableFuture.runAsync(r, forkJoinPool);
             futures.add(completableFuture);
         });
 
@@ -45,7 +45,9 @@ public class CompletableFutureTest {
         stopWatch.stop();
 
         log.info("并发任务执行耗时: {} ms", stopWatch.getTime(TimeUnit.MILLISECONDS));
+    }
 
-        executorService.shutdown();
+    public static void main(String[] args) {
+        test();
     }
 }
