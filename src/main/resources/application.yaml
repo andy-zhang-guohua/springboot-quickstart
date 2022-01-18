@@ -1,5 +1,28 @@
+# Find more available configuration properties on the following pages of the documentation.
+# https://docs.camunda.org/manual/latest/user-guide/camunda-bpm-run/#configure-camunda-bpm-run
+# https://docs.camunda.org/manual/latest/user-guide/spring-boot-integration/configuration/#camunda-engine-properties
+
+camunda.bpm:
+  generic-properties.properties:
+    javaSerializationFormatEnabled: true
+  admin-user:
+    id: admin
+    password: demo
+  run:
+    # https://docs.camunda.org/manual/latest/user-guide/camunda-bpm-run/#cross-origin-resource-sharing
+    cors:
+      enabled: true
+      allowed-origins: "*"
+
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/camunda?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/camunda715?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
     username: root
     password: Passw0rd
+
+  # By default, Spring Boot serves static content from any directories called /static or /public or /resources or
+  # /META-INF/resources in the classpath. To prevent users from accidentally sharing files, this is disabled here by setting static locations to NULL.
+  # https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-static-content
+  web:
+    resources:
+      static-locations: NULL
