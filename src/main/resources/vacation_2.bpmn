@@ -22,16 +22,6 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:userTask id="VacationForm" name="休假申请" camunda:formKey="embedded:app:forms/vacation-application.html" camunda:assignee="${currentUser()}">
-      <bpmn:extensionElements>
-        <camunda:formData>
-          <camunda:formField id="vacationType" label="休假类型" type="enum" defaultValue="year">
-            <camunda:value id="year" name="年假" />
-            <camunda:value id="issue" name="事假" />
-            <camunda:value id="wedding" name="婚假" />
-          </camunda:formField>
-          <camunda:formField id="applyDays" label="申请天数" type="long" defaultValue="1" />
-        </camunda:formData>
-      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1</bpmn:incoming>
       <bpmn:incoming>Flow_4_Rejected</bpmn:incoming>
       <bpmn:outgoing>Flow_2</bpmn:outgoing>
