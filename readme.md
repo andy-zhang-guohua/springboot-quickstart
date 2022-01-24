@@ -8,6 +8,8 @@
     - 观察流程，节点变量 -- Y 2022-01-18
     - 观察流程生命周期事件 -- 
     - 观察执行/用户任务生命周期事件 -- Y 2022-01-24 参考 `research-01.md`
+    - 观察连线事件 --
+    - 观察网关事件 -- 
     - 观察自动任务生命周期事件   
 
 -  问题
@@ -56,7 +58,7 @@
         - 流程定义时引用变量或者函数;
         - 流程节点任务创建时基于运行时环境和变量/函数表达式求值得到最终的任务办理人;
         - [User Assignment](https://docs.camunda.org/manual/7.16/reference/bpmn20/tasks/user-task/#user-assignment)
-
+    15. 如何控制流程跳转 ?
 - 实验数据
     - 内置流程 vacation_2.bpmn
         - id : Process_VacationApplication

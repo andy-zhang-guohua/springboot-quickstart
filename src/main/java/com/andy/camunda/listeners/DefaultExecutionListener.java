@@ -12,6 +12,6 @@ public class DefaultExecutionListener implements ExecutionListener {
         String processInstId = execution.getProcessInstanceId();
         String executionId = execution.getId();
 
-        log.info("正在执行事件 ： {} -- {} ==> {}", processDefId, processInstId, executionId);
+        log.info("执行监听器 ： {} -- {} ==> {}", processDefId, processInstId, executionId);
     }
 }

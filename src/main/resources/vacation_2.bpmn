@@ -1,24 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1rk0ypa" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="Process_VacationApplication" isExecutable="true">
+    <bpmn:extensionElements>
+      <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="start" />
+      <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="end" />
+    </bpmn:extensionElements>
     <bpmn:startEvent id="StartVacationApplication">
       <bpmn:outgoing>Flow_1</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartVacationApplication" targetRef="VacationForm" />
-    <bpmn:sequenceFlow id="Flow_2" sourceRef="VacationForm" targetRef="ManagerApprove" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartVacationApplication" targetRef="VacationForm">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="take" />
+      </bpmn:extensionElements>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="VacationForm" targetRef="ManagerApprove">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="take" />
+      </bpmn:extensionElements>
+    </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ManagerApproveResult">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="start" />
+        <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="end" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_3</bpmn:incoming>
       <bpmn:outgoing>Flow_4_Approved</bpmn:outgoing>
       <bpmn:outgoing>Flow_4_Rejected</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_3" sourceRef="ManagerApprove" targetRef="ManagerApproveResult" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ManagerApprove" targetRef="ManagerApproveResult">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="take" />
+      </bpmn:extensionElements>
+    </bpmn:sequenceFlow>
     <bpmn:endEvent id="VacationApplicationComplete">
       <bpmn:incoming>Flow_4_Approved</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_4_Approved" name="同意" sourceRef="ManagerApproveResult" targetRef="VacationApplicationComplete">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="take" />
+      </bpmn:extensionElements>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_4_Rejected" name="驳回" sourceRef="ManagerApproveResult" targetRef="VacationForm">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="take" />
+      </bpmn:extensionElements>
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:userTask id="VacationForm" name="休假申请" camunda:formKey="embedded:app:forms/vacation-application.html" camunda:assignee="${currentUser()}">
