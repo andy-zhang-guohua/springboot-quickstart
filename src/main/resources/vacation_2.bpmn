@@ -22,16 +22,32 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:userTask id="VacationForm" name="休假申请" camunda:formKey="embedded:app:forms/vacation-application.html" camunda:assignee="${currentUser()}">
+      <bpmn:extensionElements>
+        <camunda:taskListener class="com.andy.camunda.listeners.DefaultTaskListener" event="create" id="taskListenerCreate" />
+        <camunda:taskListener class="com.andy.camunda.listeners.DefaultTaskListener" event="assignment" id="taskListenerAssignment" />
+        <camunda:taskListener class="com.andy.camunda.listeners.DefaultTaskListener" event="complete" id="taskListenerComplete" />
+        <camunda:taskListener class="com.andy.camunda.listeners.DefaultTaskListener" event="delete" id="taskListenerDelete" />
+        <camunda:taskListener class="com.andy.camunda.listeners.DefaultTaskListener" event="update" />
+        <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="start" />
+        <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="end" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1</bpmn:incoming>
       <bpmn:incoming>Flow_4_Rejected</bpmn:incoming>
       <bpmn:outgoing>Flow_2</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="ManagerApprove" name="领导审批" camunda:assignee="admin">
+    <bpmn:userTask id="ManagerApprove" name="领导审批" camunda:assignee="admin,tom,jerry">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="approveAction">0</camunda:inputParameter>
           <camunda:outputParameter name="approved">${approveAction==0}</camunda:outputParameter>
         </camunda:inputOutput>
+        <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="start" />
+        <camunda:executionListener class="com.andy.camunda.listeners.DefaultExecutionListener" event="end" />
+        <camunda:taskListener class="com.andy.camunda.listeners.DefaultTaskListener" event="create" id="ManagerApproveTaskCreate" />
+        <camunda:taskListener class="com.andy.camunda.listeners.DefaultTaskListener" event="assignment" id="ManagerApproveTaskAssignment" />
+        <camunda:taskListener class="com.andy.camunda.listeners.DefaultTaskListener" event="complete" id="ManagerApproveTaskComplete" />
+        <camunda:taskListener class="com.andy.camunda.listeners.DefaultTaskListener" event="update" id="ManagerApproveTaskUpdate" />
+        <camunda:taskListener class="com.andy.camunda.listeners.DefaultTaskListener" event="delete" id="ManagerApproveTaskDelete" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_2</bpmn:incoming>
       <bpmn:outgoing>Flow_3</bpmn:outgoing>
@@ -39,25 +55,6 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_VacationApplication">
-      <bpmndi:BPMNEdge id="Flow_1ah6z8u_di" bpmnElement="Flow_1">
-        <di:waypoint x="208" y="117" />
-        <di:waypoint x="270" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_13xop7t_di" bpmnElement="Flow_2">
-        <di:waypoint x="370" y="117" />
-        <di:waypoint x="450" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0sc5hsi_di" bpmnElement="Flow_3">
-        <di:waypoint x="550" y="117" />
-        <di:waypoint x="615" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0pwvler_di" bpmnElement="Flow_4_Approved">
-        <di:waypoint x="665" y="117" />
-        <di:waypoint x="742" y="117" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="692" y="99" width="23" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_01anwxq_di" bpmnElement="Flow_4_Rejected">
         <di:waypoint x="640" y="142" />
         <di:waypoint x="640" y="210" />
@@ -67,11 +64,27 @@
           <dc:Bounds x="470" y="192" width="21" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_0nscn70_di" bpmnElement="VacationApplicationComplete">
-        <dc:Bounds x="742" y="99" width="36" height="36" />
+      <bpmndi:BPMNEdge id="Flow_0pwvler_di" bpmnElement="Flow_4_Approved">
+        <di:waypoint x="665" y="117" />
+        <di:waypoint x="742" y="117" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="727" y="142" width="66" height="14" />
+          <dc:Bounds x="692" y="99" width="23" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0sc5hsi_di" bpmnElement="Flow_3">
+        <di:waypoint x="550" y="117" />
+        <di:waypoint x="615" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13xop7t_di" bpmnElement="Flow_2">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="450" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ah6z8u_di" bpmnElement="Flow_1">
+        <di:waypoint x="208" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartVacationApplication">
+        <dc:Bounds x="172" y="99" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1y1zs7f_di" bpmnElement="ManagerApproveResult" isMarkerVisible="true">
         <dc:Bounds x="615" y="92" width="50" height="50" />
@@ -79,8 +92,11 @@
           <dc:Bounds x="618" y="62" width="45" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartVacationApplication">
-        <dc:Bounds x="172" y="99" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_0nscn70_di" bpmnElement="VacationApplicationComplete">
+        <dc:Bounds x="742" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="727" y="142" width="66" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1ut8em9_di" bpmnElement="VacationForm">
         <dc:Bounds x="270" y="77" width="100" height="80" />

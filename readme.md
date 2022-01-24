@@ -6,9 +6,9 @@
     - springboot 集成 camunda -- Y 2022-01-18
     - 运行 camunda modeler 创建的 BPMN 流程 -- Y 2022-01-18
     - 观察流程，节点变量 -- Y 2022-01-18
-    - 观察流程生命周期事件
-    - 观察用户事件生命周期事件
-    - 观察自动任务生命周期事件
+    - 观察流程生命周期事件 -- 
+    - 观察执行/用户任务生命周期事件 -- Y 2022-01-24 参考 `research-01.md`
+    - 观察自动任务生命周期事件   
 
 -  问题
     1. 如何在 output 中引用 input 定义的变量 ?
@@ -25,25 +25,37 @@
         - 如果用户任务指定了 assignee, 则不需要 claim;
         - 如果用户任务没有指定 assignee, 则需要 claim;
     3. 如果一个流程任务返回重复执行多次，是否可以在任务实例历史图中体现这一点 ?
+        - TODO
     4. 流程变量都可以使用哪些环境元素或者变量 ?
+        - 参考 
+            - [Process Variables](https://docs.camunda.org/manual/7.4/user-guide/process-engine/variables/)
+            - [Expression Language](https://docs.camunda.org/manual/7.4/user-guide/process-engine/expression-language/)      
     5. 如何控制一个流程的启动权限 ?
+        - TODO
     6. Camunda 中, BPMN 一个节点可以有两个输入连线；而AWS PaaS 中不可以；这是 Camunda 的对BPMN的扩展？
+        - TODO    
     7. Camunda Tasklist 中,流程变量在某些节点是否可以禁止修改 ?
+        - TODO    
     8. 如何将流程第一个节点的办理人设置成流程启动者 ?
         - 流程定义时将第一个节点的办理人 assignee 设置成 `${authenticatedUserId}` 或者 `${currentUser()}`
     9. 变量只能在节点内定义,不能在流程定义时定义 ?
         - 参考官方资料 `Process Variables`       
     10. 是否可以设置流程标题 ?
+        - TODO    
     11. 流程节点表单 ?
         - 节点内部表单 : Form Key 不设置 , 只设置 Form Fields 是节点内部表单，Camunda Tasklist 直接渲染表单
         - 节点外部表单 : Form Key 不设置
     12. 如何删除一个流程实例 ?
         - 界面 
             - Camunda Cockpit --> Deployed --> Deployments --> Delete Deployment --> Cascade : Y
-        - API
+        - API        - TODO
     13. 如何查询历史流程/任务实例 ?
-        - 界面
-        - API
+        - 界面         - TODO
+        - API        - TODO
+    14. 流程定义时如果设置流程任务实例的办理人为动态数据 ?
+        - 流程定义时引用变量或者函数;
+        - 流程节点任务创建时基于运行时环境和变量/函数表达式求值得到最终的任务办理人;
+        - [User Assignment](https://docs.camunda.org/manual/7.16/reference/bpmn20/tasks/user-task/#user-assignment)
 
 - 实验数据
     - 内置流程 vacation_2.bpmn
@@ -87,6 +99,7 @@
         - [Expression Language](https://docs.camunda.org/manual/7.4/user-guide/process-engine/expression-language/)        
         - [Process Variables](https://docs.camunda.org/manual/7.4/user-guide/process-engine/variables/)
         - [User Task Forms](https://docs.camunda.org/manual/7.4/user-guide/task-forms/)
+        - [Lifecycle and Events](https://docs.camunda.org/manual/7.16/reference/forms/embedded-forms/lifecycle/)
 - FAQ
     - SpringBoot + Camunda Tasklist 如何使用 `embedded:app:forms/vacation-application.html`
         - 实施步骤
@@ -103,4 +116,15 @@
         - 参考资料 
             - [Camunda Spring Boot starter with embedded forms](https://stackoverflow.com/questions/47908120/camunda-spring-boot-starter-with-embedded-forms)
             - [camunda嵌入式表单](https://blog.csdn.net/weixin_44213308/article/details/119715559)
-    
+
+- 用户数据设计
+    - 用户 
+        - admin
+        - andy
+        - tom
+        - jerry
+    - 组
+        - camunda-admin : admin, andy
+            - camunda-admin 是系统默认内置管理员组，初始只有一个账号包含在内 admin
+        - animals : tom, jerry 
+                    
