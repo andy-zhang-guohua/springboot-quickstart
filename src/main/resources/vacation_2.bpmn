@@ -61,7 +61,7 @@
       <bpmn:incoming>Flow_4_Rejected</bpmn:incoming>
       <bpmn:outgoing>Flow_2</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="ManagerApprove" name="领导审批" camunda:assignee="admin,tom,jerry">
+    <bpmn:userTask id="ManagerApprove" name="领导审批" camunda:assignee="admin">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="approveAction">0</camunda:inputParameter>
