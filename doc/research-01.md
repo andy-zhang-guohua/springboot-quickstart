@@ -32,4 +32,4 @@
 
 #参考资料
  - [Camunda BPMN - Task listener vs Execution listeners](https://stackoverflow.com/questions/29506960/camunda-bpmn-task-listener-vs-execution-listeners)
- - [Delegation Code](https://docs.camunda.org/manual/7.4/user-guide/process-engine/delegation-code/)
+ - [Delegation Code](https://docs.camunda.org/manual/7.13/user-guide/process-engine/delegation-code/)
