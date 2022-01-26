@@ -18,6 +18,7 @@ public class StreamingJob {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         // 监听本地9000端口
+        //// 请先在本地 9000 端口启动 NetCat : windows 命令行 nc -L -p 9000
         DataStream<String> text = env.socketTextStream("127.0.0.1", 9000, "\n");
 
         // 将接受的数据进行分组、窗口计算、聚合输出
