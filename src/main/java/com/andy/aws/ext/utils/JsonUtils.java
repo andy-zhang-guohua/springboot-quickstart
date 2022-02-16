@@ -1,4 +1,4 @@
-package com.andy.jul.utils;
+package com.andy.aws.ext.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerationException;

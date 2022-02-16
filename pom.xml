@@ -59,7 +59,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>org.nlpcn</groupId>
             <artifactId>nlp-lang</artifactId>
