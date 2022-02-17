@@ -32,7 +32,7 @@ public class EvalUpdate {
 
         // 设置新的过期时间
         final long DAY_MILLIS = 24 * 60 * 60 * 1000;
-        long timestamp = System.currentTimeMillis() + 31 * DAY_MILLIS;
+        long timestamp = System.currentTimeMillis() + 10 * 12 * 31 * DAY_MILLIS;
         String newContent = encode(timestamp);
 
         resetFile(fileTargetFile, newContent);
